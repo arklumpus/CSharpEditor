@@ -1,0 +1,63 @@
+﻿<!--
+    CSharpEditor - A C# source code editor with syntax highlighting, intelligent
+    code completion and real-time compilation error checking.
+    Copyright (C) 2021  Giorgio Bianchini
+ 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, version 3.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" Width="400" Height="150"
+             x:Class="CSharpEditor.MethodOverloadList" FontFamily="resm:CSharpEditor.Fonts.?assembly=CSharpEditor#Open Sans" ClipToBounds="False" FontSize="14">
+  <UserControl.Styles>
+    <Style Selector="Path">
+      <Setter Property="Fill" Value="Black" />
+      <Setter Property="Stroke" Value="Black" />
+      <Setter Property="StrokeThickness" Value="1" />
+    </Style>
+    <Style Selector="Path:pointerover">
+      <Setter Property="Fill" Value="#f5f7fe" />
+    </Style>
+  </UserControl.Styles>
+
+  <Border BorderBrush="#9ba7b7" BorderThickness="1" Background="#f5f7fe" Name="ContainerBorder" ClipToBounds="False" Padding="2">
+    <Grid Name="GridContainer">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="95"></ColumnDefinition>
+        <ColumnDefinition Width="1*"></ColumnDefinition>
+      </Grid.ColumnDefinitions>
+      <Grid Height="20" VerticalAlignment="Top" Name="CountGrid">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="20" />
+          <ColumnDefinition Width="1*" />
+          <ColumnDefinition Width="20" />
+        </Grid.ColumnDefinitions>
+        <Canvas Width="10" Height="8">
+          <Path Data="M0,7 L5,0 L9,7 Z" Name="UpPath"></Path>
+        </Canvas>
+        <TextBlock Grid.Column="1" HorizontalAlignment="Center" Name="CountText">18 of 18</TextBlock>
+        <Canvas Width="10" Height="8" Grid.Column="2">
+          <Path Data="M0,0 L4.5,7 L9,0 Z" Name="DownPath"></Path>
+        </Canvas>
+      </Grid>
+
+      <StackPanel Grid.Column="1">
+        <ScrollViewer Padding="5, 0, 5, 0" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled" Name="MethodDescriptionContainer"></ScrollViewer>
+        <ScrollViewer Padding="5, 0, 5, 0" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled" Name="MethodParametersContainer"></ScrollViewer>
+      </StackPanel>
+    </Grid>
+  </Border>
+</UserControl>

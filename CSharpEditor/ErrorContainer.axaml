@@ -1,0 +1,113 @@
+﻿<!--
+    CSharpEditor - A C# source code editor with syntax highlighting, intelligent
+    code completion and real-time compilation error checking.
+    Copyright (C) 2021  Giorgio Bianchini
+ 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, version 3.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:icon="clr-namespace:CSharpEditor.DiagnosticIcons;assembly=CSharpEditor"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="CSharpEditor.ErrorContainer" FontFamily="resm:CSharpEditor.Fonts.?assembly=CSharpEditor#Open Sans" Background="White" FontSize="14">
+  <UserControl.Styles>
+    <Style Selector="ToggleButton">
+      <Setter Property="Background" Value="#ccd5f0" />
+      <Setter Property="BorderBrush" Value="{x:Null}" />
+    </Style>
+
+    <Style Selector="ToggleButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="#ecf4ff" />
+      <Setter Property="BorderBrush" Value="#b0c1e2" />
+    </Style>
+
+    <Style Selector="ToggleButton:checked /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="#ffedc8" />
+      <Setter Property="BorderBrush" Value="#d2a85e" />
+    </Style>
+
+    <Style Selector="Grid.ErrorLine">
+      <Setter Property="Background" Value="White" />
+      <Setter Property="Cursor" Value="Hand" />
+    </Style>
+
+    <Style Selector="Grid.ErrorLine:pointerover">
+      <Setter Property="Background" Value="#c4d5ff" />
+    </Style>
+  </UserControl.Styles>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="1*" />
+    </Grid.RowDefinitions>
+    <Canvas Background="#ccd5f0"></Canvas>
+    <StackPanel Orientation="Horizontal" Margin="5, 2, 5, 3">
+      <ToggleButton IsChecked="True" Name="ErrorButton" Focusable="False">
+        <StackPanel Orientation="Horizontal">
+        <icon:ErrorIcon />
+          <TextBlock Margin="5,0,5,0" Name="ErrorText" VerticalAlignment="Center">0 Errors</TextBlock>
+        </StackPanel>
+      </ToggleButton>
+      <Canvas Width="1" Background="#94a6ca" Margin="4, 4, 4, 4"></Canvas>
+      <ToggleButton IsChecked="True" Name="WarningButton" Focusable="False">
+        <StackPanel Orientation="Horizontal">
+          <icon:WarningIcon />
+          <TextBlock Margin="5,0,5,0" Name="WarningText" VerticalAlignment="Center">0 Warnings</TextBlock>
+        </StackPanel>
+      </ToggleButton>
+      <Canvas Width="1" Background="#94a6ca" Margin="4, 4, 4, 4"></Canvas>
+      <ToggleButton IsChecked="True" Name="MessageButton" Focusable="False">
+        <StackPanel Orientation="Horizontal">
+          <icon:InfoIcon />
+          <TextBlock Margin="5,0,5,0" Name="MessageText" VerticalAlignment="Center">0 Messages</TextBlock>
+        </StackPanel>
+      </ToggleButton>
+    </StackPanel>
+
+    <Grid Grid.Row="1" Background="#f6f6f6">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="32" />
+        <ColumnDefinition Width="1" />
+        <ColumnDefinition Width="64" />
+        <ColumnDefinition Width="1" />
+        <ColumnDefinition Width="1*" />
+        <ColumnDefinition Width="1" />
+        <ColumnDefinition Width="64" />
+        <ColumnDefinition Width="18" />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="1" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="1" />
+      </Grid.RowDefinitions>
+      <Canvas Grid.ColumnSpan="8" Background="#cccedb"></Canvas>
+      <Canvas Grid.Row="1" Grid.Column="1" Background="#cccedb"></Canvas>
+      <TextBlock Grid.Row="1" Grid.Column="2" Margin="5, 2, 5, 2">Code</TextBlock>
+      <Canvas Grid.Row="1" Grid.Column="3" Background="#cccedb"></Canvas>
+      <TextBlock Grid.Row="1" Grid.Column="4" Margin="5, 2, 5, 2">Description</TextBlock>
+      <Canvas Grid.Row="1" Grid.Column="5" Background="#cccedb"></Canvas>
+      <TextBlock Grid.Row="1" Grid.Column="6" Margin="5, 2, 5, 2">Line</TextBlock>
+      <Canvas Grid.Row="2" Grid.ColumnSpan="8" Background="#cccedb"></Canvas>
+    </Grid>
+
+    <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled">
+      <StackPanel Name="ErrorContainer">
+        
+      </StackPanel>
+    </ScrollViewer>
+  </Grid>
+</UserControl>

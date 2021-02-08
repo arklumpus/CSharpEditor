@@ -1,0 +1,398 @@
+﻿<!--
+    CSharpEditor - A C# source code editor with syntax highlighting, intelligent
+    code completion and real-time compilation error checking.
+    Copyright (C) 2021  Giorgio Bianchini
+ 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, version 3.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:icon="clr-namespace:CSharpEditor.DiagnosticIcons;assembly=CSharpEditor"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="500"
+             x:Class="CSharpEditor.SettingsContainer" FontFamily="resm:CSharpEditor.Fonts.?assembly=CSharpEditor#Open Sans" FontSize="14">
+  <UserControl.Styles>
+    <Style Selector="Button">
+      <Setter Property="Background" Value="White" />
+      <Setter Property="BorderBrush" Value="{x:Null}" />
+    </Style>
+
+    <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="#ecf4ff" />
+      <Setter Property="BorderBrush" Value="#b0c1e2" />
+    </Style>
+
+    <Style Selector="Button:pressed /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="#ffedc8" />
+      <Setter Property="BorderBrush" Value="#d2a85e" />
+    </Style>
+  
+   <Style Selector="Button.saving">
+      <Setter Property="Background" Value="#ccd5f0" />
+      <Setter Property="BorderBrush" Value="{x:Null}" />
+    </Style>
+  </UserControl.Styles>
+
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="1*" />
+    </Grid.RowDefinitions>
+    <Canvas Background="#ccd5f0"></Canvas>
+    <StackPanel Orientation="Horizontal" Margin="5, 2, 5, 3">
+      <Button Name="LoadSettingsButton" Classes="saving" Focusable="False">
+        <StackPanel Orientation="Horizontal">
+        <icon:LoadSettingsIcon />
+          <TextBlock Margin="5,0,5,0" VerticalAlignment="Center">Load settings</TextBlock>
+        </StackPanel>
+      </Button>
+      <Canvas Width="1" Background="#94a6ca" Margin="4, 4, 4, 4"></Canvas>
+      <Button Name="SaveSettingsButton" Classes="saving" Focusable="False">
+        <StackPanel Orientation="Horizontal">
+          <icon:SaveIcon />
+          <TextBlock Margin="5,0,5,0" VerticalAlignment="Center">Save settings</TextBlock>
+        </StackPanel>
+      </Button>
+    </StackPanel>
+      
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Row="1">
+      <StackPanel Background="White">
+        <Border BorderBrush="#40568d" BorderThickness="2" Margin="5,15,5,5" Padding="10" CornerRadius="10" Background="White">
+          <StackPanel>
+            <TextBlock FontWeight="Bold" FontSize="16" Margin="0,-22,0,0" Background="White" HorizontalAlignment="Left" Padding="5,0,5,0">Saving settings</TextBlock>
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <TextBlock VerticalAlignment="Center" Margin="5,0,0,0">Saved files location:</TextBlock>
+              <TextBox Grid.Column="1" Margin="5,2,5,2" BorderBrush="{x:Null}" Background="{x:Null}" IsReadOnly="True" Name="SaveDirectoryBox" VerticalContentAlignment="Center"></TextBox>
+              <Button Grid.Column="2" Padding="5,2,5,2" Margin="0,5,5,5" Name="CopySaveDirectoryButton">
+                <StackPanel Orientation="Horizontal">
+                  <icon:CopyIcon />
+                  <TextBlock Margin="5,0,0,0">Copy</TextBlock>
+                </StackPanel>
+              </Button>
+              <icon:InfoIcon Grid.Column="3" Margin="0,5,5,5" ToolTip.Tip="The path on disk where the autosave and manual save files are located." />
+            </Grid>
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="1*" />
+              </Grid.ColumnDefinitions>
+              <TextBlock VerticalAlignment="Center" Margin="5,0,0,0">Autosave interval:</TextBlock>
+              <NumericUpDown Grid.Column="1" Margin="5" Value="10" Minimum="0" FormatString="0" Width="150" Name="AutosaveIntervalBox"></NumericUpDown>
+              <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="5">seconds</TextBlock>
+              <icon:InfoIcon Grid.Column="3" Margin="0,5,5,5" ToolTip.Tip="Number of seconds between one autosave and the next. Set to 0 to disable autosave." />
+            </Grid>
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="1*" />
+              </Grid.ColumnDefinitions>
+              <CheckBox VerticalAlignment="Center" Margin="5,0,0,0" IsChecked="True" Background="White" Name="KeepSaveHistoryBox">Keep save history</CheckBox>
+              <icon:InfoIcon Grid.Column="1" Margin="5" ToolTip.Tip="If this is enabled, the content of the file at each manual save is preserved.&#xA;Otherwise, only the latest autosave file is preserved." />
+
+              <Button Grid.Column="2" Margin="0,0,5,0" Name="DeleteSaveHistoryButton">
+                <StackPanel Orientation="Horizontal">
+                  <icon:DeleteIcon></icon:DeleteIcon>
+                  <TextBlock Margin="5,0,0,0">Delete save history</TextBlock>
+                </StackPanel>
+              </Button>
+              <icon:InfoIcon Grid.Column="3" Margin="0,5,5,5" ToolTip.Tip="Deletes all files in the save directory, including the latest autosave file." />
+            </Grid>
+          </StackPanel>
+        </Border>
+
+        <Border BorderBrush="#40568d" BorderThickness="2" Margin="5,15,5,5" Padding="10" CornerRadius="10" Background="White">
+          <StackPanel>
+            <TextBlock FontWeight="Bold" FontSize="16" Margin="0,-22,0,0" Background="White" HorizontalAlignment="Left" Padding="5,0,5,0">Coding features</TextBlock>
+
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="1*" />
+              </Grid.ColumnDefinitions>
+              <TextBlock VerticalAlignment="Center" Margin="5,0,0,0">Syntax highlighting:</TextBlock>
+              <ComboBox Grid.Column="1" Margin="5" Width="120" SelectedItem="{ResolveByName SemanticHighlightingItem}" Background="White" Name="SyntaxHighlightingModeBox">
+                <ComboBox.Items>
+                  <ComboBoxItem>None</ComboBoxItem>
+                  <ComboBoxItem>Syntactic</ComboBoxItem>
+                  <ComboBoxItem Name="SemanticHighlightingItem">Semantic</ComboBoxItem>
+                </ComboBox.Items>
+              </ComboBox>
+              <icon:InfoIcon Grid.Column="2" Margin="5" ToolTip.Tip="• 'None' disables syntax highlighting.&#xA;• 'Syntactic' uses only information in the syntax tree to perform syntax highlighting.&#xA;• 'Semantic' also uses information from the semantic model." />
+            </Grid>
+
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="1*" />
+              </Grid.ColumnDefinitions>
+              <CheckBox VerticalAlignment="Center" Margin="5,0,0,0" IsChecked="True" Background="White" Name="OpenSuggestionsBox">Open suggestions while typing</CheckBox>
+              <icon:InfoIcon Grid.Column="1" Margin="5" ToolTip.Tip="If this is enabled, the suggestion box will appear at appropriate times while typing code.&#xA;Otherwise, it will only appear when summoned through a keyboard shortcut." />
+            </Grid>
+
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="1*" />
+              </Grid.ColumnDefinitions>
+              <CheckBox VerticalAlignment="Center" Margin="5,0,0,0" IsChecked="True" Background="White" Name="OpenParametersBox">Open parameter list while typing</CheckBox>
+              <icon:InfoIcon Grid.Column="1" Margin="5" ToolTip.Tip="If this is enabled, a tooltip containing information about parameters and overloads will appear automatically&#xA;after typing a '(' or a '&lt;'. Otherwise, it will only appear when summoned through a keyboard shortcut." />
+            </Grid>
+
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="1*" />
+              </Grid.ColumnDefinitions>
+              <CheckBox VerticalAlignment="Center" Margin="5,0,0,0" IsChecked="True" Background="White" Name="AutoFormatBox">Automatically format code</CheckBox>
+              <icon:InfoIcon Grid.Column="1" Margin="5" ToolTip.Tip="If this is enabled, the code will be automatically formatted whenever a '}', a ':' or a ';' is typed or text is pasted.&#xA;Otherwise, this will only happen when requested through a keyboard shortcut." />
+            </Grid>
+
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="1*" />
+              </Grid.ColumnDefinitions>
+              <TextBlock VerticalAlignment="Center" Margin="5,0,0,0">Compilation timeout:</TextBlock>
+              <NumericUpDown Grid.Column="1" Margin="5" Value="400" Minimum="0" FormatString="0" Width="150" Name="CompilationTimeoutBox"></NumericUpDown>
+              <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="5">milliseconds</TextBlock>
+              <icon:InfoIcon Grid.Column="3" Margin="0,5,5,5" ToolTip.Tip="If no changes are made to the code for the specified amount of time, an automatic compilation&#xA;attempt is triggered in order to detect any errors in the code. Set to 0 to disable." />
+            </Grid>
+
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="1*" />
+              </Grid.ColumnDefinitions>
+              <CheckBox VerticalAlignment="Center" Margin="5,0,0,0" IsChecked="True" Background="White" Name="ShowChangedLinesBox">Show changed lines next to the line numbers</CheckBox>
+              <icon:InfoIcon Grid.Column="1" Margin="5" ToolTip.Tip="If this is enabled, lines that have changed with respect to the last saved file are highlighted&#xA;in yellow next to the line number, and lines that have changed with respect to the original&#xA;file but not to the last saved file are highlighted in green." />
+            </Grid>
+
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="1*" />
+              </Grid.ColumnDefinitions>
+              <CheckBox VerticalAlignment="Center" Margin="5,0,0,0" IsChecked="True" Background="White" Name="ShowScrollbarOverviewBox">Show summary over the vertical scrollbar</CheckBox>
+              <icon:InfoIcon Grid.Column="1" Margin="5" ToolTip.Tip="If this is enabled, changed lines, errors, search results, breakpoints and the&#xA;caret position are shown over the vertical scrollbar (when visible). " />
+            </Grid>
+
+          </StackPanel>
+        </Border>
+
+        <Border BorderBrush="#40568d" BorderThickness="2" Margin="5,15,5,5" Padding="10" CornerRadius="10" Background="White">
+          <StackPanel>
+            <TextBlock FontWeight="Bold" FontSize="16" Margin="0,-22,0,0" Background="White" HorizontalAlignment="Left" Padding="5,0,5,0">Keyboard shortcuts</TextBlock>
+            <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
+              <Grid Name="ShortcutGridContainer">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="1*" />
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="30" />
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="1">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="1*" />
+                  </Grid.ColumnDefinitions>
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="55"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="55"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                  </Grid.RowDefinitions>
+
+                  <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right">Undo</TextBlock>
+                  <StackPanel Orientation="Horizontal" Margin="5" Grid.Column="2">
+                    <icon:KeyIcon KeyText="Ctrl" />
+                    <icon:KeyIcon KeyText="Z" Margin="5,0,0,0" />
+                  </StackPanel>
+
+                  <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right">Redo</TextBlock>
+                  <StackPanel Orientation="Horizontal" Margin="5" Grid.Row="1" Grid.Column="2">
+                    <icon:KeyIcon KeyText="Ctrl" />
+                    <icon:KeyIcon KeyText="Y" Margin="5,0,0,0" />
+                  </StackPanel>
+
+                  <TextBlock Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Right">Find</TextBlock>
+                  <StackPanel Orientation="Horizontal" Margin="5" Grid.Row="3" Grid.Column="2">
+                    <icon:KeyIcon KeyText="Ctrl" />
+                    <icon:KeyIcon KeyText="F" Margin="5,0,0,0" />
+                  </StackPanel>
+
+                  <TextBlock Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Right">Replace</TextBlock>
+                  <StackPanel Orientation="Horizontal" Margin="5" Grid.Row="4" Grid.Column="2">
+                    <icon:KeyIcon KeyText="Ctrl" />
+                    <icon:KeyIcon KeyText="G" Margin="5,0,0,0" />
+                    <TextBlock VerticalAlignment="Center" Text="or" Margin="10,0,10,0"/>
+                    <icon:KeyIcon KeyText="Ctrl" />
+                    <icon:KeyIcon KeyText="H" Margin="5,0,0,0" />
+                  </StackPanel>
+
+                  <TextBlock Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Right">Find next</TextBlock>
+                  <StackPanel Orientation="Horizontal" Margin="5" Grid.Row="5" Grid.Column="2">
+                    <icon:KeyIcon KeyText="F3" />
+                  </StackPanel>
+
+                  <TextBlock Grid.Row="6" VerticalAlignment="Center" HorizontalAlignment="Right">Find previous</TextBlock>
+                  <StackPanel Orientation="Horizontal" Margin="5" Grid.Row="6" Grid.Column="2">
+                    <icon:KeyIcon KeyText="Shift" />
+                    <icon:KeyIcon KeyText="F3" Margin="5,0,0,0" />
+                  </StackPanel>
+
+                  <TextBlock Grid.Row="8" VerticalAlignment="Center" HorizontalAlignment="Right">Select all</TextBlock>
+                  <StackPanel Orientation="Horizontal" Margin="5" Grid.Row="8" Grid.Column="2">
+                    <icon:KeyIcon KeyText="Ctrl" />
+                    <icon:KeyIcon KeyText="A" Margin="5,0,0,0" />
+                  </StackPanel>
+
+                  <TextBlock Grid.Row="9" VerticalAlignment="Center" HorizontalAlignment="Right">Save</TextBlock>
+                  <StackPanel Orientation="Horizontal" Margin="5" Grid.Row="9" Grid.Column="2">
+                    <icon:KeyIcon KeyText="Ctrl" />
+                    <icon:KeyIcon KeyText="S" Margin="5,0,0,0" />
+                  </StackPanel>
+                </Grid>
+
+                <Grid Grid.Column="3">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="1*" />
+                  </Grid.ColumnDefinitions>
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                  </Grid.RowDefinitions>
+
+                  <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right">Copy</TextBlock>
+                  <StackPanel Orientation="Horizontal" Margin="5" Grid.Column="2">
+                    <icon:KeyIcon KeyText="Ctrl" />
+                    <icon:KeyIcon KeyText="C" Margin="5,0,0,0" />
+                    <TextBlock VerticalAlignment="Center" Text="or" Margin="10,0,10,0"/>
+                    <icon:KeyIcon KeyText="Ctrl" />
+                    <icon:KeyIcon KeyText="Ins" Margin="5,0,0,0" />
+                  </StackPanel>
+
+                  <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right">Paste</TextBlock>
+                  <StackPanel Orientation="Horizontal" Margin="5" Grid.Row="1" Grid.Column="2">
+                    <icon:KeyIcon KeyText="Ctrl" />
+                    <icon:KeyIcon KeyText="V" Margin="5,0,0,0" />
+                    <TextBlock VerticalAlignment="Center" Text="or" Margin="10,0,10,0"/>
+                    <icon:KeyIcon KeyText="Shift" />
+                    <icon:KeyIcon KeyText="Ins" Margin="5,0,0,0" />
+                  </StackPanel>
+
+                  <TextBlock Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right">Cut</TextBlock>
+                  <StackPanel Orientation="Horizontal" Margin="5" Grid.Row="2" Grid.Column="2">
+                    <icon:KeyIcon KeyText="Ctrl" />
+                    <icon:KeyIcon KeyText="X" Margin="5,0,0,0" />
+                    <TextBlock VerticalAlignment="Center" Text="or" Margin="10,0,10,0"/>
+                    <icon:KeyIcon KeyText="Shift" />
+                    <icon:KeyIcon KeyText="Del" Margin="5,0,0,0" />
+                  </StackPanel>
+
+                  <TextBlock Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Right">Format text</TextBlock>
+                  <StackPanel Orientation="Horizontal" Margin="5" Grid.Row="4" Grid.Column="2">
+                    <icon:KeyIcon KeyText="Ctrl" />
+                    <icon:KeyIcon KeyText="D" Margin="5,0,0,0" />
+                    <TextBlock VerticalAlignment="Center" Text="or" Margin="10,0,10,0"/>
+                    <icon:KeyIcon KeyText="Ctrl" />
+                    <icon:KeyIcon KeyText="E" Margin="5,0,0,0" />
+                  </StackPanel>
+
+                  <TextBlock Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Right">Open suggestion list</TextBlock>
+                  <StackPanel Orientation="Horizontal" Margin="5" Grid.Row="5" Grid.Column="2">
+                    <icon:KeyIcon KeyText="Ctrl" />
+                    <icon:KeyIcon KeyText="J" Margin="5,0,0,0" />
+                  </StackPanel>
+
+                  <TextBlock Grid.Row="6" VerticalAlignment="Center" HorizontalAlignment="Right">Open parameter list</TextBlock>
+                  <StackPanel Orientation="Horizontal" Margin="5" Grid.Row="6" Grid.Column="2">
+                    <icon:KeyIcon KeyText="Ctrl" />
+                    <icon:KeyIcon KeyText="K" Margin="5,0,0,0" />
+                  </StackPanel>
+
+                  <TextBlock Grid.Row="7" VerticalAlignment="Center" HorizontalAlignment="Right">Check compilation</TextBlock>
+                  <StackPanel Orientation="Horizontal" Margin="5" Grid.Row="7" Grid.Column="2">
+                    <icon:KeyIcon KeyText="Ctrl" />
+                    <icon:KeyIcon KeyText="L" Margin="5,0,0,0" />
+                  </StackPanel>
+
+                  <TextBlock Grid.Row="9" VerticalAlignment="Center" HorizontalAlignment="Right">Toggle breakpoint</TextBlock>
+                  <StackPanel Orientation="Horizontal" Margin="5" Grid.Row="9" Grid.Column="2">
+                    <icon:KeyIcon KeyText="F9" />
+                  </StackPanel>
+
+                  <TextBlock Grid.Row="10" VerticalAlignment="Center" HorizontalAlignment="Right">Go to definition</TextBlock>
+                  <StackPanel Orientation="Horizontal" Margin="5" Grid.Row="10" Grid.Column="2">
+                    <icon:KeyIcon KeyText="F12" />
+                  </StackPanel>
+
+                  <TextBlock Grid.Row="11" VerticalAlignment="Center" HorizontalAlignment="Right">Resume (in break mode)</TextBlock>
+                  <StackPanel Orientation="Horizontal" Margin="5" Grid.Row="11" Grid.Column="2">
+                    <icon:KeyIcon KeyText="F5" />
+                  </StackPanel>
+                </Grid>
+
+
+              </Grid>
+            </ScrollViewer>
+          </StackPanel>
+        </Border>
+      </StackPanel>
+    </ScrollViewer>
+  </Grid>
+</UserControl>

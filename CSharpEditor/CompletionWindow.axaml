@@ -1,0 +1,163 @@
+﻿<!--
+    CSharpEditor - A C# source code editor with syntax highlighting, intelligent
+    code completion and real-time compilation error checking.
+    Copyright (C) 2021  Giorgio Bianchini
+ 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, version 3.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:icon="clr-namespace:IntellisenseIcon;assembly=IntellisenseIcon"
+             mc:Ignorable="d" Width="400" Height="213" ClipToBounds="False"
+             x:Class="CSharpEditor.CompletionWindow" UseLayoutRounding="True" FontFamily="resm:CSharpEditor.Fonts.?assembly=CSharpEditor#Open Sans" FontSize="14">
+  <UserControl.Styles>
+    <Style Selector="ToggleButton">
+      <Setter Property="Background" Value="#f7f9fe" />
+      <Setter Property="BorderBrush" Value="{x:Null}" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="Width" Value="24" />
+      <Setter Property="Height" Value="24" />
+      <Setter Property="Margin" Value="3" />
+      <Setter Property="Padding" Value="0" />
+    </Style>
+    <Style Selector="ToggleButton:pointerover">
+      <Setter Property="Background" Value="#c4d5ff" />
+      <Setter Property="BorderBrush" Value="{x:Null}" />
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    <Style Selector="ToggleButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="#c4d5ff" />
+      <Setter Property="BorderBrush" Value="{x:Null}" />
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    <Style Selector="ToggleButton:checked /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="#c4d5ff" />
+      <Setter Property="BorderBrush" Value="{x:Null}" />
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+  </UserControl.Styles>
+  <Grid>
+    <Border BorderBrush="#e5c365" BorderThickness="1" Background="#f7f9fe">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="1*"></RowDefinition>
+          <RowDefinition Height="1"></RowDefinition>
+          <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Name="ItemsScrollViewer">
+          
+        </ScrollViewer>
+        <Canvas Grid.Row="1" Background="#e5c365" />
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Name="FilterContainer">
+          <ToggleButton Focusable="False" ToolTip.Tip="Namespaces">
+            <icon:NamespaceIcon VerticalAlignment="Center" HorizontalAlignment="Center">
+              <icon:NamespaceIcon.RenderTransform>
+                <TranslateTransform X="-1" Y="-1"></TranslateTransform>
+              </icon:NamespaceIcon.RenderTransform>
+            </icon:NamespaceIcon>
+          </ToggleButton>
+          <ToggleButton Focusable="False" ToolTip.Tip="Classes">
+            <icon:ClassIcon VerticalAlignment="Center" HorizontalAlignment="Center">
+              <icon:ClassIcon.RenderTransform>
+                <TranslateTransform X="-1" Y="-1"></TranslateTransform>
+              </icon:ClassIcon.RenderTransform>
+            </icon:ClassIcon>
+          </ToggleButton>
+          <ToggleButton Focusable="False" ToolTip.Tip="Structs">
+            <icon:StructIcon VerticalAlignment="Center" HorizontalAlignment="Center">
+              <icon:StructIcon.RenderTransform>
+                <TranslateTransform X="-1" Y="0"></TranslateTransform>
+              </icon:StructIcon.RenderTransform>
+            </icon:StructIcon>
+          </ToggleButton>
+          <ToggleButton Focusable="False" ToolTip.Tip="Interfaces">
+            <icon:InterfaceIcon VerticalAlignment="Center" HorizontalAlignment="Center">
+              <icon:InterfaceIcon.RenderTransform>
+                <TranslateTransform X="-1" Y="1"></TranslateTransform>
+              </icon:InterfaceIcon.RenderTransform>
+            </icon:InterfaceIcon>
+          </ToggleButton>
+          <ToggleButton Focusable="False" ToolTip.Tip="Enums">
+            <icon:EnumIcon VerticalAlignment="Center" HorizontalAlignment="Center">
+              <icon:EnumIcon.RenderTransform>
+                <TranslateTransform X="-1" Y="0"></TranslateTransform>
+              </icon:EnumIcon.RenderTransform>
+            </icon:EnumIcon>
+          </ToggleButton>
+          <ToggleButton Focusable="False" ToolTip.Tip="Delegates">
+            <icon:DelegateIcon VerticalAlignment="Center" HorizontalAlignment="Center">
+              <icon:DelegateIcon.RenderTransform>
+                <TranslateTransform X="-1" Y="0"></TranslateTransform>
+              </icon:DelegateIcon.RenderTransform>
+            </icon:DelegateIcon>
+          </ToggleButton>
+          <ToggleButton Focusable="False" ToolTip.Tip="Fields">
+            <icon:FieldIcon VerticalAlignment="Center" HorizontalAlignment="Center">
+              <icon:FieldIcon.RenderTransform>
+                <TranslateTransform X="-1" Y="0"></TranslateTransform>
+              </icon:FieldIcon.RenderTransform>
+            </icon:FieldIcon>
+          </ToggleButton>
+          <ToggleButton Focusable="False" ToolTip.Tip="Events">
+            <icon:EventIcon VerticalAlignment="Center" HorizontalAlignment="Center">
+              <icon:EventIcon.RenderTransform>
+                <TranslateTransform X="0" Y="0"></TranslateTransform>
+              </icon:EventIcon.RenderTransform>
+            </icon:EventIcon>
+          </ToggleButton>
+          <ToggleButton Focusable="False" ToolTip.Tip="Properties">
+            <icon:PropertyIcon VerticalAlignment="Center" HorizontalAlignment="Center">
+              <icon:PropertyIcon.RenderTransform>
+                <TranslateTransform X="0" Y="0"></TranslateTransform>
+              </icon:PropertyIcon.RenderTransform>
+            </icon:PropertyIcon>
+          </ToggleButton>
+          <ToggleButton Focusable="False" ToolTip.Tip="Methods">
+            <icon:MethodIcon VerticalAlignment="Center" HorizontalAlignment="Center">
+              <icon:MethodIcon.RenderTransform>
+                <TranslateTransform X="-1" Y="0"></TranslateTransform>
+              </icon:MethodIcon.RenderTransform>
+            </icon:MethodIcon>
+          </ToggleButton>
+          <ToggleButton Focusable="False" ToolTip.Tip="Local variables and parameters">
+            <icon:LocalIcon VerticalAlignment="Center" HorizontalAlignment="Center">
+              <icon:LocalIcon.RenderTransform>
+                <TranslateTransform X="0" Y="1"></TranslateTransform>
+              </icon:LocalIcon.RenderTransform>
+            </icon:LocalIcon>
+          </ToggleButton>
+          <ToggleButton Focusable="False" ToolTip.Tip="Keywords">
+            <icon:KeywordIcon VerticalAlignment="Center" HorizontalAlignment="Center">
+              <icon:KeywordIcon.RenderTransform>
+                <TranslateTransform X="-1" Y="0"></TranslateTransform>
+              </icon:KeywordIcon.RenderTransform>
+            </icon:KeywordIcon>
+          </ToggleButton>
+          <ToggleButton Focusable="False" ToolTip.Tip="Unclassified items">
+            <icon:UnknownIcon VerticalAlignment="Center" HorizontalAlignment="Center">
+              <icon:UnknownIcon.RenderTransform>
+                <TranslateTransform X="2" Y="2"></TranslateTransform>
+              </icon:UnknownIcon.RenderTransform>
+            </icon:UnknownIcon>
+          </ToggleButton>
+        </StackPanel>
+      </Grid>
+    </Border>
+    <Border Name="DocumentationBorder" BorderBrush="#9ba7b7" BorderThickness="1" Background="#f5f7fe" HorizontalAlignment="Left" VerticalAlignment="Top">
+      <ScrollViewer Name="DocumentationScrollViewer" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"  Padding="5, 2, 5, 0"></ScrollViewer>
+    </Border>
+  </Grid>
+</UserControl>

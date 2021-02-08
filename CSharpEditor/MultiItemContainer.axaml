@@ -1,0 +1,54 @@
+﻿<!--
+    CSharpEditor - A C# source code editor with syntax highlighting, intelligent
+    code completion and real-time compilation error checking.
+    Copyright (C) 2021  Giorgio Bianchini
+ 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, version 3.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="20"
+             x:Class="CSharpEditor.MultiItemContainer">
+  <UserControl.Styles>
+    <Style Selector="Button">
+      <Setter Property="Background" Value="White" />
+      <Setter Property="BorderBrush" Value="{x:Null}" />
+    </Style>
+
+    <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="#ecf4ff" />
+      <Setter Property="BorderBrush" Value="#b0c1e2" />
+    </Style>
+
+    <Style Selector="Button:pressed /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="#ffedc8" />
+      <Setter Property="BorderBrush" Value="#d2a85e" />
+    </Style>
+  </UserControl.Styles>
+
+  <StackPanel>
+    <StackPanel Orientation="Horizontal" Name="VariableContainer">
+      <Grid Width="16" Height="16" Margin="5,0,0,0" VerticalAlignment="Center">
+        <Button Width="16" Height="16" Name="ExpanderButton">
+          <Canvas Width="12" Height="12">
+            <Path Data="M3.5,0.7 L3.5,11.3 L8.5,6 Z" Fill="White" Stroke="Black" StrokeThickness="1" Name="ExpanderPath"></Path>
+          </Canvas>
+        </Button>
+      </Grid>
+    </StackPanel>
+    <StackPanel Name="ChildrenContainer" IsVisible="False"></StackPanel>
+  </StackPanel>
+</UserControl>

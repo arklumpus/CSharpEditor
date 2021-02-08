@@ -1,0 +1,114 @@
+﻿<!--
+    CSharpEditor - A C# source code editor with syntax highlighting, intelligent
+    code completion and real-time compilation error checking.
+    Copyright (C) 2021  Giorgio Bianchini
+ 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, version 3.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:icon="clr-namespace:CSharpEditor.DiagnosticIcons;assembly=CSharpEditor"
+             xmlns:intellisenseicon="clr-namespace:IntellisenseIcon;assembly=IntellisenseIcon"
+             xmlns:typeicon="clr-namespace:CSharpEditor.TypeIcons;assembly=CSharpEditor"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="450"
+             x:Class="CSharpEditor.BreakpointPanel" FontFamily="resm:CSharpEditor.Fonts.?assembly=CSharpEditor#Open Sans" FontSize="14">
+  <UserControl.Styles>
+    <Style Selector="Button">
+      <Setter Property="Background" Value="#ccd5f0" />
+      <Setter Property="BorderBrush" Value="{x:Null}" />
+    </Style>
+
+    <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="#ecf4ff" />
+      <Setter Property="BorderBrush" Value="#b0c1e2" />
+    </Style>
+
+    <Style Selector="Button:pressed /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="#ffedc8" />
+      <Setter Property="BorderBrush" Value="#d2a85e" />
+    </Style>
+
+    <Style Selector="ToggleButton">
+      <Setter Property="Background" Value="#ccd5f0" />
+      <Setter Property="BorderBrush" Value="{x:Null}" />
+    </Style>
+
+    <Style Selector="ToggleButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="#ecf4ff" />
+      <Setter Property="BorderBrush" Value="#b0c1e2" />
+    </Style>
+
+    <Style Selector="ToggleButton:checked /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="#ffedc8" />
+      <Setter Property="BorderBrush" Value="#d2a85e" />
+    </Style>
+  </UserControl.Styles>
+
+  <Border BorderBrush="#40568d" BorderThickness="1" Background="White">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="1*" />
+      </Grid.RowDefinitions>
+      <Canvas Background="#40568d" />
+      <TextBlock Foreground="White" Margin="5, 2, 5, 2">Breakpoint</TextBlock>
+
+      <Canvas Grid.Row="1" Background="#ccd5f0" />
+      <StackPanel Orientation="Vertical" Grid.Row="1">
+        <StackPanel Orientation="Horizontal">
+          <Button Padding="0" Width="80" HorizontalAlignment="Left" Margin="5,2" FontSize="12" Name="ResumeButton">
+            <StackPanel Orientation="Horizontal">
+              <icon:ResumeIcon />
+              <TextBlock VerticalAlignment="Center" Margin="5, 2, 5, 2">Resume</TextBlock>
+            </StackPanel>
+          </Button>
+          <ToggleButton Padding="0" Width="130" HorizontalAlignment="Left" Margin="5,2,5,2" FontSize="12" Name="ToggleNonPublicVisibility">
+            <StackPanel Orientation="Horizontal">
+              <Canvas Width="16" Height="16">
+                <typeicon:PrivateIcon>
+                  <typeicon:PrivateIcon.RenderTransform>
+                    <TransformGroup>
+                      <ScaleTransform ScaleX="2" ScaleY="2"></ScaleTransform>
+                      <TranslateTransform X="-9" Y="-7"></TranslateTransform>
+                    </TransformGroup>
+                  </typeicon:PrivateIcon.RenderTransform>
+                </typeicon:PrivateIcon>
+              </Canvas>
+              <TextBlock VerticalAlignment="Center" Margin="5, 2, 5, 2">Private members</TextBlock>
+            </StackPanel>
+          </ToggleButton>
+        </StackPanel>
+        <ToggleButton Padding="0" Width="165" HorizontalAlignment="Left" Margin="5,0,5,2" FontSize="12" Name="IgnoreFurtherOccurrences">
+          <TextBlock VerticalAlignment="Center" Margin="5, 2, 5, 2">Ignore further occurrences</TextBlock>
+        </ToggleButton>
+      </StackPanel>
+
+      <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="5">
+        <intellisenseicon:LocalIcon Margin="4,0,0,0"></intellisenseicon:LocalIcon>
+        <TextBlock VerticalAlignment="Center" Margin="2,0,0,0">Local variables</TextBlock>
+      </StackPanel>
+
+      <ScrollViewer Grid.Row="3" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+        <StackPanel Name="LocalVariablesContainer">
+
+        </StackPanel>
+      </ScrollViewer>
+
+    </Grid>
+  </Border>
+</UserControl>

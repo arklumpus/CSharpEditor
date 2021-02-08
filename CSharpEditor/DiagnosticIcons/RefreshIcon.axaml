@@ -1,0 +1,33 @@
+﻿<!--
+    CSharpEditor - A C# source code editor with syntax highlighting, intelligent
+    code completion and real-time compilation error checking.
+    Copyright (C) 2021  Giorgio Bianchini
+ 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, version 3.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="CSharpEditor.DiagnosticIcons.RefreshIcon">
+    <Canvas Width="16" Height="16" >
+      <Path Data="M3,8 A5,5 0 0 1 11.54,4.46 L12.95,3.05 L12.92,7.02 L8.71,7.29 L10.12,5.88 A3,3 0 0 0 5,8 Z" Fill="Green" />
+      <Path Data="M3,8 A5,5 0 0 1 11.54,4.46 L12.95,3.05 L12.92,7.02 L8.71,7.29 L10.12,5.88 A3,3 0 0 0 5,8 Z" Fill="Green" RenderTransformOrigin="8,8" >
+        <Path.RenderTransform>
+          <RotateTransform Angle="180"></RotateTransform>
+        </Path.RenderTransform>
+      </Path>
+    </Canvas>
+</UserControl>

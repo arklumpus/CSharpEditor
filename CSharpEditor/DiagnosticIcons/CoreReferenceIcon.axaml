@@ -1,0 +1,32 @@
+﻿<!--
+    CSharpEditor - A C# source code editor with syntax highlighting, intelligent
+    code completion and real-time compilation error checking.
+    Copyright (C) 2021  Giorgio Bianchini
+ 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, version 3.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="CSharpEditor.DiagnosticIcons.CoreReferenceIcon">
+  <Canvas Width="16" Height="16">
+    <Path Data="M1,6 L4,6 L4,7 L6,7 L6,8 L4,8 L4,9 L1,9 Z" Fill="#434343" />
+    <Path Data="M6,3 L14,3 A1,1 90 0 1 15,4 L15,11 A1,1 90 0 1 14,12 L6,12 A1,1 90 0 1 5,11 L5,4 A1,1 90 0 1 6,3 Z M6,4 L14,4 L14,11 L6,11" Fill="#434343" />
+    <Path Data="M7,6 L10,6 L10,9 L7,9 Z" Fill="#434343" />
+    <Path Data="M11,5 L13,5 L13,7 L11,7 Z" Fill="#434343" />
+    <Path Data="M11,8 L13,8 L13,10 L11,10 Z" Fill="#434343" />
+  </Canvas>
+</UserControl>

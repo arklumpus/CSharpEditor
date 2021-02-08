@@ -1,0 +1,169 @@
+﻿<!--
+    CSharpEditor - A C# source code editor with syntax highlighting, intelligent
+    code completion and real-time compilation error checking.
+    Copyright (C) 2021  Giorgio Bianchini
+ 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, version 3.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="CSharpEditor.CSharpSourceEditorSearchReplace" FontFamily="resm:CSharpEditor.Fonts.?assembly=CSharpEditor#Open Sans" FontSize="12" UseLayoutRounding="True" Cursor="Arrow" IsVisible="False">
+  <UserControl.Styles>
+    <Style Selector="ToggleButton">
+      <Setter Property="Background" Value="#ccd5f0" />
+      <Setter Property="BorderBrush" Value="{x:Null}" />
+      <Setter Property="Width" Value="20" />
+      <Setter Property="Height" Value="20" />
+      <Setter Property="Margin" Value="3" />
+      <Setter Property="Focusable" Value="False" />
+    </Style>
+
+    <Style Selector="ToggleButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="#ecf4ff" />
+      <Setter Property="BorderBrush" Value="#b0c1e2" />
+    </Style>
+
+    <Style Selector="ToggleButton:checked /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="#ffedc8" />
+      <Setter Property="BorderBrush" Value="#d2a85e" />
+    </Style>
+
+    <Style Selector="Button">
+      <Setter Property="Background" Value="#ccd5f0" />
+      <Setter Property="BorderBrush" Value="{x:Null}" />
+      <Setter Property="Width" Value="20" />
+      <Setter Property="Height" Value="20" />
+      <Setter Property="Margin" Value="3" />
+      <Setter Property="Focusable" Value="False" />
+    </Style>
+
+    <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="#ecf4ff" />
+      <Setter Property="BorderBrush" Value="#b0c1e2" />
+    </Style>
+
+    <Style Selector="Button:pressed /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="#ffedc8" />
+      <Setter Property="BorderBrush" Value="#d2a85e" />
+    </Style>
+
+    <Style Selector="TextBox">
+      <Setter Property="BorderBrush" Value="{x:Null}" />
+      <Setter Property="AcceptsReturn" Value="False" />
+      <Setter Property="Height" Value="24" />
+      <Setter Property="MinHeight" Value="24" />
+    </Style>
+
+    <Style Selector="TextBox:pointerover /template/ Border#border">
+      <Setter Property="BorderBrush" Value="#b0c1e2" />
+    </Style>
+
+    <Style Selector="TextBox:focus /template/ Border#border">
+      <Setter Property="BorderBrush" Value="#d2a85e" />
+    </Style>
+
+    <Style Selector="TextBox.NoMatch /template/ Border#border">
+      <Setter Property="BorderBrush" Value="#FF0000" />
+    </Style>
+  </UserControl.Styles>
+  
+    <Grid Width="280" Background="#ccd5f0" VerticalAlignment="Top" HorizontalAlignment="Right">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="1*" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="4"/>
+      </Grid.RowDefinitions>
+      <ToggleButton Name="ReplaceToggle">
+        <Canvas Width="16" Height="16" >
+          <Path Data="M4,7 L8,11 L12,7" Stroke="#454545" StrokeThickness="2" IsVisible="{Binding !$parent[1].IsChecked}"></Path>
+          <Path Data="M4,10 L8,6 L12,10" Stroke="#454545" StrokeThickness="2" IsVisible="{Binding $parent[1].IsChecked}"></Path>
+        </Canvas>
+      </ToggleButton>
+      <TextBox Name="SearchBox" Grid.Column="1" Margin="0,5,0,2" Watermark="Find..." Padding="5,2,5,2"></TextBox>
+      <Button Grid.Column="2" Name="NextButton">
+        <Canvas Width="16" Height="16" >
+          <Path Data="M3,8 L12,8 M8,4 L12,8 L8,12" Stroke="#454545" StrokeThickness="2"></Path>
+        </Canvas>
+      </Button>
+      <Button Grid.Column="3" Margin="0,3,3,3" Name="PreviousButton">
+        <Canvas Width="16" Height="16" >
+          <Path Data="M3,8 L12,8 M7,4 L3,8 L7,12" Stroke="#454545" StrokeThickness="2"></Path>
+        </Canvas>
+      </Button>
+      <Button Grid.Column="4" Margin="0,3,3,3" Name="CloseButton">
+        <Canvas Width="16" Height="16" >
+          <Path Data="M3,3 L12,12 M12,3 L3,12" Stroke="#454545" StrokeThickness="2"></Path>
+        </Canvas>
+      </Button>
+
+      <TextBox Name="ReplaceBox" Grid.Row="1" Grid.Column="1" Margin="0,3,0,2" Watermark="Replace..." Padding="5,2,5,2" IsVisible="{Binding #ReplaceToggle.IsChecked}"></TextBox>
+      <Button Grid.Row="1" Grid.Column="2" Margin="0,1,0,0" VerticalAlignment="Top" HorizontalAlignment="Center"  IsVisible="{Binding #ReplaceToggle.IsChecked}" Name="ReplaceNextButton">
+        <Canvas Width="16" Height="16" >
+          <Path Data="M2,9 L9,9 L9,15 L2,15 Z M7,10 L4,10 L4,14 L7,14 L7,13 L5,13 L5,11 L7,11 Z" Fill="#454545"></Path>
+          <Path Data="M10,1 L10,7 L14,7 L14,3 L11,3 L11,1 Z M11,4 L13,4 L13,6 L11,6" Fill="#454545"></Path>
+          <Path Data="M9,2 L5,2 L4,3 L4,6 L3,6 L4.5,8 L6,6 L5,6 L5,3.5 L5.5,3 L9,3" Fill="#00529b"></Path>
+        </Canvas>
+      </Button>
+
+      <Button Grid.Row="1" Grid.Column="3" Margin="0,1,3,0" VerticalAlignment="Top" HorizontalAlignment="Center"  IsVisible="{Binding #ReplaceToggle.IsChecked}" Name="ReplaceAllButton">
+        <Canvas Width="16" Height="16" >
+          <Path Data="M1,9 L11,9 L11,15 L1,15 Z M10,10 L7,10 L7,14 L10,14 L10,13 L8,13 L8,11 L10,11 Z M2,10 L5,10 L5,14 L2,14 L2,12 L3,12 L3,11 L2,11 Z M3,12 L4,12 L4,13 L3,13 Z" Fill="#454545"></Path>
+          <Path Data="M5,7 L13,7 L13,13 L12,13 L12,8 L5,8 Z" Fill="#454545"></Path>
+          <Path Data="M8,2 L11,2 L11,6 L8,6 L8,4 L9,4 L9,3 L8,3 Z M9,4 L10,4 L10,5 L9,5 Z M12,1 L12,6 L15,6 L15,2 L13,2 L13,1 Z M13,3 L14,3 L14,5 L13,5 Z" Fill="#454545"></Path>
+          <Path Data="M7,2 L3,2 L2,3 L2,6 L1,6 L2.5,8 L4,6 L3,6 L3,3.5 L3.5,3 L7,3" Fill="#00529b"></Path>
+        </Canvas>
+      </Button>
+
+      <Grid Grid.Row="2" Grid.Column="1" Margin="0,0,0,2">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <ToggleButton Margin="0,3,3,3" Name="CaseSensitiveButton">
+          <Canvas Width="16" Height="16" >
+            <TextBlock FontFamily="resm:CSharpEditor.Fonts.?assembly=CSharpEditor#Open Sans" FontWeight="Bold" Foreground="#454545" FontSize="11" Text="Aa">
+              <TextBlock.RenderTransform>
+                <TranslateTransform X="1" Y="0"></TranslateTransform>
+              </TextBlock.RenderTransform>
+            </TextBlock>
+          </Canvas>
+        </ToggleButton>
+        <ToggleButton Margin="0,3,3,3" Grid.Column="1" Name="RegexButton">
+          <Canvas Width="16" Height="16" >
+            <TextBlock FontFamily="resm:CSharpEditor.Fonts.?assembly=CSharpEditor#Open Sans" FontWeight="Bold" Foreground="#454545" FontSize="11" Text="*">
+              <TextBlock.RenderTransform>
+                <TranslateTransform X="7.5" Y="-0.5"></TranslateTransform>
+              </TextBlock.RenderTransform>
+            </TextBlock>
+            <Path Data="M3,8 L7,8 L7,12 L3,12 Z" Fill="#454545" />
+          </Canvas>
+        </ToggleButton>
+      </Grid>
+
+      <Canvas Grid.Row="3" Grid.ColumnSpan="5" Background="#f5cc84" IsVisible="{Binding $parent[1].HasFocus}" />
+      <Canvas Grid.Row="3" Grid.ColumnSpan="5" Background="#4d6082" IsVisible="{Binding !$parent[1].HasFocus}" />
+    </Grid>
+  
+</UserControl>

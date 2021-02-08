@@ -1,0 +1,385 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CSharpEditor</name>
+    </assembly>
+    <members>
+        <member name="T:CSharpEditor.BreakpointInfo">
+            <summary>
+            A class to hold information about breakpoints.
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.BreakpointInfo.BreakpointSpan">
+            <summary>
+            The location in the source code of the breakpoint, including any prepended or appended source code.
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.BreakpointInfo.LocalVariables">
+            <summary>
+            A dictionary containing the names and values of the local variables in scope at the breakpoint.
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.RemoteBreakpointInfo.BreakpointSpan">
+            <summary>
+            The location in the source code of the breakpoint, including any prepended or appended source code.
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.RemoteBreakpointInfo.LocalVariables">
+            <summary>
+            A dictionary containing the names and ids of the local variables in scope at the breakpoint.
+            </summary>
+        </member>
+        <member name="T:CSharpEditor.Editor">
+            <summary>
+            A C# source code editor for Avalonia.
+            </summary>
+        </member>
+        <member name="M:CSharpEditor.Editor.#ctor">
+            <summary>
+            Public constructor. This is only provided for compatibility with Avalonia (<a href="https://github.com/AvaloniaUI/Avalonia/issues/2593">see issue #2593</a>). Please use <see cref="M:CSharpEditor.Editor.Create(System.String,System.String,System.String,System.Collections.Generic.IEnumerable{CSharpEditor.CachedMetadataReference},Microsoft.CodeAnalysis.CSharp.CSharpCompilationOptions,System.String,CSharpEditor.Shortcut[])"/> instead.
+            </summary>
+        </member>
+        <member name="E:CSharpEditor.Editor.SaveRequested">
+            <summary>
+            Event raised when the user uses the keyboard shortcut or pressed the button to save the document.
+            </summary>
+        </member>
+        <member name="E:CSharpEditor.Editor.Autosave">
+            <summary>
+            Event raised when the document is automatically saved.
+            </summary>
+        </member>
+        <member name="E:CSharpEditor.Editor.CompilationCompleted">
+            <summary>
+            Event raised when a background compilation of the document completes.
+            </summary>
+        </member>
+        <member name="E:CSharpEditor.Editor.TextChanged">
+            <summary>
+            Event raised when the document text is changed.
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.Editor.PreSource">
+            <summary>
+            Source code to be prepended to the text of the document when compiling it.
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.Editor.PostSource">
+            <summary>
+            Source code to be appended after the text of the document when compiling it.
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.Editor.Text">
+            <summary>
+            The source code of the document as a <see cref="T:System.String"/>.
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.Editor.SourceText">
+            <summary>
+            The source code of the document as a <see cref="P:CSharpEditor.Editor.SourceText"/>.
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.Editor.FullSource">
+            <summary>
+            Full source code, including the <see cref="P:CSharpEditor.Editor.PreSource"/>, the <see cref="P:CSharpEditor.Editor.Text"/>, and the <see cref="P:CSharpEditor.Editor.PostSource"/>.
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.Editor.IsReadOnly">
+            <summary>
+            A boolean value indicating whether the text of the document can be edited by the user.
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.Editor.CompilationOptions">
+            <summary>
+            Compilation options used to compile the source code.
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.Editor.Guid">
+            <summary>
+            A unique identifier for the document being edited.
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.Editor.SaveDirectory">
+            <summary>
+            The full path to the directory where the autosave file and the save history for the current document are kept.
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.Editor.AutoSaveFile">
+            <summary>
+            The full path to the autosave file.
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.Editor.KeepSaveHistory">
+            <summary>
+            A boolean value indicating whether a history of the saved versions of the document is kept.
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.Editor.AutoOpenSuggestions">
+            <summary>
+            A boolean value indicating whether the suggestion panel should open automatically while the user is typing.
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.Editor.AutoOpenParameters">
+            <summary>
+            A boolean value indicating whether the parameter list tooltip should open automatically while the user is typing.
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.Editor.AutoFormat">
+            <summary>
+            A boolean value indicating whether the source text should be formatted automatically while the user is typing.
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.Editor.SyntaxHighlightingMode">
+            <summary>
+            The current syntax highlighting mode.
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.Editor.ShowLineChanges">
+            <summary>
+            A boolean value indicating whether changed lines are highlighted on the left side of the control.
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.Editor.ShowScrollbarOverview">
+            <summary>
+            A boolean value indicating whether a summary of the changed lines, errors/warning, search results, breakpoints and the position of the caret should be shown over the vertical scrollbar.
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.Editor.AutosaveInterval">
+            <summary>
+            The timeout between consecutive autosaves, in milliseconds.
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.Editor.CompilationTimeout">
+            <summary>
+            The timeout for automatic compilation after the user stops typing, in milliseconds.
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.Editor.References">
+            <summary>
+            The list of <see cref="T:Microsoft.CodeAnalysis.MetadataReference"/>s for which the compiled assembly will have bindings. 
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.Editor.IsReferencesButtonEnabled">
+            <summary>
+            A boolean value indicating whether the button allowing the user to add or remove assembly references is enabled or not.
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.Editor.Selection">
+            <summary>
+            Gets or sets the selected text span.
+            </summary>
+        </member>
+        <member name="M:CSharpEditor.Editor.Create(System.String,System.String,System.String,System.Collections.Generic.IEnumerable{CSharpEditor.CachedMetadataReference},Microsoft.CodeAnalysis.CSharp.CSharpCompilationOptions,System.String,CSharpEditor.Shortcut[])">
+            <summary>
+            Create a new <see cref="T:CSharpEditor.Editor"/> instance.
+            </summary>
+            <param name="initialText">The initial text of the editor.</param>
+            <param name="preSource">The source code that should be prepended to the text of the document when compiling it.</param>
+            <param name="postSource">The source code that should be appended to the text of the document when compiling it.</param>
+            <param name="references">A list of <see cref="T:Microsoft.CodeAnalysis.MetadataReference"/>s for which the compiled assembly will have bindings. Make sure to include an appropriate <see cref="T:Microsoft.CodeAnalysis.DocumentationProvider"/>, if you would like documentation comments to appear in code completion windows. If this is <see langword="null"/>, references to all of the assemblies loaded in the current <see cref="T:System.AppDomain"/> will be added.</param>
+            <param name="compilationOptions">The compilation options used to compile the code. If this is <see langword="null"/>, a <c>new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary)</c> will be used.</param>
+            <param name="guid">A unique identifier for the document being edited. If this is <see langword="null"/>, a new <see cref="T:System.Guid"/> is generated. If the same identifier is used multiple times, the save history of the document will be available, even if the application has been closed between different sessions.</param>
+            <param name="additionalShortcuts">Additional application-specific shortcuts (for display purposes only - you need to implement your own logic).</param>
+            <returns>A fully initialised <see cref="T:CSharpEditor.Editor"/> instance.</returns>
+        </member>
+        <member name="M:CSharpEditor.Editor.SetText(System.String)">
+            <summary>
+            Sets the text of the document.
+            </summary>
+            <param name="text">The new text of the document.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> that completes when the text has been updated.</returns>
+        </member>
+        <member name="M:CSharpEditor.Editor.SetText(Microsoft.CodeAnalysis.Text.SourceText)">
+            <summary>
+            Sets the text of the document.
+            </summary>
+            <param name="text">The new text of the document.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> that completes when the text has been updated.</returns>
+        </member>
+        <member name="M:CSharpEditor.Editor.SynchronousBreak(CSharpEditor.BreakpointInfo)">
+            <summary>
+            A function to handle breakpoints in synchronous methods. Pass this as an argument to <see cref="M:CSharpEditor.Editor.Compile(System.Func{CSharpEditor.BreakpointInfo,System.Boolean},System.Func{CSharpEditor.BreakpointInfo,System.Threading.Tasks.Task{System.Boolean}})"/>. To prevent deadlocks, this function will have no effect if called from the UI thread.
+            </summary>
+            <param name="info">A <see cref="T:CSharpEditor.BreakpointInfo"/> object containing information about the location of the breakpoint and the current value of local variables.</param>
+            <returns><see langword="true" /> if further occurrences of the same breakpoint should be ignored; <see langword="false"/> otherwise.</returns>
+        </member>
+        <member name="M:CSharpEditor.Editor.AsynchronousBreak(CSharpEditor.BreakpointInfo)">
+            <summary>
+            A function to handle breakpoints in asynchronous methods. Pass this as an argument to <see cref="M:CSharpEditor.Editor.Compile(System.Func{CSharpEditor.BreakpointInfo,System.Boolean},System.Func{CSharpEditor.BreakpointInfo,System.Threading.Tasks.Task{System.Boolean}})"/>.
+            </summary>
+            <param name="info">A <see cref="T:CSharpEditor.BreakpointInfo"/> object containing information about the location of the breakpoint and the current value of local variables.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> that completes when code execution resumes after the breakpoint.</returns>
+        </member>
+        <member name="M:CSharpEditor.Editor.Compile(System.Func{CSharpEditor.BreakpointInfo,System.Boolean},System.Func{CSharpEditor.BreakpointInfo,System.Threading.Tasks.Task{System.Boolean}})">
+            <summary>
+            Compile the source code to an <see cref="T:System.Reflection.Assembly"/>.
+            </summary>
+            <param name="synchronousBreak">The function to handle synchronous breakpoints. If this is <see langword="null" />, these breakpoints will be skipped. If you want to enable the default UI for breakpoints, use <see cref="M:CSharpEditor.Editor.SynchronousBreak(CSharpEditor.BreakpointInfo)"/> (or a function that calls it after performing additional operations).</param>
+            <param name="asynchronousBreak">The function to handle asynchronous breakpoints. If this is <see langword="null" />, these breakpoints will be skipped. If you want to enable the default UI for breakpoints, use <see cref="M:CSharpEditor.Editor.AsynchronousBreak(CSharpEditor.BreakpointInfo)"/> (or a function that calls it after performing additional operations).</param>
+            <returns>An <see cref="T:System.Reflection.Assembly"/> containing the compiled code, or <see langword="null"/> if the compilation fails, as well as a <see cref="T:Microsoft.CodeAnalysis.CSharp.CSharpCompilation"/> that also contains information about any compilation errors.</returns>
+        </member>
+        <member name="M:CSharpEditor.Editor.CreateCompilation">
+            <summary>
+            Compile the source code to a <see cref="T:Microsoft.CodeAnalysis.CSharp.CSharpCompilation"/>. Note that breakpoints will be disabled.
+            </summary>
+            <returns>A <see cref="T:Microsoft.CodeAnalysis.CSharp.CSharpCompilation"/> containing the compiled code, which can be used to <c>Emit</c> an assembly.</returns>
+        </member>
+        <member name="M:CSharpEditor.Editor.Save">
+            <summary>
+            Add the current text of the document to the save history (if enabled) and invoke the <see cref="E:CSharpEditor.Editor.SaveRequested"/> event.
+            </summary>
+        </member>
+        <member name="T:CSharpEditor.SaveEventArgs">
+            <summary>
+            A class to hold data for an event where the user has requested to save the document.
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.SaveEventArgs.Text">
+            <summary>
+            The text of the document to save (not including any prepended or appended source code).
+            </summary>
+        </member>
+        <member name="T:CSharpEditor.CompilationEventArgs">
+            <summary>
+            A class to hold data for an event where a background compilation has completed.
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.CompilationEventArgs.Compilation">
+            <summary>
+            A <see cref="T:Microsoft.CodeAnalysis.CSharp.CSharpCompilation"/> object containing information about the compilation that has completed, which can be used to <c>Emit</c> an assembly, if successful.
+            </summary>
+        </member>
+        <member name="T:CSharpEditor.Shortcut">
+            <summary>
+            Represents a keyboard shortcut.
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.Shortcut.Name">
+            <summary>
+            The name of the action performed by the shortcut.
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.Shortcut.Shortcuts">
+            <summary>
+            The keys that have to be pressed together to perform the action.
+            </summary>
+        </member>
+        <member name="M:CSharpEditor.Shortcut.#ctor(System.String,System.String[][])">
+            <summary>
+            Creates a new <see cref="T:CSharpEditor.Shortcut"/> instance.
+            </summary>
+            <param name="name">The name of the action performed by the shortcut (e.g. "Copy").</param>
+            <param name="shortcuts">The keys that have to be pressed together to perform the action (e.g. [ [ "Ctrl", "C" ], [ "Ctrl", "Ins" ] ] to specify that either <c>Ctrl+C</c> or <c>Ctrl+Ins</c> can be used. "Ctrl" will automatically be converted to "Cmd" on macOS.</param>
+        </member>
+        <member name="T:CSharpEditor.SyntaxHighlightingModes">
+            <summary>
+            Represents syntax highlighting modes.
+            </summary>
+        </member>
+        <member name="F:CSharpEditor.SyntaxHighlightingModes.None">
+            <summary>
+            No syntax highliting is perfomed.
+            </summary>
+        </member>
+        <member name="F:CSharpEditor.SyntaxHighlightingModes.Syntactic">
+            <summary>
+            Syntax highlighting is performed only based on syntactic information.
+            </summary>
+        </member>
+        <member name="F:CSharpEditor.SyntaxHighlightingModes.Semantic">
+            <summary>
+            Syntax highlighting is performed based on syntactic and semantic information.
+            </summary>
+        </member>
+        <member name="T:CSharpEditor.InterprocessDebuggerServer">
+            <summary>
+            A class used to analyse breakpoints on a separate process (to avoid deadlocks with breakpoints in synchronous code).
+            </summary>
+        </member>
+        <member name="M:CSharpEditor.InterprocessDebuggerServer.#ctor(System.String)">
+            <summary>
+            Initializes a new <see cref="T:CSharpEditor.InterprocessDebuggerServer"/>, starting the client process and establishing pipes to communicate with it.
+            </summary>
+            <param name="clientExePath">The path to the executable of the client process.</param>
+        </member>
+        <member name="M:CSharpEditor.InterprocessDebuggerServer.SynchronousBreak(CSharpEditor.Editor)">
+            <summary>
+            Returns a function to handle breakpoints in synchronous methods by transferring the breakpoint information to the client process. Pass the output of this method as an argument to <see cref="M:CSharpEditor.Editor.Compile(System.Func{CSharpEditor.BreakpointInfo,System.Boolean},System.Func{CSharpEditor.BreakpointInfo,System.Threading.Tasks.Task{System.Boolean}})"/>. The function will lock until the client process signals that execution can resume.
+            </summary>
+            <param name="editor">The <see cref="T:CSharpEditor.Editor"/> whose code will be debugged. Note that no reference to this object is kept after this method returns.</param>
+            <returns>A function to handle breakpoints in synchronous methods by transferring the breakpoint information to the client process. If the client process is not executing when a breakpoint occurs, it is started again.</returns>
+        </member>
+        <member name="M:CSharpEditor.InterprocessDebuggerServer.AsynchronousBreak(CSharpEditor.Editor)">
+            <summary>
+            Returns a function to handle breakpoints in asynchronous methods by transferring the breakpoint information to the client process. Pass the output of this method as an argument to <see cref="M:CSharpEditor.Editor.Compile(System.Func{CSharpEditor.BreakpointInfo,System.Boolean},System.Func{CSharpEditor.BreakpointInfo,System.Threading.Tasks.Task{System.Boolean}})"/>. This function will actually execute synchronously and lock until the client process signals that execution can resume.
+            </summary>
+            <param name="editor">The <see cref="T:CSharpEditor.Editor"/> whose code will be debugged. Note that no reference to this object is kept after this method returns.</param>
+            <returns>A function to handle breakpoints in asynchronous methods by transferring the breakpoint information to the client process. If the client process is not executing when a breakpoint occurs, it is started again.</returns>
+        </member>
+        <member name="M:CSharpEditor.InterprocessDebuggerServer.Dispose(System.Boolean)">
+            <summary>
+            Kills the debugger client process and frees the pipe resources.
+            </summary>
+            <param name="disposing"></param>
+        </member>
+        <member name="M:CSharpEditor.InterprocessDebuggerServer.Finalize">
+            <summary>
+            Destructor for the debugger server, which also kills the client process.
+            </summary>
+        </member>
+        <member name="M:CSharpEditor.InterprocessDebuggerServer.Dispose">
+            <summary>
+            Kills the debugger client process and frees the pipe resources.
+            </summary>
+        </member>
+        <member name="T:CSharpEditor.InterprocessDebuggerClient">
+            <summary>
+            A control that shows breakpoint information for breakpoints reached on a server process. This control contains a read-only <see cref="T:CSharpEditor.Editor"/> to display the code, which is reused as much as possible to reduce the initialization time.
+            </summary>
+        </member>
+        <member name="E:CSharpEditor.InterprocessDebuggerClient.ParentProcessExited">
+            <summary>
+            Invoked when the server process that started this client has been closed or has signaled that all client activity should cease.
+            </summary>
+        </member>
+        <member name="E:CSharpEditor.InterprocessDebuggerClient.BreakpointHit">
+            <summary>
+            Invoked when the server process signals that a breakpoint has been reached.
+            </summary>
+        </member>
+        <member name="E:CSharpEditor.InterprocessDebuggerClient.BreakpointResumed">
+            <summary>
+            Invoked when the user signals that code execution can resume.
+            </summary>
+        </member>
+        <member name="M:CSharpEditor.InterprocessDebuggerClient.#ctor(System.String[])">
+            <summary>
+            Creates a new <see cref="T:CSharpEditor.InterprocessDebuggerClient"/>, using the information provided by the <see cref="T:CSharpEditor.InterprocessDebuggerServer"/> to open the pipes to communicate with it.
+            </summary>
+            <param name="args">The arguments with which the <see cref="T:CSharpEditor.InterprocessDebuggerServer"/> started the client process.</param>
+        </member>
+        <member name="M:CSharpEditor.InterprocessDebuggerClient.OnAttachedToLogicalTree(Avalonia.LogicalTree.LogicalTreeAttachmentEventArgs)">
+            <summary>
+            Start the loop that waits for breakpoint signals from the server.
+            </summary>
+            <param name="e">The event args.</param>
+        </member>
+        <member name="M:CSharpEditor.InterprocessDebuggerClient.Dispose(System.Boolean)">
+            <summary>
+            Closes the pipes used by this instance.
+            </summary>
+            <param name="disposing"></param>
+        </member>
+        <member name="M:CSharpEditor.InterprocessDebuggerClient.Dispose">
+            <summary>
+            Closes the pipes uses by this instance.
+            </summary>
+        </member>
+        <member name="M:CSharpEditor.Utils.IsInaccessibleLocal(Microsoft.CodeAnalysis.ISymbol,Microsoft.CodeAnalysis.SemanticModel,System.Int32,Microsoft.CodeAnalysis.SyntaxNode)">
+            <returns>
+            Returns true if symbol is a local variable and its declaring syntax node is 
+            after the current position, false otherwise (including for non-local symbols)
+            </returns>
+        </member>
+    </members>
+</doc>

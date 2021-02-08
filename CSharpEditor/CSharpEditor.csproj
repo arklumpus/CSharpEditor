@@ -1,0 +1,70 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Authors>Giorgio Bianchini</Authors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Company>University of Bristol</Company>
+    <Description>A C# source code editor with syntax highlighting, intelligent code completion and real-time compilation error checking.</Description>
+    <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
+    <Version>1.0.0</Version>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageProjectUrl>https://github.com/arklumpus/CSharpEditor</PackageProjectUrl>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <None Include="..\icon.png">
+      <Pack>true</Pack>
+      <PackagePath>.</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Fonts\OpenSans-Bold.ttf" />
+    <EmbeddedResource Include="Fonts\OpenSans-BoldItalic.ttf" />
+    <EmbeddedResource Include="Fonts\OpenSans-Italic.ttf" />
+    <EmbeddedResource Include="Fonts\OpenSans-Regular.ttf" />
+    <EmbeddedResource Include="Fonts\RobotoMono-Bold.ttf" />
+    <EmbeddedResource Include="Fonts\RobotoMono-BoldItalic.ttf" />
+    <EmbeddedResource Include="Fonts\RobotoMono-Italic.ttf" />
+    <EmbeddedResource Include="Fonts\RobotoMono-Regular.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="IntellisenseIconsPNG\ClassIcon.png" />
+    <EmbeddedResource Include="IntellisenseIconsPNG\DelegateIcon.png" />
+    <EmbeddedResource Include="IntellisenseIconsPNG\EnumIcon.png" />
+    <EmbeddedResource Include="IntellisenseIconsPNG\EventIcon.png" />
+    <EmbeddedResource Include="IntellisenseIconsPNG\FieldIcon.png" />
+    <EmbeddedResource Include="IntellisenseIconsPNG\InterfaceIcon.png" />
+    <EmbeddedResource Include="IntellisenseIconsPNG\KeywordIcon.png" />
+    <EmbeddedResource Include="IntellisenseIconsPNG\LocalIcon.png" />
+    <EmbeddedResource Include="IntellisenseIconsPNG\MethodIcon.png" />
+    <EmbeddedResource Include="IntellisenseIconsPNG\NamespaceIcon.png" />
+    <EmbeddedResource Include="IntellisenseIconsPNG\PropertyIcon.png" />
+    <EmbeddedResource Include="IntellisenseIconsPNG\StructIcon.png" />
+    <EmbeddedResource Include="IntellisenseIconsPNG\UnknownIcon.png" />
+    <EmbeddedResource Include="xmldocs.json" />
+    <EmbeddedResource Include="xmldocs.dll.list" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="0.10.0" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.0" />
+    <PackageReference Include="DiffPlex" Version="1.6.3" />
+    <PackageReference Include="IntellisenseIcon" Version="1.1.2" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.8.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features" Version="3.8.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.8.0" />
+    <PackageReference Include="System.CodeDom" Version="5.0.0" />
+    <PackageReference Include="System.Reflection.MetadataLoadContext" Version="5.0.0" />
+    <PackageReference Include="System.Text.Json" Version="5.0.1" />
+    <PackageReference Include="VectSharp.Canvas" Version="2.1.7" />
+  </ItemGroup>
+</Project>

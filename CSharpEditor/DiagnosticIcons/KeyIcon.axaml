@@ -1,0 +1,32 @@
+﻿<!--
+    CSharpEditor - A C# source code editor with syntax highlighting, intelligent
+    code completion and real-time compilation error checking.
+    Copyright (C) 2021  Giorgio Bianchini
+ 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, version 3.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="CSharpEditor.DiagnosticIcons.KeyIcon" >
+  <Border HorizontalAlignment="Center" VerticalAlignment="Center" Background="#F0F0F0" Padding="8,4,8,4" CornerRadius="5" BorderBrush="#808080" BorderThickness="2,1,1,4">
+    <TextBlock Text="{Binding $parent[1].KeyText}" FontFamily="resm:CSharpEditor.Fonts.?assembly=CSharpEditor#Roboto Mono" FontWeight="Bold" FontSize="12" Name="KeyBlock">
+      <ToolTip.Tip>
+        <TextBlock FontFamily="resm:CSharpEditor.Fonts.?assembly=CSharpEditor#Open Sans" FontWeight="Normal" FontSize="14" Text="{Binding #KeyBlock.Text}"></TextBlock>
+      </ToolTip.Tip>
+    </TextBlock>
+  </Border>
+</UserControl>

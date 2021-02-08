@@ -1,0 +1,86 @@
+﻿<!--
+    CSharpEditor - A C# source code editor with syntax highlighting, intelligent
+    code completion and real-time compilation error checking.
+    Copyright (C) 2021  Giorgio Bianchini
+ 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, version 3.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:local="clr-namespace:CSharpEditor;assembly=CSharpEditor"
+             x:Class="CSharpEditor.Editor" FontSize="14" Background="#5d6b99">
+  <UserControl.Resources>
+    <Color x:Key="ToggleButtonForegroundChecked" >#FF000000</Color>
+    <Color x:Key="ToggleButtonForegroundCheckedPointerOver" >#FF000000</Color>
+    <Color x:Key="ToggleButtonForegroundCheckedPressed" >#FF000000</Color>
+    <Color x:Key="ToggleButtonForegroundCheckedDisabled" >#FF000000</Color>
+  </UserControl.Resources>
+  <Grid Name="ContainerGrid">
+    
+    <Grid.RowDefinitions>
+      <RowDefinition Height="1*" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="10" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="1*" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="10" />
+    </Grid.ColumnDefinitions>
+
+    <Canvas Background="White" Margin="10,10,10,0" />
+    <Grid Name="MainGrid">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="1*" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      
+      <local:MethodOverloadList HorizontalAlignment="Left" VerticalAlignment="Top" IsVisible="False" Name="MethodOverloadList" ZIndex="99">
+      </local:MethodOverloadList>
+
+      <local:CompletionWindow HorizontalAlignment="Left" VerticalAlignment="Top" IsVisible="False" Name="CompletionWindow" ZIndex="100">
+      </local:CompletionWindow>
+
+      <local:SymbolToolTip HorizontalAlignment="Left" VerticalAlignment="Top" IsVisible="False" Name="SymbolToolTip" ZIndex="101"></local:SymbolToolTip>
+
+      <local:StatusBar Grid.Row="1" ZIndex="98" Margin="10, 0, 0, 0" Name="StatusBar"></local:StatusBar>
+
+      <local:CSharpSourceEditorControl Name="EditorControl" Margin="10,10,0,0" Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" UseLayoutRounding="True"></local:CSharpSourceEditorControl>
+    </Grid>
+
+    <GridSplitter Grid.Row="1" Height="5" Background="{Binding $parent[1].Background}" Margin="10,0,10,0" IsVisible="False" Name="GridSplitter"></GridSplitter>
+
+    <local:ErrorContainer Grid.Row="2" Name="ErrorContainer" Margin="10,0,0,10" IsVisible="False">
+
+    </local:ErrorContainer>
+
+    <local:ReferencesContainer Grid.Row="2" Name="ReferencesContainer" Margin="10,0,0,10" IsVisible="False">
+
+    </local:ReferencesContainer>
+
+    <local:SaveHistoryContainer Grid.Row="2" Name="SaveHistoryContainer" Margin="10,0,0,10" IsVisible="False">
+
+    </local:SaveHistoryContainer>
+
+    <GridSplitter Grid.Column="1" Grid.RowSpan="3" Width="5" Background="{Binding $parent[1].Background}" Margin="0,10,0,10" Name="VerticalGridSplitter" IsVisible="False"></GridSplitter>
+
+    <local:BreakpointPanel Grid.Column="2" Grid.RowSpan="3" Margin="0, 10, 10, 10" Name="BreakpointPanel" IsVisible="False">
+      
+    </local:BreakpointPanel>
+    
+  </Grid>
+</UserControl>

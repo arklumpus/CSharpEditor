@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" title=" " alt="" coords="5,42,87,69"/>
+<area shape="rect" id="node2" href="$class_c_sharp_editor_1_1_compilation_event_args.html" title="A class to hold data for an event where a background compilation has completed." alt="" coords="145,5,315,47"/>
+<area shape="rect" id="node3" href="$class_c_sharp_editor_1_1_save_event_args.html" title="A class to hold data for an event where the user has requested to save the document." alt="" coords="135,71,325,98"/>
+</map>

@@ -1,0 +1,46 @@
+﻿<!--
+    CSharpEditor - A C# source code editor with syntax highlighting, intelligent
+    code completion and real-time compilation error checking.
+    Copyright (C) 2021  Giorgio Bianchini
+ 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, version 3.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="CSharpEditor.DiagnosticIcons.SettingsIcon">
+    <Canvas Width="16" Height="16" >
+      <Path Data="M3,8 A 5,5 180 1 1 13,8 A 5,5 180 1 1 3,8 Z M5,8 A 3,3 180 1 1 11,8 A 3,3 180 1 1 5,8 Z" Fill="#434343"></Path>
+      <Path Data="M6,8 A 2,2 180 1 1 10,8 A 2,2 180 1 1 6,8 Z" Fill="#434343"></Path>
+
+      <Canvas Width="16" Height="16">
+        <Path Data="M7,1 L9,1 L10,4 L6,4" Fill="#434343"></Path>
+        <Path Data="M7,15 L9,15 L10,12 L6,12" Fill="#434343"></Path>
+        <Path Data="M1,7 L1,9 L4,10 L4,6" Fill="#434343"></Path>
+        <Path Data="M15,7 L15,9 L12,10 L12,6" Fill="#434343"></Path>
+      </Canvas>
+
+      <Canvas Width="16" Height="16">
+        <Canvas.RenderTransform>
+          <RotateTransform Angle="45"/>
+        </Canvas.RenderTransform>
+        <Path Data="M7,1 L9,1 L10,4 L6,4" Fill="#434343"></Path>
+        <Path Data="M7,15 L9,15 L10,12 L6,12" Fill="#434343"></Path>
+        <Path Data="M1,7 L1,9 L4,10 L4,6" Fill="#434343"></Path>
+        <Path Data="M15,7 L15,9 L12,10 L12,6" Fill="#434343"></Path>
+      </Canvas>
+    </Canvas>
+</UserControl>

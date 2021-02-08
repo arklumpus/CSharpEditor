@@ -1,0 +1,181 @@
+﻿<!--
+    CSharpEditor - A C# source code editor with syntax highlighting, intelligent
+    code completion and real-time compilation error checking.
+    Copyright (C) 2021  Giorgio Bianchini
+ 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, version 3.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:icon="clr-namespace:CSharpEditor.DiagnosticIcons;assembly=CSharpEditor"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="CSharpEditor.ReferencesContainer" FontFamily="resm:CSharpEditor.Fonts.?assembly=CSharpEditor#Open Sans" Background="White" FontSize="14">
+  <UserControl.Styles>
+    <Style Selector="ToggleButton">
+      <Setter Property="Focusable" Value="False" />
+      <Setter Property="Background" Value="#ccd5f0" />
+      <Setter Property="BorderBrush" Value="{x:Null}" />
+    </Style>
+
+    <Style Selector="ToggleButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="#ecf4ff" />
+      <Setter Property="BorderBrush" Value="#b0c1e2" />
+    </Style>
+
+    <Style Selector="ToggleButton:checked /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="#ffedc8" />
+      <Setter Property="BorderBrush" Value="#d2a85e" />
+    </Style>
+
+    <Style Selector="Button.AddRemove">
+      <Setter Property="Focusable" Value="False" />
+      <Setter Property="Background" Value="White" />
+      <Setter Property="BorderBrush" Value="{x:Null}" />
+      <Setter Property="Padding" Value="2" />
+    </Style>
+
+    <Style Selector="Button.AddRemove:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="#ecf4ff" />
+      <Setter Property="BorderBrush" Value="#b0c1e2" />
+    </Style>
+
+    <Style Selector="Button.AddRemove:pressed /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="#ffedc8" />
+      <Setter Property="BorderBrush" Value="#d2a85e" />
+    </Style>
+  </UserControl.Styles>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="1*" />
+    </Grid.RowDefinitions>
+    <Canvas Background="#ccd5f0"></Canvas>
+    <StackPanel Orientation="Horizontal" Margin="5, 2, 5, 3">
+      <ToggleButton IsChecked="True" Name="CoreReferencesButton">
+        <StackPanel Orientation="Horizontal">
+          <icon:CoreReferenceIcon />
+          <TextBlock Margin="5,0,5,0" Name="ErrorText" VerticalAlignment="Center">Core assemblies</TextBlock>
+        </StackPanel>
+      </ToggleButton>
+      <Canvas Width="1" Background="#94a6ca" Margin="4, 4, 4, 4"></Canvas>
+      <ToggleButton IsChecked="True" Name="AdditionalReferencesButton">
+        <StackPanel Orientation="Horizontal">
+          <icon:AssemblyReferenceIcon />
+          <TextBlock Margin="5,0,5,0" Name="WarningText" VerticalAlignment="Center">Additional references</TextBlock>
+        </StackPanel>
+      </ToggleButton>
+    </StackPanel>
+
+    <Grid Grid.Row="1" Background="#f6f6f6">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="32" />
+        <ColumnDefinition Width="1" />
+        <ColumnDefinition Width="32" />
+        <ColumnDefinition Width="1" />
+        <ColumnDefinition Width="32" />
+        <ColumnDefinition Width="1" />
+        <ColumnDefinition Width="1*" />
+        <ColumnDefinition Width="18" />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="1" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="1" />
+      </Grid.RowDefinitions>
+      <Canvas Grid.ColumnSpan="8" Background="#cccedb"></Canvas>
+      <Canvas Grid.Row="1" Grid.Column="1" Background="#cccedb"></Canvas>
+      <icon:ReferenceIcon Grid.Row="1" Grid.Column="2" ToolTip.Tip="Reference type" />
+      <Canvas Grid.Row="1" Grid.Column="3" Background="#cccedb"></Canvas>
+      <icon:DocumentationIcon Grid.Row="1" Grid.Column="4" ToolTip.Tip="Documentation status" />
+      <Canvas Grid.Row="1" Grid.Column="5" Background="#cccedb"></Canvas>
+      <TextBlock Grid.Row="1" Grid.Column="6" Margin="5, 2, 5, 2">Reference</TextBlock>
+      <Canvas Grid.Row="2" Grid.ColumnSpan="8" Background="#cccedb"></Canvas>
+    </Grid>
+
+    <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled">
+      <StackPanel>
+        <StackPanel Name="ReferencesContainer">
+
+        </StackPanel>
+        <Grid Margin="0, 0, 0, 5">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="32" />
+            <ColumnDefinition Width="1" />
+            <ColumnDefinition Width="32" />
+            <ColumnDefinition Width="1" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1" />
+            <ColumnDefinition Width="32" />
+          </Grid.ColumnDefinitions>
+
+          <Button Width="20" Height="20" Name="AddReferenceButton" Classes="AddRemove" HorizontalAlignment="Center">
+            <icon:PlusIcon />
+          </Button>
+
+        </Grid>
+      </StackPanel>
+    </ScrollViewer>
+
+    <Grid Grid.RowSpan="3" Name="DialogGrid" IsVisible="False">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="1*" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="1*" />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="1*" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="1*" />
+      </Grid.RowDefinitions>
+      <Canvas Background="#40000000" Grid.ColumnSpan="3" Grid.RowSpan="3"></Canvas>
+
+      <Border Grid.Column="1" Grid.Row="1" BorderBrush="#5d6b99" BorderThickness="1" MaxWidth="400">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="1*" />
+          </Grid.ColumnDefinitions>
+          <Canvas Grid.ColumnSpan="2" Background="#5d6b99"></Canvas>
+          <TextBlock Grid.ColumnSpan="2" Margin="10,2,10,2" Foreground="White" Name="DialogMessageTitle">Message Title</TextBlock>
+          <Canvas Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Row="1" Background="White" />
+          <Viewbox Grid.Row="1" Width="64" Height="64" Margin="10, 10, 0, 10" Name="DialogWarningIcon" IsVisible="False">
+            <icon:WarningIcon></icon:WarningIcon>
+          </Viewbox>
+          <Viewbox Grid.Row="1" Width="64" Height="64" Margin="10, 10, 0, 10" Name="DialogInfoIcon" IsVisible="False">
+            <icon:InfoIcon></icon:InfoIcon>
+          </Viewbox>
+
+          <TextBlock Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" TextWrapping="Wrap" Name="DialogMessageText">Message Text, which can potentially be very very very long.</TextBlock>
+          <Grid Grid.Row="2" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="1*" />
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="1" Width="100" Margin="10, 0, 10, 10" Padding="0,5,0,5" Name="DialogOKButton" Focusable="False" HorizontalContentAlignment="Center" HorizontalAlignment="Center">OK</Button>
+          </Grid>
+        </Grid>
+      </Border>
+    </Grid>
+  </Grid>
+</UserControl>

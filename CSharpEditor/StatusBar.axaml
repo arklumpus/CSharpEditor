@@ -1,0 +1,114 @@
+﻿<!--
+    CSharpEditor - A C# source code editor with syntax highlighting, intelligent
+    code completion and real-time compilation error checking.
+    Copyright (C) 2021  Giorgio Bianchini
+ 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, version 3.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="30"
+             xmlns:icon="clr-namespace:CSharpEditor.DiagnosticIcons;assembly=CSharpEditor"
+             x:Class="CSharpEditor.StatusBar" FontFamily="resm:CSharpEditor.Fonts.?assembly=CSharpEditor#Open Sans" FontSize="12" Background="#f5f5f5" Focusable="False">
+  <UserControl.Styles>
+    <Style Selector="ToggleButton">
+      <Setter Property="Background" Value="#f5f5f5" />
+      <Setter Property="BorderBrush" Value="{x:Null}" />
+    </Style>
+
+    <Style Selector="ToggleButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="#ecf4ff" />
+      <Setter Property="BorderBrush" Value="#b0c1e2" />
+    </Style>
+
+    <Style Selector="ToggleButton:checked /template/ ContentPresenter#PART_ContentPresenter">
+      <Setter Property="Background" Value="#ffedc8" />
+      <Setter Property="BorderBrush" Value="#d2a85e" />
+    </Style>
+  </UserControl.Styles>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="1*" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="1*" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="1*" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="1*" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="1*" />
+    </Grid.ColumnDefinitions>
+    <ComboBox FontFamily="resm:CSharpEditor.Fonts.?assembly=CSharpEditor#Roboto Mono" SelectedItem="{ResolveByName Item14pt}" VerticalAlignment="Center" Background="White" Width="65" Name="FontSizeBox" FontSize="10" Margin="2,0,0,0"  Focusable="False" Padding="5,5,0,5">
+      <ComboBox.Items>
+        <ComboBoxItem FontSize="8">8pt</ComboBoxItem>
+        <ComboBoxItem FontSize="9">9pt</ComboBoxItem>
+        <ComboBoxItem FontSize="10">10pt</ComboBoxItem>
+        <ComboBoxItem FontSize="11">11pt</ComboBoxItem>
+        <ComboBoxItem FontSize="12">12pt</ComboBoxItem>
+        <ComboBoxItem FontSize="14" Name="Item14pt">14pt</ComboBoxItem>
+        <ComboBoxItem FontSize="16">16pt</ComboBoxItem>
+        <ComboBoxItem FontSize="20">20pt</ComboBoxItem>
+        <ComboBoxItem FontSize="24">24pt</ComboBoxItem>
+        <ComboBoxItem FontSize="30">30pt</ComboBoxItem>
+        <ComboBoxItem FontSize="36">36pt</ComboBoxItem>
+      </ComboBox.Items>
+    </ComboBox>
+    <ToggleButton Grid.Column="2" Margin="5,2,5,2" Width="190" Name="ToggleErrorContainerButton" Focusable="False" HorizontalContentAlignment="Center">
+      <Grid>
+        <StackPanel Orientation="Horizontal" IsVisible="False" Name="DiagnosticSummaryPanel">
+          <Viewbox Height="12" Width="12" VerticalAlignment="Center">
+            <icon:ErrorIcon />
+          </Viewbox>
+          <TextBlock VerticalAlignment="Center" Margin="5,0,15,0" Name="ErrorCount">0</TextBlock>
+          <Viewbox Height="12" Width="12" VerticalAlignment="Center">
+            <icon:WarningIcon />
+          </Viewbox>
+          <TextBlock VerticalAlignment="Center" Margin="5,0,15,0" Name="WarningCount">0</TextBlock>
+          <Viewbox Height="12" Width="12" VerticalAlignment="Center">
+            <icon:InfoIcon />
+          </Viewbox>
+          <TextBlock VerticalAlignment="Center" Margin="5,0,0,0" Name="MessageCount">0</TextBlock>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Name="NoProblemsPanel">
+          <Viewbox Height="12" Width="12" VerticalAlignment="Center">
+            <icon:TickIcon/>
+          </Viewbox>
+          <TextBlock VerticalAlignment="Center" Margin="5,0,0,0">No problems detected</TextBlock>
+        </StackPanel>
+      </Grid>
+    </ToggleButton>
+    <ToggleButton Grid.Column="4" Margin="5,2,5,2" Width="110" Name="ToggleReferencesContainerButton" Focusable="False">
+      <StackPanel Orientation="Horizontal">
+        <icon:ReferenceIcon VerticalAlignment="Center"/>
+        <TextBlock VerticalAlignment="Center" Margin="5,0,0,0">References</TextBlock>
+      </StackPanel>
+    </ToggleButton>
+
+    <ToggleButton Grid.Column="6" Margin="5,2,5,2" Width="95" Name="ToggleSettingsContainerButton" Focusable="False">
+      <StackPanel Orientation="Horizontal">
+        <icon:SettingsIcon VerticalAlignment="Center"/>
+        <TextBlock VerticalAlignment="Center" Margin="5,0,0,0">Settings</TextBlock>
+      </StackPanel>
+    </ToggleButton>
+    <ToggleButton Grid.Column="8" Margin="5,2,5,2" Width="120" Name="ToggleSaveHistoryContainerButton" Focusable="False">
+      <StackPanel Orientation="Horizontal">
+        <icon:SaveIcon VerticalAlignment="Center"/>
+        <TextBlock VerticalAlignment="Center" Margin="5,0,0,0">Save history</TextBlock>
+      </StackPanel>
+    </ToggleButton>
+  </Grid>
+</UserControl>

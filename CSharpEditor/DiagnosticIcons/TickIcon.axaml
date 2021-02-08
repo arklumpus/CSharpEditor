@@ -1,0 +1,37 @@
+﻿<!--
+    CSharpEditor - A C# source code editor with syntax highlighting, intelligent
+    code completion and real-time compilation error checking.
+    Copyright (C) 2021  Giorgio Bianchini
+ 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, version 3.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="CSharpEditor.DiagnosticIcons.TickIcon">
+  <Canvas Width="16" Height="16">
+    <Ellipse Stroke="White" Width="16" Height="16" StrokeThickness="2">
+    </Ellipse>
+
+    <Ellipse Fill="#339933" Width="14" Height="14">
+      <Ellipse.RenderTransform>
+        <TranslateTransform X="1" Y="1" />
+      </Ellipse.RenderTransform>
+    </Ellipse>
+
+    <Path Data="M4,8 L7,11 L11,5" Stroke="White" StrokeThickness="2" StrokeLineCap="Round"></Path>
+  </Canvas>
+</UserControl>

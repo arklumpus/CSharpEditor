@@ -78,7 +78,7 @@ namespace CSharpEditor
             string guid = System.Guid.NewGuid().ToString("N");
             PipeServerOutWriter.WriteLine(guid);
             PipeServerOutWriter.Flush();
-            PipeServerOut.WaitForPipeDrain();
+            //PipeServerOut.WaitForPipeDrain();
 
             string input = PipeServerInReader.ReadLine();
 
@@ -108,7 +108,7 @@ namespace CSharpEditor
                 }
 
                 PipeServerOutWriter.WriteLine("Init");
-                PipeServerOut.WaitForPipeDrain();
+                //PipeServerOut.WaitForPipeDrain();
 
                 Dictionary<string, object> objectCache = new Dictionary<string, object>();
                 Dictionary<string, (string, VariableTypes, string)> localVariables = new Dictionary<string, (string, VariableTypes, string)>();
@@ -140,7 +140,7 @@ namespace CSharpEditor
 
                 PipeServerOutWriter.WriteLine(message);
                 PipeServerOutWriter.Flush();
-                PipeServerOut.WaitForPipeDrain();
+                //PipeServerOut.WaitForPipeDrain();
 
                 while (!ClientProcess.HasExited)
                 {
@@ -169,7 +169,7 @@ namespace CSharpEditor
 
                             PipeServerOutWriter.WriteLine(JsonSerializer.Serialize(items));
                             PipeServerOutWriter.Flush();
-                            PipeServerOut.WaitForPipeDrain();
+                            //PipeServerOut.WaitForPipeDrain();
                         }
                         else if (inputMessage[0] == "GetProperty")
                         {
@@ -203,7 +203,7 @@ namespace CSharpEditor
 
                             PipeServerOutWriter.WriteLine(JsonSerializer.Serialize(new string[] { guid, JsonSerializer.Serialize(variableType), valueJSON }));
                             PipeServerOutWriter.Flush();
-                            PipeServerOut.WaitForPipeDrain();
+                            //PipeServerOut.WaitForPipeDrain();
                         }
                         else if (inputMessage[0] == "Resume")
                         {
@@ -466,7 +466,7 @@ namespace CSharpEditor
 
             PipeClientOutWriter.WriteLine(message);
             PipeClientOutWriter.Flush();
-            PipeClientOut.WaitForPipeDrain();
+            //PipeClientOut.WaitForPipeDrain();
         }
 
         /// <summary>
@@ -547,7 +547,7 @@ namespace CSharpEditor
                         {
                             PipeClientOutWriter.WriteLine(JsonSerializer.Serialize(new string[] { "GetProperty", variableId, propertyName, isProperty.ToString() }));
                             PipeClientOutWriter.Flush();
-                            PipeClientOut.WaitForPipeDrain();
+                            //PipeClientOut.WaitForPipeDrain();
 
                             string message = PipeClientInReader.ReadLine();
 
@@ -572,7 +572,7 @@ namespace CSharpEditor
                         {
                             PipeClientOutWriter.WriteLine(JsonSerializer.Serialize(new string[] { "GetItems", variableId }));
                             PipeClientOutWriter.Flush();
-                            PipeClientOut.WaitForPipeDrain();
+                            //PipeClientOut.WaitForPipeDrain();
 
                             string message = PipeClientInReader.ReadLine();
 
@@ -609,7 +609,7 @@ namespace CSharpEditor
                         bool shouldSuppress = await Editor.AsynchronousBreak(info);
                         PipeClientOutWriter.WriteLine(JsonSerializer.Serialize(new string[] { "Resume", shouldSuppress.ToString() }));
                         PipeClientOutWriter.Flush();
-                        PipeClientOut.WaitForPipeDrain();
+                        //PipeClientOut.WaitForPipeDrain();
                         BreakpointResumed?.Invoke(this, new EventArgs());
                     }
                 }

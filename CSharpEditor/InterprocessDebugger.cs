@@ -40,10 +40,12 @@ namespace CSharpEditor
     {
         private Process ClientProcess;
         private string ClientExePath;
-        AnonymousPipeServerStream PipeServerOut;
-        AnonymousPipeServerStream PipeServerIn;
+        private List<string> InitialArguments;
+        NamedPipeServerStream PipeServerOut;
+        NamedPipeServerStream PipeServerIn;
         StreamWriter PipeServerOutWriter;
         StreamReader PipeServerInReader;
+        private Func<int, int> GetClientPid;
         private bool disposedValue;
 
         /// <summary>
@@ -52,39 +54,84 @@ namespace CSharpEditor
         /// <param name="clientExePath">The path to the executable of the client process.</param>
         public InterprocessDebuggerServer(string clientExePath)
         {
-            this.InitializeServer(clientExePath);
+            this.InitializeServer(clientExePath, new List<string>(), null);
         }
 
-        private void InitializeServer(string clientExePath)
+        /// <summary>
+        /// Initializes a new <see cref="InterprocessDebuggerServer"/>, starting the client process and establishing pipes to communicate with it.
+        /// </summary>
+        /// <param name="clientExePath">The path to the executable of the client process.</param>
+        /// <param name="initialArguments">The arguments that will be used to start the client process. The additional arguments specific to the <see cref="InterprocessDebuggerServer"/> will be appended after these.</param>
+        public InterprocessDebuggerServer(string clientExePath, IEnumerable<string> initialArguments)
+        {
+            this.InitializeServer(clientExePath, initialArguments.ToList(), null);
+        }
+
+        /// <summary>
+        /// Initializes a new <see cref="InterprocessDebuggerServer"/>, starting the client process and establishing pipes to communicate with it.
+        /// </summary>
+        /// <param name="clientExePath">The path to the executable of the client process.</param>
+        /// <param name="initialArguments">The arguments that will be used to start the client process. The additional arguments specific to the <see cref="InterprocessDebuggerServer"/> will be appended after these.</param>
+        /// <param name="getClientPid">A method that returns the process identifier (PID) of the client debugger process. The argument of this method is the PID of the process that has been started by the server. If this is <see langword="null"/>, it is assumed that the process started by the server is the client debugger process.</param>
+        public InterprocessDebuggerServer(string clientExePath, IEnumerable<string> initialArguments, Func<int, int> getClientPid)
+        {
+            this.InitializeServer(clientExePath, initialArguments.ToList(), getClientPid);
+        }
+
+        private void InitializeServer(string clientExePath, List<string> initialArguments, Func<int, int> getClientPid)
         {
             ClientExePath = clientExePath;
 
             ClientProcess = new Process();
             ClientProcess.StartInfo.FileName = clientExePath;
 
-            PipeServerOut = new AnonymousPipeServerStream(PipeDirection.Out, HandleInheritability.Inheritable);
-            PipeServerIn = new AnonymousPipeServerStream(PipeDirection.In, HandleInheritability.Inheritable);
+            InitialArguments = initialArguments;
 
-            ClientProcess.StartInfo.Arguments = Process.GetCurrentProcess().Id.ToString() + " " + PipeServerOut.GetClientHandleAsString() + " " + PipeServerIn.GetClientHandleAsString();
+            string pipeNameOut = Guid.NewGuid().ToString("N");
+            string pipeNameIn = Guid.NewGuid().ToString("N");
+
+            PipeServerOut?.Dispose();
+            PipeServerIn?.Dispose();
+
+            PipeServerOut = new NamedPipeServerStream(pipeNameOut, PipeDirection.Out);
+            PipeServerIn = new NamedPipeServerStream(pipeNameIn, PipeDirection.In);
+
+            PipeServerOutWriter = new StreamWriter(PipeServerOut);
+            PipeServerInReader = new StreamReader(PipeServerIn);
+
+            foreach (string arg in initialArguments)
+            {
+                ClientProcess.StartInfo.ArgumentList.Add(arg);
+            }
+
+            ClientProcess.StartInfo.ArgumentList.Add(Process.GetCurrentProcess().Id.ToString());
+            ClientProcess.StartInfo.ArgumentList.Add(pipeNameOut);
+            ClientProcess.StartInfo.ArgumentList.Add(pipeNameIn);
 
             ClientProcess.StartInfo.UseShellExecute = false;
             ClientProcess.Start();
 
-            PipeServerOut.DisposeLocalCopyOfClientHandle();
-            PipeServerIn.DisposeLocalCopyOfClientHandle();
-            PipeServerOutWriter = new StreamWriter(PipeServerOut);
-            PipeServerInReader = new StreamReader(PipeServerIn);
+            PipeServerOut.WaitForConnection();
+            PipeServerIn.WaitForConnection();
+
+            this.GetClientPid = getClientPid;
+
+            if (GetClientPid != null)
+            {
+                int newPid = GetClientPid(ClientProcess.Id);
+
+                ClientProcess = Process.GetProcessById(newPid);
+            }
 
             string guid = System.Guid.NewGuid().ToString("N");
             PipeServerOutWriter.WriteLine(guid);
-            PipeServerOutWriter.Flush();
-            //PipeServerOut.WaitForPipeDrain();
+            PipeServerOutWriter.Flush();            
 
             string input = PipeServerInReader.ReadLine();
 
             if (input != guid)
             {
-                throw new ApplicationException("The client debugger process answered incorrectly!");
+                throw new ApplicationException("The client debugger process answered incorrectly!\n" + input);
             }
         }
 
@@ -104,11 +151,10 @@ namespace CSharpEditor
             {
                 if (ClientProcess.HasExited)
                 {
-                    InitializeServer(ClientExePath);
+                    InitializeServer(ClientExePath, InitialArguments, GetClientPid);
                 }
 
                 PipeServerOutWriter.WriteLine("Init");
-                //PipeServerOut.WaitForPipeDrain();
 
                 Dictionary<string, object> objectCache = new Dictionary<string, object>();
                 Dictionary<string, (string, VariableTypes, string)> localVariables = new Dictionary<string, (string, VariableTypes, string)>();
@@ -140,7 +186,6 @@ namespace CSharpEditor
 
                 PipeServerOutWriter.WriteLine(message);
                 PipeServerOutWriter.Flush();
-                //PipeServerOut.WaitForPipeDrain();
 
                 while (!ClientProcess.HasExited)
                 {
@@ -169,7 +214,6 @@ namespace CSharpEditor
 
                             PipeServerOutWriter.WriteLine(JsonSerializer.Serialize(items));
                             PipeServerOutWriter.Flush();
-                            //PipeServerOut.WaitForPipeDrain();
                         }
                         else if (inputMessage[0] == "GetProperty")
                         {
@@ -203,7 +247,6 @@ namespace CSharpEditor
 
                             PipeServerOutWriter.WriteLine(JsonSerializer.Serialize(new string[] { guid, JsonSerializer.Serialize(variableType), valueJSON }));
                             PipeServerOutWriter.Flush();
-                            //PipeServerOut.WaitForPipeDrain();
                         }
                         else if (inputMessage[0] == "Resume")
                         {
@@ -409,8 +452,8 @@ namespace CSharpEditor
     /// </summary>
     public class InterprocessDebuggerClient : UserControl, IDisposable
     {
-        readonly AnonymousPipeClientStream PipeClientIn;
-        readonly AnonymousPipeClientStream PipeClientOut;
+        readonly NamedPipeClientStream PipeClientIn;
+        readonly NamedPipeClientStream PipeClientOut;
         readonly StreamReader PipeClientInReader;
         readonly StreamWriter PipeClientOutWriter;
         readonly Process ParentProcess;
@@ -456,17 +499,21 @@ namespace CSharpEditor
                 };
             }
 
-            PipeClientIn = new AnonymousPipeClientStream(PipeDirection.In, args[1]);
-            PipeClientInReader = new StreamReader(PipeClientIn);
+            PipeClientIn = new NamedPipeClientStream(".", args[1], PipeDirection.In);
+            
+            PipeClientOut = new NamedPipeClientStream(".", args[2], PipeDirection.Out);
 
-            PipeClientOut = new AnonymousPipeClientStream(PipeDirection.Out, args[2]);
+            PipeClientIn.Connect();
+            PipeClientOut.Connect();
+
             PipeClientOutWriter = new StreamWriter(PipeClientOut);
-
+            PipeClientInReader = new StreamReader(PipeClientIn);
+            
+            
             string message = PipeClientInReader.ReadLine();
 
             PipeClientOutWriter.WriteLine(message);
             PipeClientOutWriter.Flush();
-            //PipeClientOut.WaitForPipeDrain();
         }
 
         /// <summary>
@@ -547,7 +594,6 @@ namespace CSharpEditor
                         {
                             PipeClientOutWriter.WriteLine(JsonSerializer.Serialize(new string[] { "GetProperty", variableId, propertyName, isProperty.ToString() }));
                             PipeClientOutWriter.Flush();
-                            //PipeClientOut.WaitForPipeDrain();
 
                             string message = PipeClientInReader.ReadLine();
 
@@ -572,7 +618,6 @@ namespace CSharpEditor
                         {
                             PipeClientOutWriter.WriteLine(JsonSerializer.Serialize(new string[] { "GetItems", variableId }));
                             PipeClientOutWriter.Flush();
-                            //PipeClientOut.WaitForPipeDrain();
 
                             string message = PipeClientInReader.ReadLine();
 
@@ -609,7 +654,6 @@ namespace CSharpEditor
                         bool shouldSuppress = await Editor.AsynchronousBreak(info);
                         PipeClientOutWriter.WriteLine(JsonSerializer.Serialize(new string[] { "Resume", shouldSuppress.ToString() }));
                         PipeClientOutWriter.Flush();
-                        //PipeClientOut.WaitForPipeDrain();
                         BreakpointResumed?.Invoke(this, new EventArgs());
                     }
                 }

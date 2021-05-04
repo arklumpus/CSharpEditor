@@ -472,6 +472,16 @@ namespace CSharpEditor
                         icon = CompletionListControl.IconTypes.Enum;
                         filters[4] = true;
                     }
+                    else if (item.Tags.Contains(WellKnownTags.Field))
+                    {
+                        icon = CompletionListControl.IconTypes.Field;
+                        filters[6] = true;
+                    }
+                    else if (item.Tags.Contains(WellKnownTags.Property))
+                    {
+                        icon = CompletionListControl.IconTypes.Property;
+                        filters[8] = true;
+                    }
                     else
                     {
                         icon = CompletionListControl.IconTypes.Unknown;
@@ -672,6 +682,16 @@ namespace CSharpEditor
                 {
                     CompletionListControl.Hidden[i] = !filters[4];
                     foundIndex = 4;
+                }
+                else if (item.Tags.Contains(WellKnownTags.Field))
+                {
+                    CompletionListControl.Hidden[i] = !filters[6];
+                    foundIndex = 6;
+                }
+                else if (item.Tags.Contains(WellKnownTags.Property))
+                {
+                    CompletionListControl.Hidden[i] = !filters[8];
+                    foundIndex = 8;
                 }
                 else
                 {

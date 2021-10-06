@@ -89,7 +89,7 @@ namespace CSharpEditor
 
         }
 
-        private static IBrush SearchBrush = new SolidColorBrush(Color.FromArgb(128, 237, 115, 0));
+        private static readonly IBrush SearchBrush = new SolidColorBrush(Color.FromArgb(128, 237, 115, 0));
 
         public override void Render(DrawingContext context)
         {

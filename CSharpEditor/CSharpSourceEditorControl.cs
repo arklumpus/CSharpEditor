@@ -381,7 +381,7 @@ namespace CSharpEditor
             Grid gridContainer = new Grid();
             this.Content = gridContainer;
 
-            ScrollViewer scroller = new ScrollViewer() { HorizontalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Auto, VerticalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Auto };
+            ScrollViewer scroller = new ScrollViewer() { HorizontalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Auto, VerticalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Auto, AllowAutoHide = false };
             gridContainer.Children.Add(scroller);
 
             //Panel scrollerContent = new Panel();

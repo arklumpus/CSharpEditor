@@ -28,7 +28,7 @@
   <td id="projectlogo"><img alt="Logo" src="icon.svg"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">CSharpEditor
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">1.1.2</span>
    </div>
    <div id="projectbrief">A C# source code editor with syntax highlighting, intelligent code completion and real-time compilation error checking</div>
   </td>
@@ -110,6 +110,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aec7f3fa664378e685d8531a308ecfe1c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_sharp_editor_1_1_interprocess_debugger_server.html#aec7f3fa664378e685d8531a308ecfe1c">InterprocessDebuggerServer</a> (string clientExePath)</td></tr>
 <tr class="memdesc:aec7f3fa664378e685d8531a308ecfe1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new <a class="el" href="class_c_sharp_editor_1_1_interprocess_debugger_server.html" title="A class used to analyse breakpoints on a separate process (to avoid deadlocks with breakpoints in syn...">InterprocessDebuggerServer</a>, starting the client process and establishing pipes to communicate with it.  <a href="class_c_sharp_editor_1_1_interprocess_debugger_server.html#aec7f3fa664378e685d8531a308ecfe1c">More...</a><br /></td></tr>
 <tr class="separator:aec7f3fa664378e685d8531a308ecfe1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a36eff3f1594eaba48f75ddbab2e9bd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_sharp_editor_1_1_interprocess_debugger_server.html#a9a36eff3f1594eaba48f75ddbab2e9bd">InterprocessDebuggerServer</a> (string clientExePath, IEnumerable&lt; string &gt; initialArguments)</td></tr>
+<tr class="memdesc:a9a36eff3f1594eaba48f75ddbab2e9bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new <a class="el" href="class_c_sharp_editor_1_1_interprocess_debugger_server.html" title="A class used to analyse breakpoints on a separate process (to avoid deadlocks with breakpoints in syn...">InterprocessDebuggerServer</a>, starting the client process and establishing pipes to communicate with it.  <a href="class_c_sharp_editor_1_1_interprocess_debugger_server.html#a9a36eff3f1594eaba48f75ddbab2e9bd">More...</a><br /></td></tr>
+<tr class="separator:a9a36eff3f1594eaba48f75ddbab2e9bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aceda16cd1829ba41c6e94bfb574d75db"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_sharp_editor_1_1_interprocess_debugger_server.html#aceda16cd1829ba41c6e94bfb574d75db">InterprocessDebuggerServer</a> (string clientExePath, IEnumerable&lt; string &gt; initialArguments, Func&lt; int, int &gt; getClientPid)</td></tr>
+<tr class="memdesc:aceda16cd1829ba41c6e94bfb574d75db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a new <a class="el" href="class_c_sharp_editor_1_1_interprocess_debugger_server.html" title="A class used to analyse breakpoints on a separate process (to avoid deadlocks with breakpoints in syn...">InterprocessDebuggerServer</a>, starting the client process and establishing pipes to communicate with it.  <a href="class_c_sharp_editor_1_1_interprocess_debugger_server.html#aceda16cd1829ba41c6e94bfb574d75db">More...</a><br /></td></tr>
+<tr class="separator:aceda16cd1829ba41c6e94bfb574d75db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a87ffb08b0e69a7e599f12f1cb780b2b5"><td class="memItemLeft" align="right" valign="top">Func&lt; <a class="el" href="class_c_sharp_editor_1_1_breakpoint_info.html">BreakpointInfo</a>, bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_sharp_editor_1_1_interprocess_debugger_server.html#a87ffb08b0e69a7e599f12f1cb780b2b5">SynchronousBreak</a> (<a class="el" href="class_c_sharp_editor_1_1_editor.html">Editor</a> editor)</td></tr>
 <tr class="memdesc:a87ffb08b0e69a7e599f12f1cb780b2b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a function to handle breakpoints in synchronous methods by transferring the breakpoint information to the client process. Pass the output of this method as an argument to <a class="el" href="class_c_sharp_editor_1_1_editor.html#ac5ad7c28dca7066fd729b01cca355dca" title="Compile the source code to an Assembly.">Editor.Compile(Func&lt;BreakpointInfo, bool&gt;, Func&lt;BreakpointInfo, Task&lt;bool&gt;&gt;)</a>. The function will lock until the client process signals that execution can resume.  <a href="class_c_sharp_editor_1_1_interprocess_debugger_server.html#a87ffb08b0e69a7e599f12f1cb780b2b5">More...</a><br /></td></tr>
 <tr class="separator:a87ffb08b0e69a7e599f12f1cb780b2b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -126,7 +132,7 @@ Public Member Functions</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_interprocess_debugger_8cs_source.html#l00039">39</a> of file <a class="el" href="_interprocess_debugger_8cs_source.html">InterprocessDebugger.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aec7f3fa664378e685d8531a308ecfe1c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aec7f3fa664378e685d8531a308ecfe1c">&#9670;&nbsp;</a></span>InterprocessDebuggerServer()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aec7f3fa664378e685d8531a308ecfe1c">&#9670;&nbsp;</a></span>InterprocessDebuggerServer() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -149,7 +155,92 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_interprocess_debugger_8cs_source.html#l00053">53</a> of file <a class="el" href="_interprocess_debugger_8cs_source.html">InterprocessDebugger.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_interprocess_debugger_8cs_source.html#l00055">55</a> of file <a class="el" href="_interprocess_debugger_8cs_source.html">InterprocessDebugger.cs</a>.</p>
+
+</div>
+</div>
+<a id="a9a36eff3f1594eaba48f75ddbab2e9bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a36eff3f1594eaba48f75ddbab2e9bd">&#9670;&nbsp;</a></span>InterprocessDebuggerServer() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CSharpEditor.InterprocessDebuggerServer.InterprocessDebuggerServer </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>clientExePath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IEnumerable&lt; string &gt;&#160;</td>
+          <td class="paramname"><em>initialArguments</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initializes a new <a class="el" href="class_c_sharp_editor_1_1_interprocess_debugger_server.html" title="A class used to analyse breakpoints on a separate process (to avoid deadlocks with breakpoints in syn...">InterprocessDebuggerServer</a>, starting the client process and establishing pipes to communicate with it. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">clientExePath</td><td>The path to the executable of the client process.</td></tr>
+    <tr><td class="paramname">initialArguments</td><td>The arguments that will be used to start the client process. The additional arguments specific to the <a class="el" href="class_c_sharp_editor_1_1_interprocess_debugger_server.html" title="A class used to analyse breakpoints on a separate process (to avoid deadlocks with breakpoints in syn...">InterprocessDebuggerServer</a> will be appended after these.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_interprocess_debugger_8cs_source.html#l00065">65</a> of file <a class="el" href="_interprocess_debugger_8cs_source.html">InterprocessDebugger.cs</a>.</p>
+
+</div>
+</div>
+<a id="aceda16cd1829ba41c6e94bfb574d75db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aceda16cd1829ba41c6e94bfb574d75db">&#9670;&nbsp;</a></span>InterprocessDebuggerServer() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">CSharpEditor.InterprocessDebuggerServer.InterprocessDebuggerServer </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>clientExePath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IEnumerable&lt; string &gt;&#160;</td>
+          <td class="paramname"><em>initialArguments</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Func&lt; int, int &gt;&#160;</td>
+          <td class="paramname"><em>getClientPid</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initializes a new <a class="el" href="class_c_sharp_editor_1_1_interprocess_debugger_server.html" title="A class used to analyse breakpoints on a separate process (to avoid deadlocks with breakpoints in syn...">InterprocessDebuggerServer</a>, starting the client process and establishing pipes to communicate with it. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">clientExePath</td><td>The path to the executable of the client process.</td></tr>
+    <tr><td class="paramname">initialArguments</td><td>The arguments that will be used to start the client process. The additional arguments specific to the <a class="el" href="class_c_sharp_editor_1_1_interprocess_debugger_server.html" title="A class used to analyse breakpoints on a separate process (to avoid deadlocks with breakpoints in syn...">InterprocessDebuggerServer</a> will be appended after these.</td></tr>
+    <tr><td class="paramname">getClientPid</td><td>A method that returns the process identifier (PID) of the client debugger process. The argument of this method is the PID of the process that has been started by the server. If this is <code>null</code>, it is assumed that the process started by the server is the client debugger process.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_interprocess_debugger_8cs_source.html#l00076">76</a> of file <a class="el" href="_interprocess_debugger_8cs_source.html">InterprocessDebugger.cs</a>.</p>
 
 </div>
 </div>
@@ -179,7 +270,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A function to handle breakpoints in asynchronous methods by transferring the breakpoint information to the client process. If the client process is not executing when a breakpoint occurs, it is started again.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_interprocess_debugger_8cs_source.html#l00224">224</a> of file <a class="el" href="_interprocess_debugger_8cs_source.html">InterprocessDebugger.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_interprocess_debugger_8cs_source.html#l00267">267</a> of file <a class="el" href="_interprocess_debugger_8cs_source.html">InterprocessDebugger.cs</a>.</p>
 
 </div>
 </div>
@@ -200,7 +291,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Kills the debugger client process and frees the pipe resources. </p>
 
-<p class="definition">Definition at line <a class="el" href="_interprocess_debugger_8cs_source.html#l00399">399</a> of file <a class="el" href="_interprocess_debugger_8cs_source.html">InterprocessDebugger.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_interprocess_debugger_8cs_source.html#l00442">442</a> of file <a class="el" href="_interprocess_debugger_8cs_source.html">InterprocessDebugger.cs</a>.</p>
 
 </div>
 </div>
@@ -229,7 +320,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A function to handle breakpoints in synchronous methods by transferring the breakpoint information to the client process. If the client process is not executing when a breakpoint occurs, it is started again.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_interprocess_debugger_8cs_source.html#l00096">96</a> of file <a class="el" href="_interprocess_debugger_8cs_source.html">InterprocessDebugger.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_interprocess_debugger_8cs_source.html#l00143">143</a> of file <a class="el" href="_interprocess_debugger_8cs_source.html">InterprocessDebugger.cs</a>.</p>
 
 </div>
 </div>

@@ -110,7 +110,10 @@ namespace CSharpEditor
                 }
                 else
                 {
-                    this.Editor.InvokeToggleBreakpoint(new ToggleBreakpointEventArgs(row, line.Start, line.End));
+                    if (!this.Editor.IsReadOnly)
+                    {
+                        this.Editor.InvokeToggleBreakpoint(new ToggleBreakpointEventArgs(row, line.Start, line.End));
+                    }
                 }
             }
 

@@ -64,6 +64,8 @@
 
     <GridSplitter Grid.Row="1" Height="5" Background="{Binding $parent[1].Background}" Margin="10,0,10,0" IsVisible="False" Name="GridSplitter"></GridSplitter>
 
+    <Border BorderThickness="1" BorderBrush="#5d6b99" Grid.Row="2" Margin="9,-1,-1,9" IsVisible="{Binding #GridSplitter.IsVisible}"></Border>
+
     <local:ErrorContainer Grid.Row="2" Name="ErrorContainer" Margin="10,0,0,10" IsVisible="False">
 
     </local:ErrorContainer>

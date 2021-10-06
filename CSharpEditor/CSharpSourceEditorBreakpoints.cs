@@ -103,7 +103,7 @@ namespace CSharpEditor
             base.OnPointerPressed(e);
         }
 
-        private static readonly SolidColorBrush GreyBrush = new SolidColorBrush(Color.FromRgb(245, 245, 245));
+        private static readonly SolidColorBrush GreyBrush = new SolidColorBrush(Color.FromRgb(243, 243, 243));
         private static readonly SolidColorBrush BreakpointBrush = new SolidColorBrush(Color.FromRgb(228, 20, 0));
         private static readonly SolidColorBrush BreakpointHighlightBrush = new SolidColorBrush(Color.FromArgb(191, 143, 44, 58));
         private static readonly SolidColorBrush ActiveBreakpointBrush = new SolidColorBrush(Color.FromRgb(255, 216, 55));

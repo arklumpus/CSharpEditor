@@ -57,7 +57,7 @@
           <RowDefinition Height="1"></RowDefinition>
           <RowDefinition Height="30"></RowDefinition>
         </Grid.RowDefinitions>
-        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Name="ItemsScrollViewer">
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Name="ItemsScrollViewer" AllowAutoHide="False">
           
         </ScrollViewer>
         <Canvas Grid.Row="1" Background="#e5c365" />

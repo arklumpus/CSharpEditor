@@ -103,7 +103,7 @@
         <TextBlock VerticalAlignment="Center" Margin="2,0,0,0">Local variables</TextBlock>
       </StackPanel>
 
-      <ScrollViewer Grid.Row="3" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+      <ScrollViewer Grid.Row="3" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" AllowAutoHide="False">
         <StackPanel Name="LocalVariablesContainer">
 
         </StackPanel>

@@ -28,7 +28,7 @@
   <td id="projectlogo"><img alt="Logo" src="icon.svg"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">CSharpEditor
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">1.1.2</span>
    </div>
    <div id="projectbrief">A C# source code editor with syntax highlighting, intelligent code completion and real-time compilation error checking</div>
   </td>
@@ -122,7 +122,7 @@ $(document).ready(function(){initNavTree('_c_sharp_source_editor_scroll_bar_mark
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keyword">public</span> CSharpSourceEditorScrollBarMarker(CSharpSourceEditor editor)</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        {</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            this.Editor = editor;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            this.Width = 18;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            this.Width = 16;</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            this.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Right;</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            this.IsHitTestVisible = <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        }</div>
@@ -141,14 +141,14 @@ $(document).ready(function(){initNavTree('_c_sharp_source_editor_scroll_bar_mark
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                <span class="keywordflow">if</span> (Editor.Extent.Width &gt; Editor.Bounds.Width)</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                {</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                    totalHeight -= 18;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                    totalHeight -= 16;</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                }</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                <span class="keywordtype">double</span> totalLines = Editor.Text.Lines.Count;</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                <span class="keywordflow">foreach</span> (HighlightedLineRange range <span class="keywordflow">in</span> this.Editor.HighlightedLines)</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                {</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                    context.FillRectangle(range.HighlightBrush, CSharpSourceEditorCaret.Round(<span class="keyword">new</span> Avalonia.Rect(0, 18 + range.LineSpan.Start / totalLines * totalHeight, 4, (range.LineSpan.Length + 1) / totalLines * totalHeight), <span class="keyword">new</span> Avalonia.Size(1, 1)));</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                    context.FillRectangle(range.HighlightBrush, CSharpSourceEditorCaret.Round(<span class="keyword">new</span> Avalonia.Rect(0, 16 + range.LineSpan.Start / totalLines * totalHeight, 4, (range.LineSpan.Length + 1) / totalLines * totalHeight), <span class="keyword">new</span> Avalonia.Size(1, 1)));</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                }</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                HashSet&lt;int&gt; redLines = <span class="keyword">new</span> HashSet&lt;int&gt;();</div>
@@ -185,7 +185,7 @@ $(document).ready(function(){initNavTree('_c_sharp_source_editor_scroll_bar_mark
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                <span class="keywordflow">foreach</span> (HighlightedLineRange range <span class="keywordflow">in</span> greenLineSpans.Concat(redLineSpans))</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                {</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                    context.FillRectangle(range.HighlightBrush, CSharpSourceEditorCaret.Round(<span class="keyword">new</span> Avalonia.Rect(14, 18 + range.LineSpan.Start / totalLines * totalHeight, 4, (range.LineSpan.Length + 1) / totalLines * totalHeight), <span class="keyword">new</span> Avalonia.Size(1, 1)));</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                    context.FillRectangle(range.HighlightBrush, CSharpSourceEditorCaret.Round(<span class="keyword">new</span> Avalonia.Rect(12, 16 + range.LineSpan.Start / totalLines * totalHeight, 4, (range.LineSpan.Length + 1) / totalLines * totalHeight), <span class="keyword">new</span> Avalonia.Size(1, 1)));</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                }</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                <span class="keywordflow">if</span> (this.Editor.SearchReplace.IsVisible)</div>
@@ -203,7 +203,7 @@ $(document).ready(function(){initNavTree('_c_sharp_source_editor_scroll_bar_mark
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                    <span class="keywordflow">foreach</span> (<span class="keywordtype">int</span> line <span class="keywordflow">in</span> searchMatches)</div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                    {</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                        context.FillRectangle(SearchBrush, CSharpSourceEditorCaret.Round(<span class="keyword">new</span> Avalonia.Rect(7, 18 + line / totalLines * totalHeight, 4, 1.0 / totalLines * totalHeight), <span class="keyword">new</span> Avalonia.Size(1, 1)));</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                        context.FillRectangle(SearchBrush, CSharpSourceEditorCaret.Round(<span class="keyword">new</span> Avalonia.Rect(6, 16 + line / totalLines * totalHeight, 4, 1.0 / totalLines * totalHeight), <span class="keyword">new</span> Avalonia.Size(1, 1)));</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                    }</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                }</div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
@@ -211,10 +211,10 @@ $(document).ready(function(){initNavTree('_c_sharp_source_editor_scroll_bar_mark
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;                {</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                    <span class="keywordtype">int</span> line = this.Editor.Text.Lines.GetLinePosition(offset).Line;</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160; </div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                    context.FillRectangle(BreakpointBrush, CSharpSourceEditorCaret.Round(<span class="keyword">new</span> Avalonia.Rect(7, 18 + line / totalLines * totalHeight, 4, 1.0 / totalLines * totalHeight), <span class="keyword">new</span> Avalonia.Size(1, 1)));</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                    context.FillRectangle(BreakpointBrush, CSharpSourceEditorCaret.Round(<span class="keyword">new</span> Avalonia.Rect(6, 16 + line / totalLines * totalHeight, 4, 1.0 / totalLines * totalHeight), <span class="keyword">new</span> Avalonia.Size(1, 1)));</div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                }</div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160; </div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                context.FillRectangle(CaretPositionBrush, CSharpSourceEditorCaret.Round(<span class="keyword">new</span> Avalonia.Rect(0, 18 + (Editor.Text.Lines.GetLinePosition(Editor.CaretOffset).Line + 0.5) / totalLines * totalHeight - 1, 18, 2), <span class="keyword">new</span> Avalonia.Size(1, 1)));</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                context.FillRectangle(CaretPositionBrush, CSharpSourceEditorCaret.Round(<span class="keyword">new</span> Avalonia.Rect(0, 16 + (Editor.Text.Lines.GetLinePosition(Editor.CaretOffset).Line + 0.5) / totalLines * totalHeight - 1, 16, 2), <span class="keyword">new</span> Avalonia.Size(1, 1)));</div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            }</div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        }</div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    }</div>

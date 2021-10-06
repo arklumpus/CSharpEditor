@@ -7,7 +7,7 @@
     <Company>University of Bristol</Company>
     <Description>A C# source code editor with syntax highlighting, intelligent code completion and real-time compilation error checking.</Description>
     <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
-    <Version>1.1.1</Version>
+    <Version>1.1.2</Version>
     <PackageIcon>icon.png</PackageIcon>
     <PackageProjectUrl>https://github.com/arklumpus/CSharpEditor</PackageProjectUrl>
   </PropertyGroup>
@@ -65,6 +65,6 @@
     <PackageReference Include="System.CodeDom" Version="5.0.0" />
     <PackageReference Include="System.Reflection.MetadataLoadContext" Version="5.0.0" />
     <PackageReference Include="System.Text.Json" Version="5.0.1" />
-    <PackageReference Include="VectSharp.Canvas" Version="2.1.7" />
+    <PackageReference Include="VectSharp.Canvas" Version="2.2.0" />
   </ItemGroup>
 </Project>

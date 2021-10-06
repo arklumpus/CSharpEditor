@@ -67,7 +67,7 @@
       </Button>
     </StackPanel>
       
-    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Row="1">
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Row="1" AllowAutoHide="False" Padding="0,0,16,0">
       <StackPanel Background="White">
         <Border BorderBrush="#40568d" BorderThickness="2" Margin="5,15,5,5" Padding="10" CornerRadius="10" Background="White">
           <StackPanel>
@@ -217,6 +217,11 @@
           <StackPanel>
             <TextBlock FontWeight="Bold" FontSize="16" Margin="0,-22,0,0" Background="White" HorizontalAlignment="Left" Padding="5,0,5,0">Keyboard shortcuts</TextBlock>
             <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
+              <ScrollViewer.Styles>
+                <Style Selector="ScrollViewer[IsExpanded=true]">
+                  <Setter Property="Padding" Value="0,0,0,16" />
+                </Style>
+              </ScrollViewer.Styles>
               <Grid Name="ShortcutGridContainer">
                 <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="1*" />

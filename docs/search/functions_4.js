@@ -1,5 +1,5 @@
 var searchData=
 [
   ['interprocessdebuggerclient_79',['InterprocessDebuggerClient',['../class_c_sharp_editor_1_1_interprocess_debugger_client.html#a8dd6e2325bda9310d39b1a61e18414d5',1,'CSharpEditor::InterprocessDebuggerClient']]],
-  ['interprocessdebuggerserver_80',['InterprocessDebuggerServer',['../class_c_sharp_editor_1_1_interprocess_debugger_server.html#aec7f3fa664378e685d8531a308ecfe1c',1,'CSharpEditor::InterprocessDebuggerServer']]]
+  ['interprocessdebuggerserver_80',['InterprocessDebuggerServer',['../class_c_sharp_editor_1_1_interprocess_debugger_server.html#aec7f3fa664378e685d8531a308ecfe1c',1,'CSharpEditor.InterprocessDebuggerServer.InterprocessDebuggerServer(string clientExePath)'],['../class_c_sharp_editor_1_1_interprocess_debugger_server.html#a9a36eff3f1594eaba48f75ddbab2e9bd',1,'CSharpEditor.InterprocessDebuggerServer.InterprocessDebuggerServer(string clientExePath, IEnumerable&lt; string &gt; initialArguments)'],['../class_c_sharp_editor_1_1_interprocess_debugger_server.html#aceda16cd1829ba41c6e94bfb574d75db',1,'CSharpEditor.InterprocessDebuggerServer.InterprocessDebuggerServer(string clientExePath, IEnumerable&lt; string &gt; initialArguments, Func&lt; int, int &gt; getClientPid)']]]
 ];

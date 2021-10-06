@@ -16,8 +16,8 @@
     <EmbeddedResource Include="HelloWorld.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.10.0" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.10.0" />
+    <PackageReference Include="Avalonia" Version="0.10.7" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.7" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CSharpEditor\CSharpEditor.csproj" />

@@ -73,7 +73,6 @@ namespace CSharpEditor
         }
 
         public bool IsReadOnly { get; set; } = false;
-
         public string ReplaceText { get; set; } = "";
 
         private bool _isSearchRegex = false;
@@ -322,7 +321,10 @@ namespace CSharpEditor
                     maxWidth = Math.Max(maxWidth, line.End - line.Start + 1);
                 }
 
-                return new Size(maxWidth * CharacterWidth + 41 + this.LineNumbersWidth, Text.Lines.Count * LineSpacing * FontSize);
+                double height = Text.Lines.Count * LineSpacing * FontSize + 20;
+
+                return new Size(maxWidth * CharacterWidth + 41 + this.LineNumbersWidth + 20, height);
+
             }
         }
 
@@ -980,7 +982,7 @@ namespace CSharpEditor
                 {
                     await PerformTextInput(new string(' ', Utils.Tab.Length * indentationLevel));
                 }
-                
+
                 if (lineText.TrimStart().StartsWith("/// "))
                 {
                     await PerformTextInput("/// ");
@@ -1872,9 +1874,9 @@ namespace CSharpEditor
 
             double oY = this.Offset.Y;
 
-            if (caretBottom - this.Offset.Y > this.Bounds.Height)
+            if (caretBottom - this.Offset.Y > this.Bounds.Height - 20)
             {
-                oY = caretBottom - this.Bounds.Height;
+                oY = caretBottom - this.Bounds.Height + 20;
             }
 
             if (caretTop - this.Offset.Y < 0)
@@ -1884,9 +1886,13 @@ namespace CSharpEditor
 
             double oX = this.Offset.X;
 
-            if (caretX - this.Offset.X > this.Bounds.Width - 1)
+            if (this.Bounds.Height >= this.Extent.Height && caretX - this.Offset.X > this.Bounds.Width - 1)
             {
-                oX = caretX - this.Bounds.Width + 1;
+                oX = caretX - this.Bounds.Width + 1 + 5;
+            }
+            else if (this.Bounds.Height < this.Extent.Height && caretX - this.Offset.X > this.Bounds.Width - 1 - 20)
+            {
+                oX = caretX - this.Bounds.Width + 1 + 20;
             }
 
             if (caretX - this.Offset.X < 41 + this.LineNumbersWidth)

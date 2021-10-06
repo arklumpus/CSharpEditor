@@ -91,7 +91,7 @@
       <Canvas Grid.Row="2" Grid.ColumnSpan="10" Background="#cccedb"></Canvas>
     </Grid>
 
-    <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled">
+    <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" AllowAutoHide="False">
       <StackPanel Name="FileContainer">
        
       </StackPanel>

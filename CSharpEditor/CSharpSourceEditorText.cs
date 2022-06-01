@@ -147,11 +147,11 @@ namespace CSharpEditor
 
                         (int start, int end, Color? color) range = ToColorRange(token);
 
-                        if (range.color != null || token.Kind() != SyntaxKind.IdentifierToken || Editor.SyntaxHighlightingMode != SyntaxHighlightingModes.Semantic || model == null)
+                        if (range.color != null || !token.IsKind(SyntaxKind.IdentifierToken) || Editor.SyntaxHighlightingMode != SyntaxHighlightingModes.Semantic || model == null)
                         {
                             colorRanges.Add((range.start, range.end, range.color ?? Colors.Black));
                         }
-                        else if (token.Kind() == SyntaxKind.IdentifierToken)
+                        else if (token.IsKind(SyntaxKind.IdentifierToken))
                         {
                             colorRanges.Add((range.start, range.end, token.GetIdentifierColor(model)));
                         }

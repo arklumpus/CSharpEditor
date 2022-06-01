@@ -51,13 +51,13 @@ namespace CSharpEditor
 
         static Editor()
         {
-            RobotoMonoRegular = new VectSharp.Canvas.ResourceFontFamily(typeof(Editor).Assembly.GetManifestResourceStream("CSharpEditor.Fonts.RobotoMono-Regular.ttf"), "resm:CSharpEditor.Fonts.?assembly=CSharpEditor#Roboto Mono");
+            RobotoMonoRegular = new VectSharp.ResourceFontFamily(typeof(Editor).Assembly.GetManifestResourceStream("CSharpEditor.Fonts.RobotoMono-Regular.ttf"), "resm:CSharpEditor.Fonts.?assembly=CSharpEditor#Roboto Mono");
 
-            OpenSansRegular = new VectSharp.Canvas.ResourceFontFamily(typeof(Editor).Assembly.GetManifestResourceStream("CSharpEditor.Fonts.OpenSans-Regular.ttf"), "resm:CSharpEditor.Fonts.?assembly=CSharpEditor#Open Sans");
-            OpenSansBold = new VectSharp.Canvas.ResourceFontFamily(typeof(Editor).Assembly.GetManifestResourceStream("CSharpEditor.Fonts.OpenSans-Bold.ttf"), "resm:CSharpEditor.Fonts.?assembly=CSharpEditor#Open Sans");
+            OpenSansRegular = new VectSharp.ResourceFontFamily(typeof(Editor).Assembly.GetManifestResourceStream("CSharpEditor.Fonts.OpenSans-Regular.ttf"), "resm:CSharpEditor.Fonts.?assembly=CSharpEditor#Open Sans");
+            OpenSansBold = new VectSharp.ResourceFontFamily(typeof(Editor).Assembly.GetManifestResourceStream("CSharpEditor.Fonts.OpenSans-Bold.ttf"), "resm:CSharpEditor.Fonts.?assembly=CSharpEditor#Open Sans");
 
-            OpenSansItalic = new VectSharp.Canvas.ResourceFontFamily(typeof(Editor).Assembly.GetManifestResourceStream("CSharpEditor.Fonts.OpenSans-Italic.ttf"), "resm:CSharpEditor.Fonts.?assembly=CSharpEditor#Open Sans");
-            OpenSansBoldItalic = new VectSharp.Canvas.ResourceFontFamily(typeof(Editor).Assembly.GetManifestResourceStream("CSharpEditor.Fonts.OpenSans-BoldItalic.ttf"), "resm:CSharpEditor.Fonts.?assembly=CSharpEditor#Open Sans");
+            OpenSansItalic = new VectSharp.ResourceFontFamily(typeof(Editor).Assembly.GetManifestResourceStream("CSharpEditor.Fonts.OpenSans-Italic.ttf"), "resm:CSharpEditor.Fonts.?assembly=CSharpEditor#Open Sans");
+            OpenSansBoldItalic = new VectSharp.ResourceFontFamily(typeof(Editor).Assembly.GetManifestResourceStream("CSharpEditor.Fonts.OpenSans-BoldItalic.ttf"), "resm:CSharpEditor.Fonts.?assembly=CSharpEditor#Open Sans");
         }
         #endregion
 

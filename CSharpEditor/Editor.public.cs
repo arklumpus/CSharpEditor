@@ -521,39 +521,6 @@ namespace CSharpEditor
             return tbr;
         }
 
-
-        /* public static Action<BreakpointInfo> SynchronousBreakRemote(BreakpointInfo info)
-         {
-             return (info) =>
-             {
-                 EventWaitHandle waitHandle = new EventWaitHandle(false, EventResetMode.ManualReset);
-                 void resumeHandler(object sender, EventArgs e)
-                 {
-                     waitHandle.Set();
-                 }
-
-                 Dispatcher.UIThread.InvokeAsync(() =>
-                 {
-                     EditorControl.ActiveBreakpoint = info.BreakpointSpan.Start - PreSource.Length - 1;
-                     EditorControl.SetSelection(info.BreakpointSpan.End - PreSource.Length - 1, 0);
-                     BreakpointPanel.SetContent(info);
-                     BreakpointPanel.ResumeClicked += resumeHandler;
-                     this.FindAncestorOfType<Window>().Closing += resumeHandler;
-                     OpenSidePanel();
-                 });
-
-                 waitHandle.WaitOne();
-
-                 Dispatcher.UIThread.InvokeAsync(() =>
-                 {
-                     CloseSidePanel();
-                     BreakpointPanel.ResumeClicked -= resumeHandler;
-                     this.FindAncestorOfType<Window>().Closing -= resumeHandler;
-                     EditorControl.ActiveBreakpoint = -1;
-                 });
-             }
-         }*/
-
         /// <summary>
         /// Compile the source code to an <see cref="Assembly"/>.
         /// </summary>
@@ -603,16 +570,16 @@ namespace CSharpEditor
                     {
                         SyntaxNode methodNode = fullNode;
 
-                        while (methodNode.Parent != null && methodNode.Kind() != SyntaxKind.MethodDeclaration && methodNode.Kind() != SyntaxKind.ParenthesizedLambdaExpression && methodNode.Kind() != SyntaxKind.AnonymousMethodExpression)
+                        while (methodNode.Parent != null && !methodNode.IsKind(SyntaxKind.MethodDeclaration) && !methodNode.IsKind(SyntaxKind.ParenthesizedLambdaExpression) && !methodNode.IsKind(SyntaxKind.AnonymousMethodExpression))
                         {
                             methodNode = methodNode.Parent;
                         }
 
-                        if (methodNode.Kind() == SyntaxKind.MethodDeclaration || methodNode.Kind() == SyntaxKind.ParenthesizedLambdaExpression || methodNode.Kind() == SyntaxKind.AnonymousMethodExpression)
+                        if (methodNode.IsKind(SyntaxKind.MethodDeclaration) || methodNode.IsKind(SyntaxKind.ParenthesizedLambdaExpression) || methodNode.IsKind(SyntaxKind.AnonymousMethodExpression))
                         {
                             bool isAsync = false;
 
-                            if (methodNode.Kind() == SyntaxKind.MethodDeclaration)
+                            if (methodNode.IsKind(SyntaxKind.MethodDeclaration))
                             {
                                 MethodDeclarationSyntax method = (MethodDeclarationSyntax)methodNode;
 
@@ -624,7 +591,7 @@ namespace CSharpEditor
                                     }
                                 }
                             }
-                            else if (methodNode.Kind() == SyntaxKind.ParenthesizedLambdaExpression)
+                            else if (methodNode.IsKind(SyntaxKind.ParenthesizedLambdaExpression))
                             {
                                 ParenthesizedLambdaExpressionSyntax method = (ParenthesizedLambdaExpressionSyntax)methodNode;
 
@@ -633,7 +600,7 @@ namespace CSharpEditor
                                     isAsync = true;
                                 }
                             }
-                            else if (methodNode.Kind() == SyntaxKind.AnonymousMethodExpression)
+                            else if (methodNode.IsKind(SyntaxKind.AnonymousMethodExpression))
                             {
                                 AnonymousMethodExpressionSyntax method = (AnonymousMethodExpressionSyntax)methodNode;
 
@@ -744,6 +711,71 @@ namespace CSharpEditor
             }
 
             this.InvokeSaveRequested(new SaveEventArgs(text));
+        }
+
+        /// <summary>
+        /// Add the specified references to the loaded references.
+        /// </summary>
+        /// <param name="references">The reference to add.</param>
+        /// <returns>A <see cref="Task"/> that completes when the references have been added and the document has been updated.</returns>
+        public async Task AddReferences(params MetadataReference[] references)
+        {
+            await AddReferences((IEnumerable<MetadataReference>)references);
+        }
+
+        /// <summary>
+        /// Add the specified references to the loaded references.
+        /// </summary>
+        /// <param name="references">The reference to add.</param>
+        /// <returns>A <see cref="Task"/> that completes when the references have been added and the document has been updated.</returns>
+        public async Task AddReferences(IEnumerable<MetadataReference> references)
+        {
+            foreach (MetadataReference reference in references)
+            {
+                this.ReferencesContainer.AddReferenceLine(reference, this.ReferencesContainer.FindControl<ToggleButton>("CoreReferencesButton"), this.ReferencesContainer.FindControl<ToggleButton>("AdditionalReferencesButton"));
+            }
+
+            this.ReferencesContainer.References = this.ReferencesContainer.References.AddRange(references);
+
+            await this.SetReferences(this.ReferencesContainer.References, false);
+        }
+
+        /// <summary>
+        /// Remove the specified references from the loaded references.
+        /// </summary>
+        /// <param name="references">The references to remove.</param>
+        /// <returns>A <see cref="Task"/> that completes when the references have been removed and the document has been updated.</returns>
+        public async Task RemoveReferences(params MetadataReference[] references)
+        {
+            await RemoveReferences((IEnumerable<MetadataReference>)references);
+        }
+
+        /// <summary>
+        /// Remove the specified references from the loaded references.
+        /// </summary>
+        /// <param name="references">The references to remove.</param>
+        /// <returns>A <see cref="Task"/> that completes when the references have been removed and the document has been updated.</returns>
+        public async Task RemoveReferences(IEnumerable<MetadataReference> references)
+        {
+            foreach (MetadataReference reference in references)
+            {
+                Control referenceGrid = null;
+
+                foreach (Control ctrl in this.ReferencesContainer.FindControl<StackPanel>("ReferencesContainer").Children)
+                {
+                    if (ctrl.Tag == reference)
+                    {
+                        referenceGrid = ctrl;
+                        break;
+                    }
+                }
+
+                this.ReferencesContainer.FindControl<StackPanel>("ReferencesContainer").Children.Remove(referenceGrid);
+            }
+
+            this.ReferencesContainer.References = this.ReferencesContainer.References.RemoveRange(references);
+
+            await this.SetReferences(this.ReferencesContainer.References, false);
         }
     }
 

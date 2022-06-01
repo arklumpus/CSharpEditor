@@ -39,7 +39,7 @@ namespace CSharpEditor
 {
     internal class ReferencesContainer : UserControl
     {
-        private ImmutableList<MetadataReference> References;
+        public ImmutableList<MetadataReference> References;
 
         public ReferencesContainer()
         {
@@ -68,7 +68,7 @@ namespace CSharpEditor
             }
         }
 
-        private void AddReferenceLine(MetadataReference reference, ToggleButton coreReferencesButton, ToggleButton additionalReferencesButton)
+        public void AddReferenceLine(MetadataReference reference, ToggleButton coreReferencesButton, ToggleButton additionalReferencesButton)
         {
             bool isCore = IsCoreReference(reference.Display);
 

@@ -16,6 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+
 using Avalonia.Media;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -53,24 +54,8 @@ namespace CSharpEditor
                 case SyntaxKind.NullKeyword:
                 case SyntaxKind.TrueKeyword:
                 case SyntaxKind.FalseKeyword:
-                case SyntaxKind.IfKeyword:
-                case SyntaxKind.ElseKeyword:
-                case SyntaxKind.WhileKeyword:
-                case SyntaxKind.ForKeyword:
-                case SyntaxKind.ForEachKeyword:
-                case SyntaxKind.DoKeyword:
-                case SyntaxKind.SwitchKeyword:
-                case SyntaxKind.CaseKeyword:
                 case SyntaxKind.DefaultKeyword:
-                case SyntaxKind.TryKeyword:
-                case SyntaxKind.CatchKeyword:
-                case SyntaxKind.FinallyKeyword:
                 case SyntaxKind.LockKeyword:
-                case SyntaxKind.GotoKeyword:
-                case SyntaxKind.BreakKeyword:
-                case SyntaxKind.ContinueKeyword:
-                case SyntaxKind.ReturnKeyword:
-                case SyntaxKind.ThrowKeyword:
                 case SyntaxKind.PublicKeyword:
                 case SyntaxKind.PrivateKeyword:
                 case SyntaxKind.InternalKeyword:
@@ -149,10 +134,11 @@ namespace CSharpEditor
                 case SyntaxKind.OrKeyword:
                 case SyntaxKind.AndKeyword:
                 case SyntaxKind.NotKeyword:
-                case SyntaxKind.DataKeyword:
                 case SyntaxKind.WithKeyword:
                 case SyntaxKind.InitKeyword:
                 case SyntaxKind.RecordKeyword:
+                case SyntaxKind.ManagedKeyword:
+                case SyntaxKind.UnmanagedKeyword:
                 case SyntaxKind.ElifKeyword:
                 case SyntaxKind.EndIfKeyword:
                 case SyntaxKind.RegionKeyword:
@@ -176,6 +162,24 @@ namespace CSharpEditor
                 case SyntaxKind.VarKeyword:
                     return Color.FromRgb(0, 0, 255);
 
+                case SyntaxKind.IfKeyword:
+                case SyntaxKind.ElseKeyword:
+                case SyntaxKind.WhileKeyword:
+                case SyntaxKind.ForKeyword:
+                case SyntaxKind.ForEachKeyword:
+                case SyntaxKind.DoKeyword:
+                case SyntaxKind.SwitchKeyword:
+                case SyntaxKind.CaseKeyword:
+                case SyntaxKind.TryKeyword:
+                case SyntaxKind.CatchKeyword:
+                case SyntaxKind.FinallyKeyword:
+                case SyntaxKind.GotoKeyword:
+                case SyntaxKind.BreakKeyword:
+                case SyntaxKind.ContinueKeyword:
+                case SyntaxKind.ReturnKeyword:
+                case SyntaxKind.ThrowKeyword:
+                    return Color.FromRgb(143, 8, 96);
+
                 case SyntaxKind.CharacterLiteralToken:
                 case SyntaxKind.StringLiteralToken:
                     return Color.FromRgb(163, 21, 21);
@@ -188,7 +192,7 @@ namespace CSharpEditor
                     break;
             }
 
-            if (isIdentifier && token.GetNextToken().Kind() == SyntaxKind.OpenParenToken)
+            if (isIdentifier && token.GetNextToken().IsKind(SyntaxKind.OpenParenToken))
             {
                 switch (token.Parent.Kind())
                 {
@@ -211,7 +215,7 @@ namespace CSharpEditor
                         }
                         break;
                     default:
-                        if (token.Parent.Parent.Kind() == SyntaxKind.ObjectCreationExpression && ((ObjectCreationExpressionSyntax)token.Parent.Parent).Type == token.Parent)
+                        if (token.Parent.Parent.IsKind(SyntaxKind.ObjectCreationExpression) && ((ObjectCreationExpressionSyntax)token.Parent.Parent).Type == token.Parent)
                         {
                             return Color.FromRgb(43, 145, 175);
                         }
@@ -220,7 +224,7 @@ namespace CSharpEditor
                             return Color.FromRgb(116, 83, 31);
                         }
                 }
-                
+
             }
             else if (isIdentifier)
             {

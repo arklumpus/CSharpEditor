@@ -230,7 +230,7 @@ namespace CSharpEditor
 
             SyntaxNode node = tree.GetRoot().FindNode(targetSpan);
 
-            if (node.Kind() == SyntaxKind.TypeArgumentList)
+            if (node.IsKind(SyntaxKind.TypeArgumentList))
             {
                 node = node.Parent;
             }

@@ -7,7 +7,7 @@
     <Company>University of Bristol</Company>
     <Description>A C# source code editor with syntax highlighting, intelligent code completion and real-time compilation error checking.</Description>
     <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
-    <Version>1.1.3-a4</Version>
+    <Version>1.1.3-a5</Version>
     <PackageIcon>icon.png</PackageIcon>
     <PackageProjectUrl>https://github.com/arklumpus/CSharpEditor</PackageProjectUrl>
   </PropertyGroup>
@@ -19,6 +19,9 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DocumentationFile></DocumentationFile>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="IntellisenseIconsPNG\EnumMemberIcon.png" />
+  </ItemGroup>
   
   <ItemGroup>
     <None Include="..\icon.png">
@@ -41,6 +44,7 @@
     <EmbeddedResource Include="IntellisenseIconsPNG\ClassIcon.png" />
     <EmbeddedResource Include="IntellisenseIconsPNG\DelegateIcon.png" />
     <EmbeddedResource Include="IntellisenseIconsPNG\EnumIcon.png" />
+    <EmbeddedResource Include="IntellisenseIconsPNG\EnumMemberIcon.png" />
     <EmbeddedResource Include="IntellisenseIconsPNG\EventIcon.png" />
     <EmbeddedResource Include="IntellisenseIconsPNG\FieldIcon.png" />
     <EmbeddedResource Include="IntellisenseIconsPNG\InterfaceIcon.png" />

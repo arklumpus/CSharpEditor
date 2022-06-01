@@ -380,8 +380,13 @@ namespace CSharpEditor
                     }
 
                     CompletionListControl.IconTypes icon;
-
-                    if (item.Properties.ContainsKey("SymbolKind"))
+                    
+                    if (item.Tags.Contains(WellKnownTags.EnumMember))
+                    {
+                        icon = CompletionListControl.IconTypes.EnumMember;
+                        filters[6] = true;
+                    }
+                    else if (item.Properties.ContainsKey("SymbolKind"))
                     {
                         switch ((SymbolKind)(int.Parse(item.Properties["SymbolKind"])))
                         {
@@ -592,8 +597,13 @@ namespace CSharpEditor
                 CompletionItem item = CompletionListControl.Items[i].item;
 
                 int foundIndex = -1;
-
-                if (item.Properties.ContainsKey("SymbolKind"))
+                
+                if (item.Tags.Contains(WellKnownTags.EnumMember))
+                {
+                    CompletionListControl.Hidden[i] = !filters[6];
+                    foundIndex = 6;
+                }
+                else if (item.Properties.ContainsKey("SymbolKind"))
                 {
                     switch ((SymbolKind)(int.Parse(item.Properties["SymbolKind"])))
                     {
@@ -906,6 +916,8 @@ namespace CSharpEditor
 
             return tbr;
         }
+
+        enum TestEnum { A, B, C }
 
         private CompletionListControl CompletionListControl;
 

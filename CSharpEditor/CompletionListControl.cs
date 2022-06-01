@@ -45,7 +45,8 @@ namespace CSharpEditor
             Namespace,
             Local,
             Keyword,
-            Unknown
+            Unknown,
+            EnumMember
         }
 
         /*static CompletionListControl()
@@ -132,7 +133,7 @@ namespace CSharpEditor
 
         private void InitializeIcons()
         {
-            this.Icons = new Bitmap[13];
+            this.Icons = new Bitmap[14];
 
             this.Icons[0] = new Bitmap(this.GetType().Assembly.GetManifestResourceStream("CSharpEditor.IntellisenseIconsPNG.PropertyIcon.png"));
             this.Icons[1] = new Bitmap(this.GetType().Assembly.GetManifestResourceStream("CSharpEditor.IntellisenseIconsPNG.EventIcon.png"));
@@ -147,6 +148,7 @@ namespace CSharpEditor
             this.Icons[10] = new Bitmap(this.GetType().Assembly.GetManifestResourceStream("CSharpEditor.IntellisenseIconsPNG.LocalIcon.png"));
             this.Icons[11] = new Bitmap(this.GetType().Assembly.GetManifestResourceStream("CSharpEditor.IntellisenseIconsPNG.KeywordIcon.png"));
             this.Icons[12] = new Bitmap(this.GetType().Assembly.GetManifestResourceStream("CSharpEditor.IntellisenseIconsPNG.UnknownIcon.png"));
+            this.Icons[13] = new Bitmap(this.GetType().Assembly.GetManifestResourceStream("CSharpEditor.IntellisenseIconsPNG.EnumMemberIcon.png"));
         }
 
         private void ComputeMaxItemTextWidth()

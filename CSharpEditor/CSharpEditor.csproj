@@ -7,7 +7,7 @@
     <Company>University of Bristol</Company>
     <Description>A C# source code editor with syntax highlighting, intelligent code completion and real-time compilation error checking.</Description>
     <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
-    <Version>1.1.3-a5</Version>
+    <Version>1.1.3-a6</Version>
     <PackageIcon>icon.png</PackageIcon>
     <PackageProjectUrl>https://github.com/arklumpus/CSharpEditor</PackageProjectUrl>
   </PropertyGroup>

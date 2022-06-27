@@ -33,6 +33,17 @@ namespace CSharpEditor
 
             switch (token.Kind())
             {
+                case SyntaxKind.DefaultKeyword:
+                    switch (token.Parent.Kind())
+                    {
+                        case SyntaxKind.DefaultSwitchLabel:
+                        case SyntaxKind.GotoDefaultStatement:
+                            return Color.FromRgb(143, 8, 96);
+
+                        default:
+                            return Color.FromRgb(0, 0, 255);
+                    }
+
                 case SyntaxKind.BoolKeyword:
                 case SyntaxKind.ByteKeyword:
                 case SyntaxKind.SByteKeyword:
@@ -54,7 +65,6 @@ namespace CSharpEditor
                 case SyntaxKind.NullKeyword:
                 case SyntaxKind.TrueKeyword:
                 case SyntaxKind.FalseKeyword:
-                case SyntaxKind.DefaultKeyword:
                 case SyntaxKind.LockKeyword:
                 case SyntaxKind.PublicKeyword:
                 case SyntaxKind.PrivateKeyword:

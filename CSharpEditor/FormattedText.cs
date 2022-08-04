@@ -158,7 +158,7 @@ namespace CSharpEditor
                 y += Paragraphs[i].SpaceAfter;
             }
 
-            pag.Height = y - Paragraphs[^1].Lines[^1].Spacing + Paragraphs[^1].Lines[^1].GetAverageFontSize() * 0.4;
+            pag.Height = y - Paragraphs[Paragraphs.Count - 1].Lines[Paragraphs[Paragraphs.Count - 1].Lines.Count - 1].Spacing + Paragraphs[Paragraphs.Count - 1].Lines[Paragraphs[Paragraphs.Count - 1].Lines.Count - 1].GetAverageFontSize() * 0.4;
 
             pag.Width = width + 1;
 
@@ -470,14 +470,14 @@ namespace CSharpEditor
 
                         if (newWords.Count > 0)
                         {
-                            if (currentParagraph.Lines[^1].Words.Count > 0 && newWords[0].SubWords[0].Text.Length == 1 && char.IsPunctuation(newWords[0].SubWords[0].Text[0]))
+                            if (currentParagraph.Lines[currentParagraph.Lines.Count - 1].Words.Count > 0 && newWords[0].SubWords[0].Text.Length == 1 && char.IsPunctuation(newWords[0].SubWords[0].Text[0]))
                             {
-                                currentParagraph.Lines[^1].Words[^1].SubWords.AddRange(newWords[0].SubWords);
-                                currentParagraph.Lines[^1].Words.AddRange(newWords.Skip(1));
+                                currentParagraph.Lines[currentParagraph.Lines.Count - 1].Words[currentParagraph.Lines.Count - 1].SubWords.AddRange(newWords[0].SubWords);
+                                currentParagraph.Lines[currentParagraph.Lines.Count - 1].Words.AddRange(newWords.Skip(1));
                             }
                             else
                             {
-                                currentParagraph.Lines[^1].Words.AddRange(newWords);
+                                currentParagraph.Lines[currentParagraph.Lines.Count - 1].Words.AddRange(newWords);
                             }
                         }
                     }
@@ -518,7 +518,7 @@ namespace CSharpEditor
                             {
                                 w.SubWords.Add(new SubWord(documentationFont, VectSharp.Colours.Black, suffix));
                             }
-                            currentParagraph.Lines[^1].Words.Add(w);
+                            currentParagraph.Lines[currentParagraph.Lines.Count - 1].Words.Add(w);
                         }
                         else if (cref.StartsWith("F:") || cref.StartsWith("E:"))
                         {
@@ -536,13 +536,13 @@ namespace CSharpEditor
                             {
                                 w.SubWords.Add(new SubWord(documentationFont, VectSharp.Colours.Black, suffix));
                             }
-                            currentParagraph.Lines[^1].Words.Add(w);
+                            currentParagraph.Lines[currentParagraph.Lines.Count - 1].Words.Add(w);
                         }
                         else if (cref.StartsWith("N:"))
                         {
                             Word w = new Word();
                             w.SubWords.Add(new SubWord(documentationFont, VectSharp.Colours.Black, cref.Substring(2)));
-                            currentParagraph.Lines[^1].Words.Add(w);
+                            currentParagraph.Lines[currentParagraph.Lines.Count - 1].Words.Add(w);
                         }
                         else if (cref.StartsWith("P:") || cref.StartsWith("M:"))
                         {
@@ -568,26 +568,26 @@ namespace CSharpEditor
                             {
                                 w.SubWords.Add(new SubWord(documentationFont, VectSharp.Colours.Black, suffix));
                             }
-                            currentParagraph.Lines[^1].Words.Add(w);
+                            currentParagraph.Lines[currentParagraph.Lines.Count - 1].Words.Add(w);
                         }
                         else
                         {
                             Word w = new Word();
                             w.SubWords.Add(new SubWord(documentationFont, VectSharp.Colours.Black, cref));
-                            currentParagraph.Lines[^1].Words.Add(w);
+                            currentParagraph.Lines[currentParagraph.Lines.Count - 1].Words.Add(w);
                         }
                     }
                     else if (!string.IsNullOrEmpty(langword))
                     {
                         Word w = new Word();
                         w.SubWords.Add(new SubWord(documentationFont, VectSharp.Colour.FromRgb(0, 0, 255), langword));
-                        currentParagraph.Lines[^1].Words.Add(w);
+                        currentParagraph.Lines[currentParagraph.Lines.Count - 1].Words.Add(w);
                     }
                     else if (!string.IsNullOrEmpty(href))
                     {
                         Word w = new Word();
                         w.SubWords.Add(new SubWord(documentationFont, VectSharp.Colour.FromRgb(0, 0, 255), href));
-                        currentParagraph.Lines[^1].Words.Add(w);
+                        currentParagraph.Lines[currentParagraph.Lines.Count - 1].Words.Add(w);
                     }
                 }
                 else if (child.Name.Equals("c", StringComparison.OrdinalIgnoreCase))
@@ -603,7 +603,7 @@ namespace CSharpEditor
 
                     if (newWords.Count > 0)
                     {
-                        currentParagraph.Lines[^1].Words.AddRange(newWords);
+                        currentParagraph.Lines[currentParagraph.Lines.Count - 1].Words.AddRange(newWords);
                     }
                 }
                 else if (child.Name.Equals("paramref", StringComparison.OrdinalIgnoreCase))
@@ -621,7 +621,7 @@ namespace CSharpEditor
                     {
                         Word w = new Word();
                         w.SubWords.Add(new SubWord(documentationFont, VectSharp.Colours.Black, name));
-                        currentParagraph.Lines[^1].Words.Add(w);
+                        currentParagraph.Lines[currentParagraph.Lines.Count - 1].Words.Add(w);
                     }
                 }
             }

@@ -302,8 +302,8 @@ namespace CSharpEditor
 
             if (result != null && result.Length == 1)
             {
-                string relativeToWorkingDir = System.IO.Path.GetRelativePath(Environment.CurrentDirectory, result[0]);
-                string relativeToExecutable = System.IO.Path.GetRelativePath(System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), result[0]);
+                string relativeToWorkingDir = RelativePath.GetRelativePath(Environment.CurrentDirectory, result[0]);
+                string relativeToExecutable = RelativePath.GetRelativePath(System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), result[0]);
 
                 string path = result[0];
 

@@ -1,15 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Giorgio Bianchini</Authors>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Company>University of Bristol</Company>
     <Description>A C# source code editor with syntax highlighting, intelligent code completion and real-time compilation error checking.</Description>
     <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
-    <Version>1.1.3-a6</Version>
+    <Version>1.1.3-a7</Version>
     <PackageIcon>icon.png</PackageIcon>
     <PackageProjectUrl>https://github.com/arklumpus/CSharpEditor</PackageProjectUrl>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>

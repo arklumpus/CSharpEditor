@@ -574,7 +574,7 @@ namespace CSharpEditor
             {
                 if (SearchSpans.Count > 0)
                 {
-                    matchSpan = SearchSpans[^1];
+                    matchSpan = SearchSpans[SearchSpans.Count - 1];
                 }
             }
 

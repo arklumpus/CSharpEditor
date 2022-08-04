@@ -451,74 +451,78 @@ namespace CSharpEditor
         /// <returns>A <see cref="Task"/> that completes when code execution resumes after the breakpoint.</returns>
         public async Task<bool> AsynchronousBreak(BreakpointInfo info)
         {
-            using SemaphoreSlim semaphore = new SemaphoreSlim(0, 1);
-            void resumeHandler(object sender, EventArgs e)
+            using (SemaphoreSlim semaphore = new SemaphoreSlim(0, 1))
             {
-                semaphore.Release();
+                void resumeHandler(object sender, EventArgs e)
+                {
+                    semaphore.Release();
+                }
+
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    EditorControl.ActiveBreakpoint = info.BreakpointSpan.Start - PreSource.Length - 1;
+                    EditorControl.SetSelection(info.BreakpointSpan.End - PreSource.Length - 1, 0);
+                    BreakpointPanel.SetContent(info);
+                    BreakpointPanel.ResumeClicked += resumeHandler;
+                    this.FindAncestorOfType<Window>().Closing += resumeHandler;
+                    OpenSidePanel();
+                });
+
+                await semaphore.WaitAsync();
+
+                bool tbr = false;
+
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    tbr = BreakpointPanel.IgnoreFurtherOccurrences;
+                    CloseSidePanel();
+                    BreakpointPanel.ResumeClicked -= resumeHandler;
+                    this.FindAncestorOfType<Window>().Closing -= resumeHandler;
+                    EditorControl.ActiveBreakpoint = -1;
+                });
+
+                semaphore.Dispose();
+
+                return tbr;
             }
-
-            await Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                EditorControl.ActiveBreakpoint = info.BreakpointSpan.Start - PreSource.Length - 1;
-                EditorControl.SetSelection(info.BreakpointSpan.End - PreSource.Length - 1, 0);
-                BreakpointPanel.SetContent(info);
-                BreakpointPanel.ResumeClicked += resumeHandler;
-                this.FindAncestorOfType<Window>().Closing += resumeHandler;
-                OpenSidePanel();
-            });
-
-            await semaphore.WaitAsync();
-
-            bool tbr = false;
-
-            await Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                tbr = BreakpointPanel.IgnoreFurtherOccurrences;
-                CloseSidePanel();
-                BreakpointPanel.ResumeClicked -= resumeHandler;
-                this.FindAncestorOfType<Window>().Closing -= resumeHandler;
-                EditorControl.ActiveBreakpoint = -1;
-            });
-
-            semaphore.Dispose();
-
-            return tbr;
         }
 
         internal async Task<bool> AsynchronousBreak(RemoteBreakpointInfo info)
         {
-            using SemaphoreSlim semaphore = new SemaphoreSlim(0, 1);
-            void resumeHandler(object sender, EventArgs e)
+            using (SemaphoreSlim semaphore = new SemaphoreSlim(0, 1))
             {
-                semaphore.Release();
+                void resumeHandler(object sender, EventArgs e)
+                {
+                    semaphore.Release();
+                }
+
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    EditorControl.ActiveBreakpoint = info.BreakpointSpan.Start - PreSource.Length - 1;
+                    EditorControl.SetSelection(info.BreakpointSpan.End - PreSource.Length - 1, 0);
+                    BreakpointPanel.SetContent(info);
+                    BreakpointPanel.ResumeClicked += resumeHandler;
+                    this.FindAncestorOfType<Window>().Closing += resumeHandler;
+                    OpenSidePanel();
+                });
+
+                await semaphore.WaitAsync();
+
+                bool tbr = false;
+
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    tbr = BreakpointPanel.IgnoreFurtherOccurrences;
+                    CloseSidePanel();
+                    BreakpointPanel.ResumeClicked -= resumeHandler;
+                    this.FindAncestorOfType<Window>().Closing -= resumeHandler;
+                    EditorControl.ActiveBreakpoint = -1;
+                });
+
+                semaphore.Dispose();
+
+                return tbr;
             }
-
-            await Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                EditorControl.ActiveBreakpoint = info.BreakpointSpan.Start - PreSource.Length - 1;
-                EditorControl.SetSelection(info.BreakpointSpan.End - PreSource.Length - 1, 0);
-                BreakpointPanel.SetContent(info);
-                BreakpointPanel.ResumeClicked += resumeHandler;
-                this.FindAncestorOfType<Window>().Closing += resumeHandler;
-                OpenSidePanel();
-            });
-
-            await semaphore.WaitAsync();
-
-            bool tbr = false;
-
-            await Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                tbr = BreakpointPanel.IgnoreFurtherOccurrences;
-                CloseSidePanel();
-                BreakpointPanel.ResumeClicked -= resumeHandler;
-                this.FindAncestorOfType<Window>().Closing -= resumeHandler;
-                EditorControl.ActiveBreakpoint = -1;
-            });
-
-            semaphore.Dispose();
-
-            return tbr;
         }
 
         /// <summary>
@@ -638,26 +642,27 @@ namespace CSharpEditor
                 comp = CSharpCompilation.Create("compilation", new[] { debuggerTree, tree }, references, this.CompilationOptions);
             }
 
-            using MemoryStream ms = new MemoryStream();
-
-            EmitResult result = comp.Emit(ms);
-
-            if (!result.Success)
+            using (MemoryStream ms = new MemoryStream())
             {
-                return (null, comp);
-            }
-            else
-            {
-                ms.Seek(0, SeekOrigin.Begin);
-                Assembly assembly = Assembly.Load(ms.ToArray());
+                EmitResult result = comp.Emit(ms);
 
-                if (synchronousBreak != null || asynchronousBreak != null)
+                if (!result.Success)
                 {
-                    assembly.GetType(debuggerGuid + ".Debugger").InvokeMember("Breakpoint", BindingFlags.Static | BindingFlags.Public | BindingFlags.SetField, null, null, new object[] { BreakpointInfo.GetBreakpointFunction(synchronousBreak) });
-                    assembly.GetType(debuggerGuid + ".Debugger").InvokeMember("BreakpointAsync", BindingFlags.Static | BindingFlags.Public | BindingFlags.SetField, null, null, new object[] { BreakpointInfo.GetBreakpointAsyncFunction(asynchronousBreak) });
+                    return (null, comp);
                 }
+                else
+                {
+                    ms.Seek(0, SeekOrigin.Begin);
+                    Assembly assembly = Assembly.Load(ms.ToArray());
 
-                return (assembly, comp);
+                    if (synchronousBreak != null || asynchronousBreak != null)
+                    {
+                        assembly.GetType(debuggerGuid + ".Debugger").InvokeMember("Breakpoint", BindingFlags.Static | BindingFlags.Public | BindingFlags.SetField, null, null, new object[] { BreakpointInfo.GetBreakpointFunction(synchronousBreak) });
+                        assembly.GetType(debuggerGuid + ".Debugger").InvokeMember("BreakpointAsync", BindingFlags.Static | BindingFlags.Public | BindingFlags.SetField, null, null, new object[] { BreakpointInfo.GetBreakpointAsyncFunction(asynchronousBreak) });
+                    }
+
+                    return (assembly, comp);
+                }
             }
         }
 

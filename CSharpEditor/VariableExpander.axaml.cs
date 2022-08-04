@@ -158,7 +158,7 @@ namespace CSharpEditor
 
                 if (enumerableType.Length > 2)
                 {
-                    enumerableType = enumerableType[0..^2];
+                    enumerableType = enumerableType.Substring(0, enumerableType.Length - 2);
                 }
 
                 if (variableValue is ICollection collection)

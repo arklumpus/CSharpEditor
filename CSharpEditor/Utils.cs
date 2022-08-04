@@ -54,15 +54,17 @@ namespace CSharpEditor
 
         static Utils()
         {
-            using StreamReader reader = new StreamReader(typeof(Utils).Assembly.GetManifestResourceStream("CSharpEditor.xmldocs.dll.list"));
-            List<string> lines = new List<string>();
-
-            while (!reader.EndOfStream)
+            using (StreamReader reader = new StreamReader(typeof(Utils).Assembly.GetManifestResourceStream("CSharpEditor.xmldocs.dll.list")))
             {
-                lines.Add(reader.ReadLine());
-            }
+                List<string> lines = new List<string>();
 
-            CoreReferences = ImmutableList.Create(lines.ToArray());
+                while (!reader.EndOfStream)
+                {
+                    lines.Add(reader.ReadLine());
+                }
+
+                CoreReferences = ImmutableList.Create(lines.ToArray());
+            }
         }
 
         public static List<TextSpan> Join(this IEnumerable<TextSpan> spans)
@@ -378,59 +380,95 @@ namespace CSharpEditor
 
         public static string ToTextTag(this SymbolDisplayPartKind kind)
         {
-            return kind switch
+            switch (kind)
             {
-                SymbolDisplayPartKind.AliasName => TextTags.Alias,
-                SymbolDisplayPartKind.AssemblyName => TextTags.Assembly,
-                SymbolDisplayPartKind.ClassName => TextTags.Class,
-                SymbolDisplayPartKind.DelegateName => TextTags.Delegate,
-                SymbolDisplayPartKind.EnumName => TextTags.Enum,
-                SymbolDisplayPartKind.ErrorTypeName => TextTags.ErrorType,
-                SymbolDisplayPartKind.EventName => TextTags.Event,
-                SymbolDisplayPartKind.FieldName => TextTags.Field,
-                SymbolDisplayPartKind.InterfaceName => TextTags.Interface,
-                SymbolDisplayPartKind.Keyword => TextTags.Keyword,
-                SymbolDisplayPartKind.LabelName => TextTags.Label,
-                SymbolDisplayPartKind.LineBreak => TextTags.LineBreak,
-                SymbolDisplayPartKind.NumericLiteral => TextTags.NumericLiteral,
-                SymbolDisplayPartKind.StringLiteral => TextTags.StringLiteral,
-                SymbolDisplayPartKind.LocalName => TextTags.Local,
-                SymbolDisplayPartKind.MethodName => TextTags.Method,
-                SymbolDisplayPartKind.ModuleName => TextTags.Module,
-                SymbolDisplayPartKind.NamespaceName => TextTags.Namespace,
-                SymbolDisplayPartKind.Operator => TextTags.Operator,
-                SymbolDisplayPartKind.ParameterName => TextTags.Parameter,
-                SymbolDisplayPartKind.PropertyName => TextTags.Property,
-                SymbolDisplayPartKind.Punctuation => TextTags.Punctuation,
-                SymbolDisplayPartKind.Space => TextTags.Space,
-                SymbolDisplayPartKind.StructName => TextTags.Struct,
-                SymbolDisplayPartKind.AnonymousTypeIndicator => TextTags.AnonymousTypeIndicator,
-                SymbolDisplayPartKind.Text => TextTags.Text,
-                SymbolDisplayPartKind.TypeParameterName => TextTags.TypeParameter,
-                SymbolDisplayPartKind.RangeVariableName => TextTags.RangeVariable,
-                SymbolDisplayPartKind.EnumMemberName => TextTags.EnumMember,
-                SymbolDisplayPartKind.ExtensionMethodName => TextTags.ExtensionMethod,
-                SymbolDisplayPartKind.ConstantName => TextTags.Constant,
-                _ => TextTags.ErrorType,
-            };
+                case SymbolDisplayPartKind.AliasName:
+                    return TextTags.Alias;
+                case SymbolDisplayPartKind.AssemblyName:
+                    return TextTags.Assembly;
+                case SymbolDisplayPartKind.ClassName:
+                    return TextTags.Class;
+                case SymbolDisplayPartKind.DelegateName:
+                    return TextTags.Delegate;
+                case SymbolDisplayPartKind.EnumName:
+                    return TextTags.Enum;
+                case SymbolDisplayPartKind.ErrorTypeName:
+                    return TextTags.ErrorType;
+                case SymbolDisplayPartKind.EventName:
+                    return TextTags.Event;
+                case SymbolDisplayPartKind.FieldName:
+                    return TextTags.Field;
+                case SymbolDisplayPartKind.InterfaceName:
+                    return TextTags.Interface;
+                case SymbolDisplayPartKind.Keyword:
+                    return TextTags.Keyword;
+                case SymbolDisplayPartKind.LabelName:
+                    return TextTags.Label;
+                case SymbolDisplayPartKind.LineBreak:
+                    return TextTags.LineBreak;
+                case SymbolDisplayPartKind.NumericLiteral:
+                    return TextTags.NumericLiteral;
+                case SymbolDisplayPartKind.StringLiteral:
+                    return TextTags.StringLiteral;
+                case SymbolDisplayPartKind.LocalName:
+                    return TextTags.Local;
+                case SymbolDisplayPartKind.MethodName:
+                    return TextTags.Method;
+                case SymbolDisplayPartKind.ModuleName:
+                    return TextTags.Module;
+                case SymbolDisplayPartKind.NamespaceName:
+                    return TextTags.Namespace;
+                case SymbolDisplayPartKind.Operator:
+                    return TextTags.Operator;
+                case SymbolDisplayPartKind.ParameterName:
+                    return TextTags.Parameter;
+                case SymbolDisplayPartKind.PropertyName:
+                    return TextTags.Property;
+                case SymbolDisplayPartKind.Punctuation:
+                    return TextTags.Punctuation;
+                case SymbolDisplayPartKind.Space:
+                    return TextTags.Space;
+                case SymbolDisplayPartKind.StructName:
+                    return TextTags.Struct;
+                case SymbolDisplayPartKind.AnonymousTypeIndicator:
+                    return TextTags.AnonymousTypeIndicator;
+                case SymbolDisplayPartKind.Text:
+                    return TextTags.Text;
+                case SymbolDisplayPartKind.TypeParameterName:
+                    return TextTags.TypeParameter;
+                case SymbolDisplayPartKind.RangeVariableName:
+                    return TextTags.RangeVariable;
+                case SymbolDisplayPartKind.EnumMemberName:
+                    return TextTags.EnumMember;
+                case SymbolDisplayPartKind.ExtensionMethodName:
+                    return TextTags.ExtensionMethod;
+                case SymbolDisplayPartKind.ConstantName:
+                    return TextTags.Constant;
+                default:
+                    return TextTags.ErrorType;
+            }
         }
 
         //From https://stackoverflow.com/questions/323640/can-i-convert-a-c-sharp-string-value-to-an-escaped-string-literal
         internal static string ToLiteral(this string input)
         {
-            using var writer = new StringWriter();
-            using var provider = CodeDomProvider.CreateProvider("CSharp");
-            provider.GenerateCodeFromExpression(new CodePrimitiveExpression(input), writer, null);
-            return writer.ToString();
+            using (var writer = new StringWriter())
+            using (var provider = CodeDomProvider.CreateProvider("CSharp"))
+            {
+                provider.GenerateCodeFromExpression(new CodePrimitiveExpression(input), writer, null);
+                return writer.ToString();
+            }
         }
 
         //From https://stackoverflow.com/questions/323640/can-i-convert-a-c-sharp-string-value-to-an-escaped-string-literal
         internal static string ToLiteral(this char input)
         {
-            using var writer = new StringWriter();
-            using var provider = CodeDomProvider.CreateProvider("CSharp");
-            provider.GenerateCodeFromExpression(new CodePrimitiveExpression(input), writer, null);
-            return writer.ToString();
+            using (var writer = new StringWriter())
+            using (var provider = CodeDomProvider.CreateProvider("CSharp"))
+            {
+                provider.GenerateCodeFromExpression(new CodePrimitiveExpression(input), writer, null);
+                return writer.ToString();
+            }
         }
 
         /*public static IEnumerable<LinePositionSpan> ToLinePositionSpans(this IEnumerable<TextSpan> spans, SourceText text)

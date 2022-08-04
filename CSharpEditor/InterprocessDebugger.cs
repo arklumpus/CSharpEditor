@@ -99,14 +99,30 @@ namespace CSharpEditor
             PipeServerOutWriter = new StreamWriter(PipeServerOut);
             PipeServerInReader = new StreamReader(PipeServerIn);
 
-            foreach (string arg in initialArguments)
+            /*foreach (string arg in initialArguments)
             {
                 ClientProcess.StartInfo.ArgumentList.Add(arg);
             }
 
             ClientProcess.StartInfo.ArgumentList.Add(Process.GetCurrentProcess().Id.ToString());
             ClientProcess.StartInfo.ArgumentList.Add(pipeNameOut);
-            ClientProcess.StartInfo.ArgumentList.Add(pipeNameIn);
+            ClientProcess.StartInfo.ArgumentList.Add(pipeNameIn);*/
+
+            System.Text.StringBuilder argumentBuilder = new System.Text.StringBuilder();
+
+            foreach (string arg in initialArguments)
+            {
+                argumentBuilder.Append(arg);
+                argumentBuilder.Append(" ");
+            }
+
+            argumentBuilder.Append(Process.GetCurrentProcess().Id.ToString());
+            argumentBuilder.Append(" ");
+            argumentBuilder.Append(pipeNameOut);
+            argumentBuilder.Append(" ");
+            argumentBuilder.Append(pipeNameIn);
+
+            ClientProcess.StartInfo.Arguments = argumentBuilder.ToString();
 
             ClientProcess.StartInfo.UseShellExecute = false;
             ClientProcess.Start();
@@ -595,9 +611,9 @@ namespace CSharpEditor
                             PipeClientOutWriter.WriteLine(JsonSerializer.Serialize(new string[] { "GetProperty", variableId, propertyName, isProperty.ToString() }));
                             PipeClientOutWriter.Flush();
 
-                            string message = PipeClientInReader.ReadLine();
+                            string message2 = PipeClientInReader.ReadLine();
 
-                            if (message == "Abort")
+                            if (message2 == "Abort")
                             {
                                 if (!ParentProcessExitedRaised)
                                 {
@@ -607,7 +623,7 @@ namespace CSharpEditor
                                 return ("", VariableTypes.Null, "");
                             }
 
-                            string[] output = JsonSerializer.Deserialize<string[]>(message);
+                            string[] output = JsonSerializer.Deserialize<string[]>(message2);
 
                             VariableTypes variableType = JsonSerializer.Deserialize<VariableTypes>(output[1]);
 
@@ -619,9 +635,9 @@ namespace CSharpEditor
                             PipeClientOutWriter.WriteLine(JsonSerializer.Serialize(new string[] { "GetItems", variableId }));
                             PipeClientOutWriter.Flush();
 
-                            string message = PipeClientInReader.ReadLine();
+                            string message2 = PipeClientInReader.ReadLine();
 
-                            if (message == "Abort")
+                            if (message2 == "Abort")
                             {
                                 if (!ParentProcessExitedRaised)
                                 {
@@ -631,7 +647,7 @@ namespace CSharpEditor
                                 return new (string, VariableTypes, object)[] { ("", VariableTypes.Null, "") };
                             }
 
-                            string[][] output = JsonSerializer.Deserialize<string[][]>(message);
+                            string[][] output = JsonSerializer.Deserialize<string[][]>(message2);
 
                             return (from el in output let variableType = JsonSerializer.Deserialize<VariableTypes>(el[1]) select (el[0], variableType, ParseVariableValue(variableType, el[2]))).ToArray();
                         }

@@ -20,7 +20,7 @@ This library provides a control that can be added to Avalonia windows and integr
 
 The code entered in this control can also be "debugged": by entering a comment `/* Breakpoint */` before a statement in the code, execution of the code will pause at that point, and the editor will enter a debugger-like state in which the code is read-only and the value of local variables is shown in a panel on the right. A breakpoint can also be entered by clicking next to the line number where the breakpoint is to be inserted; if it is allowed in that position, the breakpoint comment will be inserted automatically.
 
-CSharpEditor is a .NET Standard 2.1 library, and should be usable in .NET Core 3.0+ and .NET 5.0+ projects. It is released under a GPLv3 licence. You can find the full documentation for this library at the [documentation website](https://arklumpus.github.io/CSharpEditor). A [PDF reference manual](https://arklumpus.github.io/CSharpEditor/CSharpEditor.pdf) is also available.
+CSharpEditor is a .NET Standard 2.0 library, and should be usable in .NET Framework 4.7.2+, .NET Core 2.0+, and .NET 5.0+ projects (and probably on Mono and other platforms). It is released under a GPLv3 licence. You can find the full documentation for this library at the [documentation website](https://arklumpus.github.io/CSharpEditor). A [PDF reference manual](https://arklumpus.github.io/CSharpEditor/CSharpEditor.pdf) is also available.
 
 <p align="center">
 <img src="Screenshot.png">

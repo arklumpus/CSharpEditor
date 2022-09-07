@@ -2,6 +2,9 @@
 
 <img src="Icon.svg" width="256" align="right">
 
+[![License: LGPL v3](https://img.shields.io/badge/License-LGPL_v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
+[![Version](https://img.shields.io/nuget/v/CSharpEditor)](https://nuget.org/packages/CSharpEditor)
+
 ## Introduction
 
 **CSharpEditor** is a C# source code editor control for [Avalonia](https://github.com/AvaloniaUI/Avalonia) applications.

@@ -2,7 +2,7 @@
 
 <img src="Icon.svg" width="256" align="right">
 
-[![License: LGPL v3](https://img.shields.io/badge/License-LGPL_v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
+[![License: GPL v3](https://img.shields.io/badge/License-GPL_v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Version](https://img.shields.io/nuget/v/CSharpEditor)](https://nuget.org/packages/CSharpEditor)
 
 ## Introduction

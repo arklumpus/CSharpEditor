@@ -454,7 +454,7 @@ namespace CSharpEditor
 
                 CompletionList completion = await CompletionService.GetCompletionsAsync(CompletionWindow.Document, position + OwnerEditor.PreSource.Length + 1);
 
-                if (completion != null && completion.Items != null && completion.Items.Length > 0)
+                if (completion != null && completion.ItemsList != null && completion.ItemsList.Count > 0)
                 {
                     string filter = fullSource.Substring(completion.Span.Start, completion.Span.Length);
                     await CompletionWindow.SetCompletionList(completion);
@@ -499,7 +499,7 @@ namespace CSharpEditor
 
                 CompletionList completion = await CompletionService.GetCompletionsAsync(CompletionWindow.Document, position + OwnerEditor.PreSource.Length + 1);
 
-                if (completion != null && completion.Items != null && completion.Items.Length > 0)
+                if (completion != null && completion.ItemsList != null && completion.ItemsList.Count > 0)
                 {
                     string filter = fullSource.Substring(completion.Span.Start, completion.Span.Length);
 
@@ -525,7 +525,7 @@ namespace CSharpEditor
                     double availableBottom = EditorControl.Parent.Bounds.Height - yTop - 10;
                     double availableTop = yBottom - 10;
 
-                    double requestedHeight = Math.Min(9, completion.Items.Length) * 20 + 33;
+                    double requestedHeight = Math.Min(9, completion.ItemsList.Count) * 20 + 33;
 
                     if (requestedHeight <= availableBottom)
                     {

@@ -367,7 +367,7 @@ namespace CSharpEditor
             int index = 0;
             int newSelectedIndex = -1;
 
-            foreach (CompletionItem item in list.Items)
+            foreach (CompletionItem item in list.ItemsList)
             {
                 if (!string.IsNullOrEmpty(item.DisplayText))
                 {

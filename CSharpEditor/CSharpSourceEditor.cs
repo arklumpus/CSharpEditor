@@ -1809,8 +1809,13 @@ namespace CSharpEditor
                 else if (((e.Key == Key.V && e.KeyModifiers == Utils.ControlCmdModifier) || (e.Key == Key.Insert && e.KeyModifiers == KeyModifiers.Shift)) && !this.IsReadOnly)
                 {
                     string text = await Application.Current.Clipboard.GetTextAsync();
-                    await this.PerformTextInput(text);
-                    this.OnPaste?.Invoke(this, new PasteEventArgs(text));
+
+                    if (text != null)
+                    {
+                        await this.PerformTextInput(text);
+                        this.OnPaste?.Invoke(this, new PasteEventArgs(text));
+                    }
+
                     e.Handled = true;
                 }
                 else if (((e.Key == Key.X && e.KeyModifiers == Utils.ControlCmdModifier) || (e.Key == Key.Delete && e.KeyModifiers == KeyModifiers.Shift)) && !this.IsReadOnly)

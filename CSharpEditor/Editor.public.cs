@@ -579,7 +579,7 @@ namespace CSharpEditor
                             methodNode = methodNode.Parent;
                         }
 
-                        if (methodNode.IsKind(SyntaxKind.MethodDeclaration) || methodNode.IsKind(SyntaxKind.ParenthesizedLambdaExpression) || methodNode.IsKind(SyntaxKind.AnonymousMethodExpression))
+                        if (methodNode.IsKind(SyntaxKind.MethodDeclaration) || methodNode.IsKind(SyntaxKind.ParenthesizedLambdaExpression) || methodNode.IsKind(SyntaxKind.AnonymousMethodExpression) || methodNode.IsKind(SyntaxKind.CompilationUnit))
                         {
                             bool isAsync = false;
 

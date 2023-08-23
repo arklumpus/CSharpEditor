@@ -62,20 +62,8 @@ namespace CSharpEditor
         #endregion
 
         #region Internal fields
-        internal CSharpSourceEditorControl EditorControl;
         internal InputHandler InputHandler;
-
-        internal CompletionWindow CompletionWindow;
-        internal MethodOverloadList MethodOverloadList;
-        internal SymbolToolTip SymbolToolTip;
-
-        internal StatusBar StatusBar;
-        internal ErrorContainer ErrorContainer;
-        internal ReferencesContainer ReferencesContainer;
-        internal SaveHistoryContainer SaveHistoryContainer;
         internal SettingsContainer SettingsContainer;
-
-        internal BreakpointPanel BreakpointPanel;
 
         internal AutoSaver AutoSaver;
         internal CompilationErrorChecker CompilationErrorChecker;
@@ -478,7 +466,7 @@ namespace CSharpEditor
 
                     SettingsContainer.FindControl<NumericUpDown>("AutosaveIntervalBox").Value = settings.AutosaveInterval / 1000;
                     SettingsContainer.FindControl<CheckBox>("KeepSaveHistoryBox").IsChecked = settings.KeepSaveHistory;
-                    SettingsContainer.FindControl<ComboBox>("SyntaxHighlightingModeBox").SelectedItem = ((AvaloniaList<object>)SettingsContainer.FindControl<ComboBox>("SyntaxHighlightingModeBox").Items)[(int)settings.SyntaxHighlightingMode];
+                    SettingsContainer.FindControl<ComboBox>("SyntaxHighlightingModeBox").SelectedItem = SettingsContainer.FindControl<ComboBox>("SyntaxHighlightingModeBox").Items[(int)settings.SyntaxHighlightingMode];
                     SettingsContainer.FindControl<CheckBox>("OpenSuggestionsBox").IsChecked = settings.AutoOpenSuggestionts;
                     SettingsContainer.FindControl<CheckBox>("OpenParametersBox").IsChecked = settings.AutoOpenParameters;
                     SettingsContainer.FindControl<CheckBox>("AutoFormatBox").IsChecked = settings.AutoFormat;

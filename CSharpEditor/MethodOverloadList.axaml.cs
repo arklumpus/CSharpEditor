@@ -32,7 +32,7 @@ using System.Threading.Tasks;
 
 namespace CSharpEditor
 {
-    internal class MethodOverloadList : UserControl
+    internal partial class MethodOverloadList : UserControl
     {
         public Document Document { get; set; }
         public IReadOnlyList<MetadataReference> References;
@@ -74,9 +74,9 @@ namespace CSharpEditor
             VectSharp.Font parameterNameFont = new VectSharp.Font(Editor.OpenSansBoldItalic, this.FontSize);
             VectSharp.Font parameterDescriptionFont = new VectSharp.Font(Editor.OpenSansItalic, this.FontSize);
 
-            double availableWidth = this.Parent.Bounds.Width - 22 - (this.Items.Count > 1 ? ItemNumberWidth : 0) - 14 - 5;
+            double availableWidth = ((Control)this.Parent).Bounds.Width - 22 - (this.Items.Count > 1 ? ItemNumberWidth : 0) - 14 - 5;
 
-            double availableHeightBottom = this.Parent.Bounds.Height - RenderPosition.Y - 22 - 4;
+            double availableHeightBottom = ((Control)this.Parent).Bounds.Height - RenderPosition.Y - 22 - 4;
             double availableHeightTop = RenderPosition.Y - CharacterHeight - 4;
 
             ImmutableArray<SymbolDisplayPart> parts = symbol.ToMinimalDisplayParts(SemanticModel, Position);
@@ -151,7 +151,7 @@ namespace CSharpEditor
                 this.FindControl<ScrollViewer>("MethodParametersContainer").Width = Math.Min(availableWidth, desiredWidth) + 10;
                 this.FindControl<ScrollViewer>("MethodParametersContainer").Height = parameterContentsHeight;
 
-                this.RenderTransform = new TranslateTransform() { X = Math.Min(RenderPosition.X, this.Parent.Bounds.Width - 22 - this.Width), Y = RenderPosition.Y };
+                this.RenderTransform = new TranslateTransform() { X = Math.Min(RenderPosition.X, ((Control)this.Parent).Bounds.Width - 22 - this.Width), Y = RenderPosition.Y };
                 this.IsOnTop = false;
 
                 this.IsVisible = true;
@@ -170,7 +170,7 @@ namespace CSharpEditor
                 this.FindControl<ScrollViewer>("MethodParametersContainer").Width = Math.Min(availableWidth, desiredWidth) + 10;
                 this.FindControl<ScrollViewer>("MethodParametersContainer").Height = parameterContentsHeight;
 
-                this.RenderTransform = new TranslateTransform() { X = Math.Min(RenderPosition.X, this.Parent.Bounds.Width - 22 - this.Width), Y = RenderPosition.Y - CharacterHeight - this.Height };
+                this.RenderTransform = new TranslateTransform() { X = Math.Min(RenderPosition.X, ((Control)this.Parent).Bounds.Width - 22 - this.Width), Y = RenderPosition.Y - CharacterHeight - this.Height };
                 this.IsOnTop = true;
 
                 this.IsVisible = true;
@@ -188,7 +188,7 @@ namespace CSharpEditor
                 this.FindControl<ScrollViewer>("MethodParametersContainer").Height = 0;
                 this.FindControl<ScrollViewer>("MethodParametersContainer").IsVisible = false;
 
-                this.RenderTransform = new TranslateTransform() { X = Math.Min(RenderPosition.X, this.Parent.Bounds.Width - 22 - this.Width), Y = RenderPosition.Y };
+                this.RenderTransform = new TranslateTransform() { X = Math.Min(RenderPosition.X, ((Control)this.Parent).Bounds.Width - 22 - this.Width), Y = RenderPosition.Y };
                 this.IsOnTop = false;
 
                 this.IsVisible = true;
@@ -206,7 +206,7 @@ namespace CSharpEditor
                 this.FindControl<ScrollViewer>("MethodParametersContainer").Height = 0;
                 this.FindControl<ScrollViewer>("MethodParametersContainer").IsVisible = false;
 
-                this.RenderTransform = new TranslateTransform() { X = Math.Min(RenderPosition.X, this.Parent.Bounds.Width - 22 - this.Width), Y = RenderPosition.Y - CharacterHeight - this.Height };
+                this.RenderTransform = new TranslateTransform() { X = Math.Min(RenderPosition.X, ((Control)this.Parent).Bounds.Width - 22 - this.Width), Y = RenderPosition.Y - CharacterHeight - this.Height };
                 this.IsOnTop = true;
 
                 this.IsVisible = true;

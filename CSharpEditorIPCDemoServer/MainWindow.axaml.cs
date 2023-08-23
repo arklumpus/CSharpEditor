@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace CSharpEditorIPCDemoServer
 {
-    public class MainWindow : Window
+    public partial class MainWindow : Window
     {
         CSharpEditor.Editor Editor;
 
@@ -18,7 +18,7 @@ namespace CSharpEditorIPCDemoServer
 
             // Initialise the debugger processs. The path passed to the constructor should be the path to the client debugger executable.
             // If the client process dies unexpectedly, the debugger server will respawn it automatically.
-            InterprocessDebuggerServer server = new InterprocessDebuggerServer(@"../../../../CSharpEditorIPCDemoClient/bin/Debug/netcoreapp3.1/CSharpEditorIPCDemoClient.exe");
+            InterprocessDebuggerServer server = new InterprocessDebuggerServer(@"../../../../CSharpEditorIPCDemoClient/bin/Debug/net7.0/CSharpEditorIPCDemoClient.exe");
 
             this.Opened += async (s, e) =>
             {

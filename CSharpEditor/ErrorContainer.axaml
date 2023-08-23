@@ -105,7 +105,7 @@
     </Grid>
 
     <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled" AllowAutoHide="False">
-      <StackPanel Name="ErrorContainer">
+      <StackPanel Name="ErrorContainerPanel">
         
       </StackPanel>
     </ScrollViewer>

@@ -33,7 +33,7 @@ using VectSharp.Canvas;
 
 namespace CSharpEditor
 {
-    internal class SaveHistoryContainer : UserControl
+    internal partial class SaveHistoryContainer : UserControl
     {
         public SaveHistoryContainer()
         {

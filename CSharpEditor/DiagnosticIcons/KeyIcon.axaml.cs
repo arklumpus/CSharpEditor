@@ -5,7 +5,7 @@ using System;
 
 namespace CSharpEditor.DiagnosticIcons
 {
-    internal class KeyIcon : UserControl
+    internal partial class KeyIcon : UserControl
     {
         public static readonly StyledProperty<string> KeyTextProperty = AvaloniaProperty.Register<KeyIcon, string>(nameof(KeyText), "Key");
 

@@ -4,7 +4,7 @@ using Avalonia.Markup.Xaml;
 
 namespace CSharpEditor.DiagnosticIcons
 {
-    internal class TickIcon : UserControl
+    internal partial class TickIcon : UserControl
     {
         public TickIcon()
         {

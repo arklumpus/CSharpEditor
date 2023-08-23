@@ -21,6 +21,8 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Avalonia.Platform.Storage;
+using Avalonia.Reactive;
 using Avalonia.VisualTree;
 using Microsoft.CodeAnalysis;
 using System;
@@ -28,7 +30,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
-using System.Reactive.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -37,7 +38,7 @@ using System.Xml.Linq;
 
 namespace CSharpEditor
 {
-    internal class ReferencesContainer : UserControl
+    internal partial class ReferencesContainer : UserControl
     {
         public ImmutableList<MetadataReference> References;
 
@@ -57,7 +58,7 @@ namespace CSharpEditor
         {
             References = references;
 
-            this.FindControl<StackPanel>("ReferencesContainer").Children.Clear();
+            this.FindControl<StackPanel>("ReferencesContainerPanel").Children.Clear();
 
             ToggleButton coreReferencesButton = this.FindControl<ToggleButton>("CoreReferencesButton");
             ToggleButton additionalReferencesButton = this.FindControl<ToggleButton>("AdditionalReferencesButton");
@@ -91,12 +92,25 @@ namespace CSharpEditor
             if (isCore)
             {
                 icon = new DiagnosticIcons.CoreReferenceIcon();
-                referenceGrid.Bind<bool>(Grid.IsVisibleProperty, coreReferencesButton.GetBindingObservable(ToggleButton.IsCheckedProperty).Select(x => x.Value.Value));
+
+                IDisposable binding = coreReferencesButton.GetObservable(ToggleButton.IsCheckedProperty).Subscribe(new AnonymousObserver<bool?>(x => referenceGrid.IsVisible = x.Value));
+
+                referenceGrid.DetachedFromVisualTree += (s, e) =>
+                {
+                    binding.Dispose();
+                };
+
             }
             else
             {
                 icon = new DiagnosticIcons.AssemblyReferenceIcon();
-                referenceGrid.Bind<bool>(Grid.IsVisibleProperty, additionalReferencesButton.GetBindingObservable(ToggleButton.IsCheckedProperty).Select(x => x.Value.Value));
+
+                IDisposable binding = additionalReferencesButton.GetObservable(ToggleButton.IsCheckedProperty).Subscribe(new AnonymousObserver<bool?>(x => referenceGrid.IsVisible = x.Value));
+
+                referenceGrid.DetachedFromVisualTree += (s, e) =>
+                {
+                    binding.Dispose();
+                };
             }
 
             icon.Margin = new Thickness(6, 0, 6, 0);
@@ -140,13 +154,13 @@ namespace CSharpEditor
             Grid.SetColumn(documentationStatus, 4);
             referenceGrid.Children.Add(documentationStatus);
 
-            this.FindControl<StackPanel>("ReferencesContainer").Children.Add(referenceGrid);
+            this.FindControl<StackPanel>("ReferencesContainerPanel").Children.Add(referenceGrid);
 
             referenceGrid.Tag = reference;
 
             removeButton.Click += async (s, e) =>
             {
-                this.FindControl<StackPanel>("ReferencesContainer").Children.Remove(referenceGrid);
+                this.FindControl<StackPanel>("ReferencesContainerPanel").Children.Remove(referenceGrid);
 
 
                 if (!(referenceGrid.Tag is MetadataReference referenceToRemove))
@@ -179,35 +193,40 @@ namespace CSharpEditor
 
         private async Task DocumentationButtonClicked(MetadataReference reference, Canvas documentationIcon, Grid referenceGrid)
         {
-            OpenFileDialog dialog;
+            FilePickerOpenOptions pickerOptions;
 
             if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                dialog = new OpenFileDialog()
+                pickerOptions = new FilePickerOpenOptions()
                 {
                     Title = "Add documentation...",
                     AllowMultiple = false,
-                    Filters = new List<FileDialogFilter>() { new FileDialogFilter() { Name = "XML documentation", Extensions = new List<string>() { "xml" } }, new FileDialogFilter() { Name = "All files", Extensions = new List<string>() { "*" } } }
+                    FileTypeFilter = new List<FilePickerFileType>() { new FilePickerFileType("XML documentation") { Patterns = new List<string>() { "*.xml" } }, new FilePickerFileType("All files") { Patterns = new List<string>() { "*" } } }
                 };
             }
             else
             {
-                dialog = new OpenFileDialog()
+                pickerOptions = new FilePickerOpenOptions()
                 {
                     Title = "Add documentation...",
                     AllowMultiple = false
                 };
             }
 
-            string[] result = await dialog.ShowAsync(this.FindAncestorOfType<Window>());
+            IReadOnlyList<IStorageFile> result = await this.FindAncestorOfType<Window>().StorageProvider.OpenFilePickerAsync(pickerOptions);
 
-            if (result != null && result.Length == 1)
+            if (result != null && result.Count == 1)
             {
                 try
                 {
                     List<string> describedMembers = new List<string>();
 
-                    XDocument doc = XDocument.Load(result[0]);
+                    XDocument doc;
+
+                    using (Stream fileStream = await result[0].OpenReadAsync())
+                    {
+                        doc = XDocument.Load(fileStream);
+                    }
 
                     foreach (XElement element in doc.Descendants("member"))
                     {
@@ -255,7 +274,7 @@ namespace CSharpEditor
 
                     await ShowDialog("Documentation analysis", "The documentation file describes " + foundTypes.ToString() + " types out of " + totalTypes + " contained in the assembly.", DialogIcon.Info);
 
-                    CachedMetadataReference newReference = CachedMetadataReference.CreateFromFile(reference.Display, result[0]);
+                    CachedMetadataReference newReference = CachedMetadataReference.CreateFromFile(reference.Display, result[0].TryGetLocalPath());
 
                     References = References.Replace(reference, newReference);
 
@@ -278,34 +297,34 @@ namespace CSharpEditor
 
         private async void AddReferenceClicked(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog dialog;
+            FilePickerOpenOptions pickerOptions;
 
             if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                dialog = new OpenFileDialog()
+                pickerOptions = new FilePickerOpenOptions()
                 {
                     Title = "Add reference...",
                     AllowMultiple = false,
-                    Filters = new List<FileDialogFilter>() { new FileDialogFilter() { Name = "Component files", Extensions = new List<string>() { "exe", "dll", "tlb", "olb", "ocx", "winmd" } }, new FileDialogFilter() { Name = "All files", Extensions = new List<string>() { "*" } } }
+                    FileTypeFilter = new List<FilePickerFileType>() { new FilePickerFileType("Component files") { Patterns = new List<string>() { "*.exe", "*.dll", "*.tlb", "*.olb", "*.ocx", "*.winmd" } }, new FilePickerFileType("All files") { Patterns = new List<string>() { "*" } } }
                 };
             }
             else
             {
-                dialog = new OpenFileDialog()
+                pickerOptions = new FilePickerOpenOptions()
                 {
                     Title = "Add reference...",
                     AllowMultiple = false
                 };
             }
 
-            string[] result = await dialog.ShowAsync(this.FindAncestorOfType<Window>());
+            IReadOnlyList<IStorageFile> result = await this.FindAncestorOfType<Window>().StorageProvider.OpenFilePickerAsync(pickerOptions);
 
-            if (result != null && result.Length == 1)
+            if (result != null && result.Count == 1)
             {
-                string relativeToWorkingDir = RelativePath.GetRelativePath(Environment.CurrentDirectory, result[0]);
-                string relativeToExecutable = RelativePath.GetRelativePath(System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), result[0]);
+                string path = result[0].TryGetLocalPath();
 
-                string path = result[0];
+                string relativeToWorkingDir = RelativePath.GetRelativePath(Environment.CurrentDirectory, path);
+                string relativeToExecutable = RelativePath.GetRelativePath(System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), path);
 
                 if (relativeToWorkingDir.Length < path.Length)
                 {
@@ -334,7 +353,7 @@ namespace CSharpEditor
 
                     using (MetadataLoadContext context = new MetadataLoadContext(new PathAssemblyResolver(uniquePaths), typeof(object).Assembly.FullName))
                     {
-                        Assembly ass = context.LoadFromAssemblyPath(result[0]);
+                        Assembly ass = context.LoadFromAssemblyPath(result[0].TryGetLocalPath());
                     }
 
                     CachedMetadataReference reference = CachedMetadataReference.CreateFromFile(path);

@@ -24,7 +24,7 @@ using Avalonia.VisualTree;
 
 namespace CSharpEditor
 {
-    internal class StatusBar : UserControl
+    internal partial class StatusBar : UserControl
     {
         private int _errorCount = 0;
         public int ErrorCount
@@ -33,7 +33,7 @@ namespace CSharpEditor
             {
                 _errorCount = value;
                 
-                this.FindControl<TextBlock>("ErrorCount").Text = value.ToString();
+                this.FindControl<TextBlock>("ErrorCountBox").Text = value.ToString();
 
                 if (ErrorCount == 0 && WarningCount == 0 && InfoCount == 0)
                 {
@@ -60,7 +60,7 @@ namespace CSharpEditor
             {
                 _warningCount = value;
 
-                this.FindControl<TextBlock>("WarningCount").Text = value.ToString();
+                this.FindControl<TextBlock>("WarningCountBox").Text = value.ToString();
 
                 if (ErrorCount == 0 && WarningCount == 0 && InfoCount == 0)
                 {

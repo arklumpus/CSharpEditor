@@ -22,13 +22,13 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Shapes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
+using Avalonia.Reactive;
 using Avalonia.VisualTree;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Linq;
 using System.Reflection;
 
 namespace CSharpEditor
@@ -52,7 +52,7 @@ namespace CSharpEditor
         IEnumerable
     }
 
-    internal class VariableExpander : UserControl
+    internal partial class VariableExpander : UserControl
     {
         public VariableExpander()
         {
@@ -335,7 +335,13 @@ namespace CSharpEditor
             if (isPrivate)
             {
                 iconCanvas.Children.Add(new TypeIcons.PrivateIcon() { UseLayoutRounding = true });
-                this.Bind<bool>(Grid.IsVisibleProperty, nonPublicVisibilityToggle.GetBindingObservable(ToggleButton.IsCheckedProperty).Select(x => x.Value.Value));
+
+                IDisposable binding = nonPublicVisibilityToggle.GetObservable(ToggleButton.IsCheckedProperty).Subscribe(new AnonymousObserver<bool?>(x => this.IsVisible = x.Value));
+
+                this.DetachedFromVisualTree += (s, e) =>
+                {
+                    binding.Dispose();
+                };
             }
 
             nameControl = FormattedText.FormatDescription(variableDisplayName, null, labelFont, codeFont).Render(double.PositiveInfinity, false, iconCanvas);
@@ -595,7 +601,13 @@ namespace CSharpEditor
             if (isPrivate)
             {
                 iconCanvas.Children.Add(new TypeIcons.PrivateIcon() { UseLayoutRounding = true });
-                this.Bind<bool>(Grid.IsVisibleProperty, nonPublicVisibilityToggle.GetBindingObservable(ToggleButton.IsCheckedProperty).Select(x => x.Value.Value));
+
+                IDisposable binding = nonPublicVisibilityToggle.GetObservable(ToggleButton.IsCheckedProperty).Subscribe(new AnonymousObserver<bool?>(x => this.IsVisible = x.Value));
+
+                this.DetachedFromVisualTree += (s, e) =>
+                {
+                    binding.Dispose();
+                };
             }
 
             nameControl = FormattedText.FormatDescription(variableDisplayName, null, labelFont, codeFont).Render(double.PositiveInfinity, false, iconCanvas);

@@ -75,12 +75,12 @@ namespace CSharpEditor
             }
         }
 
-        public bool BringIntoView(IControl target, Rect targetRect)
+        public bool BringIntoView(Control target, Rect targetRect)
         {
             return false;
         }
 
-        public IControl GetControlInDirection(NavigationDirection direction, IControl from)
+        public Control GetControlInDirection(NavigationDirection direction, Control from)
         {
             return null;
         }
@@ -165,17 +165,15 @@ namespace CSharpEditor
                     foreach ((int start, int end, Color color) range in Consolidate(colorRanges, start, end))
                     {
                         //context.DrawRectangle(new Pen(new SolidColorBrush(range.color)), new Rect((range.start - start) * CharacterWidth, line * lineHeight - this.Offset.Y, (range.end - range.start) * CharacterWidth, lineHeight));
-
-
-                        Avalonia.Media.FormattedText formattedText = new Avalonia.Media.FormattedText() { Text = this.Editor.Text.ToString(new TextSpan(range.start, range.end - range.start)), Typeface = this.Editor.Typeface, FontSize = this.Editor.FontSize, TextWrapping = TextWrapping.NoWrap };
-                        context.DrawText(new SolidColorBrush(range.color), new Point((range.start - start) * this.Editor.CharacterWidth - this.Offset.X % this.Editor.CharacterWidth + 41 + this.Editor.LineNumbersWidth, line * lineHeight - this.Offset.Y), formattedText);
+                        Avalonia.Media.FormattedText formattedText = new Avalonia.Media.FormattedText(this.Editor.Text.ToString(new TextSpan(range.start, range.end - range.start)), System.Globalization.CultureInfo.InvariantCulture, FlowDirection.LeftToRight, this.Editor.Typeface, this.Editor.FontSize, new SolidColorBrush(range.color));
+                        context.DrawText(formattedText, new Point((range.start - start) * this.Editor.CharacterWidth - this.Offset.X % this.Editor.CharacterWidth + 41 + this.Editor.LineNumbersWidth, line * lineHeight - this.Offset.Y));
                     }
                 }
                 else
                 {
                     string text = this.Editor.Text.ToString(span);
-                    Avalonia.Media.FormattedText formattedText = new Avalonia.Media.FormattedText() { Text = text, Typeface = this.Editor.Typeface, FontSize = this.Editor.FontSize, TextWrapping = TextWrapping.NoWrap };
-                    context.DrawText(Brushes.Black, new Point(-this.Offset.X % this.Editor.CharacterWidth + 41 + this.Editor.LineNumbersWidth, line * lineHeight - this.Offset.Y), formattedText);
+                    Avalonia.Media.FormattedText formattedText = new Avalonia.Media.FormattedText(text, System.Globalization.CultureInfo.InvariantCulture, FlowDirection.LeftToRight, this.Editor.Typeface, this.Editor.FontSize, Brushes.Black);
+                    context.DrawText(formattedText, new Point(-this.Offset.X % this.Editor.CharacterWidth + 41 + this.Editor.LineNumbersWidth, line * lineHeight - this.Offset.Y));
                 }
             }
         }

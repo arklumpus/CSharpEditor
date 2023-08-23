@@ -4,7 +4,7 @@ using Avalonia.Markup.Xaml;
 
 namespace CSharpEditor.DiagnosticIcons
 {
-    internal class AssemblyReferenceIcon : UserControl
+    internal partial class AssemblyReferenceIcon : UserControl
     {
         public AssemblyReferenceIcon()
         {

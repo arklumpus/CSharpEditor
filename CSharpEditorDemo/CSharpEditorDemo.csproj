@@ -16,8 +16,9 @@
     <EmbeddedResource Include="HelloWorld.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.10.18" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.10.18" />
+    <PackageReference Include="Avalonia" Version="11.0.4" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.0.4" />
+	<PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.4" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CSharpEditor\CSharpEditor.csproj" />

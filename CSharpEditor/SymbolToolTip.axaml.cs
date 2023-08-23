@@ -30,7 +30,7 @@ using System.Threading.Tasks;
 
 namespace CSharpEditor
 {
-    internal class SymbolToolTip : UserControl
+    internal partial class SymbolToolTip : UserControl
     {
         internal Document Document;
         internal IReadOnlyList<MetadataReference> References;
@@ -85,9 +85,9 @@ namespace CSharpEditor
             VectSharp.Font parameterNameFont = new VectSharp.Font(Editor.OpenSansBoldItalic, this.FontSize);
             VectSharp.Font parameterDescriptionFont = new VectSharp.Font(Editor.OpenSansItalic, this.FontSize);
 
-            double availableWidth = this.Parent.Bounds.Width - 22 - 14 - 5;
+            double availableWidth = ((Control)this.Parent).Bounds.Width - 22 - 14 - 5;
 
-            double availableHeightBottom = this.Parent.Bounds.Height - RenderPosition.Y - 22 - 4;
+            double availableHeightBottom = ((Control)this.Parent).Bounds.Height - RenderPosition.Y - 22 - 4;
             double availableHeightTop = RenderPosition.Y - lineHeight;
 
             ImmutableArray<SymbolDisplayPart> parts = symbol.ToDisplayParts(/*SemanticModel, Position, */new SymbolDisplayFormat(
@@ -189,7 +189,7 @@ namespace CSharpEditor
                 this.FindControl<Border>("ContainerBorder").Width = Math.Min(availableWidth, desiredWidth) + 10;
                 this.FindControl<Border>("ContainerBorder").Height = content.Height;
 
-                this.RenderTransform = new TranslateTransform() { X = Math.Min(RenderPosition.X, this.Parent.Bounds.Width - 22 - this.Width), Y = RenderPosition.Y };
+                this.RenderTransform = new TranslateTransform() { X = Math.Min(RenderPosition.X, ((Control)this.Parent).Bounds.Width - 22 - this.Width), Y = RenderPosition.Y };
 
                 this.IsVisible = true;
 
@@ -203,7 +203,7 @@ namespace CSharpEditor
                 this.FindControl<Border>("ContainerBorder").Width = Math.Min(availableWidth, desiredWidth) + 10;
                 this.FindControl<Border>("ContainerBorder").Height = content.Height;
 
-                this.RenderTransform = new TranslateTransform() { X = Math.Min(RenderPosition.X, this.Parent.Bounds.Width - 22 - this.Width), Y = RenderPosition.Y - this.Height- lineHeight };
+                this.RenderTransform = new TranslateTransform() { X = Math.Min(RenderPosition.X, ((Control)this.Parent).Bounds.Width - 22 - this.Width), Y = RenderPosition.Y - this.Height- lineHeight };
 
                 this.IsVisible = true;
             }
@@ -218,9 +218,9 @@ namespace CSharpEditor
             VectSharp.Font labelFont = new VectSharp.Font(Editor.OpenSansRegular, this.FontSize);
             VectSharp.Font codeFont = new VectSharp.Font(Editor.RobotoMonoRegular, this.FontSize);
 
-            double availableWidth = this.Parent.Bounds.Width - 22 - 14 - 5;
+            double availableWidth = ((Control)this.Parent).Bounds.Width - 22 - 14 - 5;
 
-            double availableHeightBottom = this.Parent.Bounds.Height - RenderPosition.Y - 22 - 4;
+            double availableHeightBottom = ((Control)this.Parent).Bounds.Height - RenderPosition.Y - 22 - 4;
             double availableHeightTop = RenderPosition.Y - lineHeight;
 
             StackPanel contentPanel = new StackPanel();
@@ -267,7 +267,7 @@ namespace CSharpEditor
                 this.FindControl<Border>("ContainerBorder").Width = Math.Min(availableWidth, desiredWidth) + 10;
                 this.FindControl<Border>("ContainerBorder").Height = desiredHeight;
 
-                this.RenderTransform = new TranslateTransform() { X = Math.Min(RenderPosition.X, this.Parent.Bounds.Width - 22 - this.Width), Y = RenderPosition.Y };
+                this.RenderTransform = new TranslateTransform() { X = Math.Min(RenderPosition.X, ((Control)this.Parent).Bounds.Width - 22 - this.Width), Y = RenderPosition.Y };
 
                 this.IsVisible = true;
 
@@ -281,7 +281,7 @@ namespace CSharpEditor
                 this.FindControl<Border>("ContainerBorder").Width = Math.Min(availableWidth, desiredWidth) + 10;
                 this.FindControl<Border>("ContainerBorder").Height = desiredHeight;
 
-                this.RenderTransform = new TranslateTransform() { X = Math.Min(RenderPosition.X, this.Parent.Bounds.Width - 22 - this.Width), Y = RenderPosition.Y - this.Height - lineHeight };
+                this.RenderTransform = new TranslateTransform() { X = Math.Min(RenderPosition.X, ((Control)this.Parent).Bounds.Width - 22 - this.Width), Y = RenderPosition.Y - this.Height - lineHeight };
 
                 this.IsVisible = true;
             }

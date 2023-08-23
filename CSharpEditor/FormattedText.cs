@@ -162,7 +162,11 @@ namespace CSharpEditor
 
             pag.Width = width + 1;
 
-            Canvas can = pag.PaintToCanvas(renderAsControls, AvaloniaContextInterpreter.TextOptions.NeverConvert);
+            Control paintedCanvas = pag.PaintToCanvas(renderAsControls, AvaloniaContextInterpreter.TextOptions.NeverConvert);
+
+            Canvas can = new Canvas() { Width = paintedCanvas.Width, Height = paintedCanvas.Height };
+            can.Children.Add(paintedCanvas);
+
             can.ClipToBounds = false;
 
             if (firstRowIconCanvas != null)
@@ -170,7 +174,6 @@ namespace CSharpEditor
                 firstRowIconCanvas.RenderTransform = new TranslateTransform(1, (Paragraphs[0].Lines[0].GetAverageFontAscent() - Paragraphs[0].Lines[0].GetAverageFontDescent() - firstRowIconCanvas.Height) * 0.5);
                 can.Children.Add(firstRowIconCanvas);
             }
-
 
             return can;
         }

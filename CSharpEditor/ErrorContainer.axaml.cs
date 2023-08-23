@@ -21,16 +21,17 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
+using Avalonia.Reactive;
 using Avalonia.VisualTree;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Reactive.Linq;
 
 namespace CSharpEditor
 {
-    internal class ErrorContainer : UserControl
+    internal partial class ErrorContainer : UserControl
     {
         public ErrorContainer()
         {
@@ -46,7 +47,7 @@ namespace CSharpEditor
         internal static Pen WarningPen = new Pen(new SolidColorBrush(Color.FromRgb(64, 160, 64)));
         public void SetContent(SourceText source, IEnumerable<Diagnostic> diagnostics, int linesToIgnore)
         {
-            this.FindControl<StackPanel>("ErrorContainer").Children.Clear();
+            this.FindControl<StackPanel>("ErrorContainerPanel").Children.Clear();
 
             int errors = 0;
             int warnings = 0;
@@ -99,7 +100,15 @@ namespace CSharpEditor
                     {
                         case DiagnosticSeverity.Error:
                             errorGrid.Children.Add(new DiagnosticIcons.ErrorIcon());
-                            errorGrid.Bind<bool>(Grid.IsVisibleProperty, errorButton.GetBindingObservable(ToggleButton.IsCheckedProperty).Select(x => x.Value.Value));
+                            {
+                                IDisposable binding = errorButton.GetObservable(ToggleButton.IsCheckedProperty).Subscribe(new AnonymousObserver<bool?>(x => errorGrid.IsVisible = x.Value));
+
+                                errorGrid.DetachedFromVisualTree += (s, e) =>
+                                {
+                                    binding.Dispose();
+                                };
+                            }
+                            
                             errors++;
                             if (span != null)
                             {
@@ -109,12 +118,27 @@ namespace CSharpEditor
                             break;
                         case DiagnosticSeverity.Info:
                             errorGrid.Children.Add(new DiagnosticIcons.InfoIcon());
-                            errorGrid.Bind<bool>(Grid.IsVisibleProperty, messageButton.GetBindingObservable(ToggleButton.IsCheckedProperty).Select(x => x.Value.Value));
+                            {
+                                IDisposable binding = messageButton.GetObservable(ToggleButton.IsCheckedProperty).Subscribe(new AnonymousObserver<bool?>(x => errorGrid.IsVisible = x.Value));
+
+                                errorGrid.DetachedFromVisualTree += (s, e) =>
+                                {
+                                    binding.Dispose();
+                                };
+                            }
+
                             infos++;
                             break;
                         case DiagnosticSeverity.Warning:
                             errorGrid.Children.Add(new DiagnosticIcons.WarningIcon());
-                            errorGrid.Bind<bool>(Grid.IsVisibleProperty, warningButton.GetBindingObservable(ToggleButton.IsCheckedProperty).Select(x => x.Value.Value));
+                            {
+                                IDisposable binding = warningButton.GetObservable(ToggleButton.IsCheckedProperty).Subscribe(new AnonymousObserver<bool?>(x => errorGrid.IsVisible = x.Value));
+
+                                errorGrid.DetachedFromVisualTree += (s, e) =>
+                                {
+                                    binding.Dispose();
+                                };
+                            }
                             warnings++;
                             if (span != null)
                             {
@@ -135,7 +159,7 @@ namespace CSharpEditor
                     Grid.SetColumn(lineBlock, 6);
                     errorGrid.Children.Add(lineBlock);
 
-                    this.FindControl<StackPanel>("ErrorContainer").Children.Add(errorGrid);
+                    this.FindControl<StackPanel>("ErrorContainerPanel").Children.Add(errorGrid);
 
                     errorGrid.PointerPressed += (s, e) =>
                     {
@@ -151,27 +175,11 @@ namespace CSharpEditor
 
             foreach ((TextSpan, List<Diagnostic>) span in errorSpans.Join())
             {
-                /*try
-                {
-                    ITextMarker marker = editor.ErrorMarkerService.Create(span.Start, span.Length);
-                    marker.MarkerTypes = TextMarkerTypes.SquigglyUnderline;
-                    marker.MarkerColor = Color.FromRgb(255, 72, 72);
-                }
-                catch { }*/
-
                 markers.Add(new MarkerRange(span.Item1, ErrorPen, span.Item2));
             }
 
             foreach ((TextSpan, List<Diagnostic>) span in warningSpans.Join())
             {
-                /*try
-                {
-                    ITextMarker marker = editor.ErrorMarkerService.Create(span.Start, span.Length);
-                    marker.MarkerTypes = TextMarkerTypes.SquigglyUnderline;
-                    marker.MarkerColor = Color.FromRgb(64, 160, 64);
-                }
-                catch { }*/
-
                 markers.Add(new MarkerRange(span.Item1, WarningPen, span.Item2));
             }
 

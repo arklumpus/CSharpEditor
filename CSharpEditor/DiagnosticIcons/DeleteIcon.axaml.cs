@@ -4,7 +4,7 @@ using Avalonia.Markup.Xaml;
 
 namespace CSharpEditor.DiagnosticIcons
 {
-    internal class DeleteIcon : UserControl
+    internal partial class DeleteIcon : UserControl
     {
         public DeleteIcon()
         {

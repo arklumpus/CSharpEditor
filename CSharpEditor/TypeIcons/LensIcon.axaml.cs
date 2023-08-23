@@ -4,7 +4,7 @@ using Avalonia.Markup.Xaml;
 
 namespace CSharpEditor.TypeIcons
 {
-    internal class LensIcon : UserControl
+    internal partial class LensIcon : UserControl
     {
         public LensIcon()
         {

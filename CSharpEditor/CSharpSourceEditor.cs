@@ -672,8 +672,8 @@ namespace CSharpEditor
 
         private void MeasureCharacter()
         {
-            Avalonia.Media.FormattedText fmt = new Avalonia.Media.FormattedText() { Text = "m", Typeface = Typeface, FontSize = _fontSize };
-            this.CharacterWidth = fmt.Bounds.Width;
+            Avalonia.Media.TextFormatting.TextLayout lay = new Avalonia.Media.TextFormatting.TextLayout("m", this.Typeface, _fontSize, Brushes.Black);
+            this.CharacterWidth = lay.Width;
         }
 
         protected override Size MeasureOverride(Size availableSize)
@@ -703,13 +703,13 @@ namespace CSharpEditor
             return base.ArrangeOverride(finalSize);
         }
 
-        public bool BringIntoView(IControl target, Rect targetRect)
+        public bool BringIntoView(Control target, Rect targetRect)
         {
             //throw new NotImplementedException();
             return false;
         }
 
-        public IControl GetControlInDirection(NavigationDirection direction, IControl from)
+        public Control GetControlInDirection(NavigationDirection direction, Control from)
         {
             return null;
         }
@@ -859,7 +859,7 @@ namespace CSharpEditor
             base.OnPointerMoved(e);
         }
 
-        protected override void OnPointerEnter(PointerEventArgs e)
+        protected override void OnPointerEntered(PointerEventArgs e)
         {
             Point pos = e.GetPosition(this);
             if (_hovering)
@@ -873,10 +873,10 @@ namespace CSharpEditor
             _hoverTimer.Stop();
             _hoverTimer.Start();
 
-            base.OnPointerEnter(e);
+            base.OnPointerEntered(e);
         }
 
-        protected override void OnPointerLeave(PointerEventArgs e)
+        protected override void OnPointerExited(PointerEventArgs e)
         {
             if (_hovering)
             {
@@ -886,7 +886,7 @@ namespace CSharpEditor
 
             _hoverTimer.Stop();
 
-            base.OnPointerLeave(e);
+            base.OnPointerExited(e);
         }
 
         protected override void OnPointerReleased(PointerReleasedEventArgs e)
@@ -1349,7 +1349,7 @@ namespace CSharpEditor
                     this.SearchReplace.SearchBox.SelectionEnd = this.SearchReplace.SearchBox.Text?.Length ?? 0;
 
                     UpdateSearchResults();
-                    await Dispatcher.UIThread.InvokeAsync(() => { this.SearchReplace.SearchBox.Focus(); }, DispatcherPriority.Layout);
+                    await Dispatcher.UIThread.InvokeAsync(() => { this.SearchReplace.SearchBox.Focus(); }, DispatcherPriority.Render);
                     e.Handled = true;
                 }
                 else if ((e.Key == Key.G || e.Key == Key.H) && e.KeyModifiers == Utils.ControlCmdModifier)
@@ -1357,7 +1357,7 @@ namespace CSharpEditor
                     this.SearchReplace.IsVisible = true;
                     this.SearchReplace.ReplaceToggle.IsChecked = true;
                     UpdateSearchResults();
-                    await Dispatcher.UIThread.InvokeAsync(() => { this.SearchReplace.SearchBox.Focus(); }, DispatcherPriority.Layout);
+                    await Dispatcher.UIThread.InvokeAsync(() => { this.SearchReplace.SearchBox.Focus(); }, DispatcherPriority.Render);
                     e.Handled = true;
                 }
                 else if (e.Key == Key.F3 && e.KeyModifiers == KeyModifiers.None)
@@ -1802,13 +1802,13 @@ namespace CSharpEditor
                         int selStart = Math.Min(this.SelectionStart, this.SelectionEnd);
                         int selEnd = Math.Max(this.SelectionStart, this.SelectionEnd);
 
-                        await Application.Current.Clipboard.SetTextAsync(this.Text.ToString(new TextSpan(selStart, selEnd - selStart)));
+                        await TopLevel.GetTopLevel(this).Clipboard.SetTextAsync(this.Text.ToString(new TextSpan(selStart, selEnd - selStart)));
                     }
                     e.Handled = true;
                 }
                 else if (((e.Key == Key.V && e.KeyModifiers == Utils.ControlCmdModifier) || (e.Key == Key.Insert && e.KeyModifiers == KeyModifiers.Shift)) && !this.IsReadOnly)
                 {
-                    string text = await Application.Current.Clipboard.GetTextAsync();
+                    string text = await TopLevel.GetTopLevel(this).Clipboard.GetTextAsync();
 
                     if (text != null)
                     {
@@ -1825,7 +1825,7 @@ namespace CSharpEditor
                         int selStart = Math.Min(this.SelectionStart, this.SelectionEnd);
                         int selEnd = Math.Max(this.SelectionStart, this.SelectionEnd);
 
-                        await Application.Current.Clipboard.SetTextAsync(this.Text.ToString(new TextSpan(selStart, selEnd - selStart)));
+                        await TopLevel.GetTopLevel(this).Clipboard.SetTextAsync(this.Text.ToString(new TextSpan(selStart, selEnd - selStart)));
 
                         await this.DeleteBackwards();
                     }

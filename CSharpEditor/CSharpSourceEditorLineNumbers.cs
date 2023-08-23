@@ -71,12 +71,12 @@ namespace CSharpEditor
             }
         }
 
-        public bool BringIntoView(IControl target, Rect targetRect)
+        public bool BringIntoView(Control target, Rect targetRect)
         {
             return false;
         }
 
-        public IControl GetControlInDirection(NavigationDirection direction, IControl from)
+        public Control GetControlInDirection(NavigationDirection direction, Control from)
         {
             return null;
         }
@@ -175,8 +175,8 @@ namespace CSharpEditor
 
                 for (int i = firstLine; i <= lastLine; i++)
                 {
-                    Avalonia.Media.FormattedText formattedText = new Avalonia.Media.FormattedText() { Text = (i + 1).ToString(), Typeface = this.Editor.Typeface, FontSize = this.Editor.FontSize, TextWrapping = TextWrapping.NoWrap };
-                    context.DrawText(this.Editor.LineNumbersBrush, new Point(21 + this.Editor.LineNumbersWidth - (Math.Floor(Math.Log10(i + 1)) + 1) * this.Editor.CharacterWidth, i * lineHeight - this.Offset.Y), formattedText);
+                    Avalonia.Media.FormattedText formattedText = new Avalonia.Media.FormattedText((i + 1).ToString(), System.Globalization.CultureInfo.InvariantCulture, FlowDirection.LeftToRight, this.Editor.Typeface, this.Editor.FontSize, this.Editor.LineNumbersBrush);
+                    context.DrawText(formattedText, new Point(21 + this.Editor.LineNumbersWidth - (Math.Floor(Math.Log10(i + 1)) + 1) * this.Editor.CharacterWidth, i * lineHeight - this.Offset.Y));
                 }
 
                 if (this.Editor.ShowLineChanges)

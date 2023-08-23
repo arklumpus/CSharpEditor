@@ -412,7 +412,7 @@ namespace CSharpEditor
 
                 async void resumeHandler(object sender, EventArgs e)
                 {
-                    await Dispatcher.UIThread.InvokeAsync(() => tbr = BreakpointPanel.IgnoreFurtherOccurrences);
+                    await Dispatcher.UIThread.InvokeAsync(() => tbr = BreakpointPanel.ShouldIgnoreFurtherOccurrences);
                     waitHandle.Set();
                 }
 
@@ -474,7 +474,7 @@ namespace CSharpEditor
 
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    tbr = BreakpointPanel.IgnoreFurtherOccurrences;
+                    tbr = BreakpointPanel.ShouldIgnoreFurtherOccurrences;
                     CloseSidePanel();
                     BreakpointPanel.ResumeClicked -= resumeHandler;
                     this.FindAncestorOfType<Window>().Closing -= resumeHandler;
@@ -512,7 +512,7 @@ namespace CSharpEditor
 
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    tbr = BreakpointPanel.IgnoreFurtherOccurrences;
+                    tbr = BreakpointPanel.ShouldIgnoreFurtherOccurrences;
                     CloseSidePanel();
                     BreakpointPanel.ResumeClicked -= resumeHandler;
                     this.FindAncestorOfType<Window>().Closing -= resumeHandler;
@@ -766,7 +766,7 @@ namespace CSharpEditor
             {
                 Control referenceGrid = null;
 
-                foreach (Control ctrl in this.ReferencesContainer.FindControl<StackPanel>("ReferencesContainer").Children)
+                foreach (Control ctrl in this.ReferencesContainer.FindControl<StackPanel>("ReferencesContainerPanel").Children)
                 {
                     if (ctrl.Tag == reference)
                     {
@@ -775,7 +775,7 @@ namespace CSharpEditor
                     }
                 }
 
-                this.ReferencesContainer.FindControl<StackPanel>("ReferencesContainer").Children.Remove(referenceGrid);
+                this.ReferencesContainer.FindControl<StackPanel>("ReferencesContainerPanel").Children.Remove(referenceGrid);
             }
 
             this.ReferencesContainer.References = this.ReferencesContainer.References.RemoveRange(references);

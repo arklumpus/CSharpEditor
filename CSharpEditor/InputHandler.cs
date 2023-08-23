@@ -118,36 +118,39 @@ namespace CSharpEditor
 
         private async void OnPointerHover(object sender, PointerEventArgs e)
         {
-            Point position = e.GetPosition(EditorControl);
-
-            Point absolutePosition = e.GetPosition(OwnerEditor);
-
-            LinePosition? location = EditorControl.GetPositionFromPoint(position);
-
-            if (location != null)
+            if (e != null)
             {
-                int offset = EditorControl.Text.Lines.GetPosition(location.Value);
+                Point position = e.GetPosition(EditorControl);
 
-                List<Diagnostic> found = null;
+                Point absolutePosition = e.GetPosition(OwnerEditor);
 
-                foreach (MarkerRange range in EditorControl.Markers)
+                LinePosition? location = EditorControl.GetPositionFromPoint(position);
+
+                if (location != null)
                 {
-                    if (range.Span.Contains(offset))
+                    int offset = EditorControl.Text.Lines.GetPosition(location.Value);
+
+                    List<Diagnostic> found = null;
+
+                    foreach (MarkerRange range in EditorControl.Markers)
                     {
-                        found = range.Diagnostics;
-                        break;
+                        if (range.Span.Contains(offset))
+                        {
+                            found = range.Diagnostics;
+                            break;
+                        }
                     }
-                }
 
-                if (found == null)
-                {
-                    offset += OwnerEditor.PreSource.Length;
-                    SourceText fullSource = SourceText.From(OwnerEditor.FullSource);
-                    await OwnerEditor.SymbolToolTip.SetContent(Document.WithText(fullSource), offset, absolutePosition.X, 10 + (location.Value.Line + 1) * EditorControl.LineHeight - EditorControl.VerticalOffset, EditorControl.LineHeight);
-                }
-                else
-                {
-                    OwnerEditor.SymbolToolTip.SetContent(found, absolutePosition.X, 10 + (location.Value.Line + 1) * EditorControl.LineHeight - EditorControl.VerticalOffset, EditorControl.LineHeight);
+                    if (found == null)
+                    {
+                        offset += OwnerEditor.PreSource.Length;
+                        SourceText fullSource = SourceText.From(OwnerEditor.FullSource);
+                        await OwnerEditor.SymbolToolTip.SetContent(Document.WithText(fullSource), offset, absolutePosition.X, 10 + (location.Value.Line + 1) * EditorControl.LineHeight - EditorControl.VerticalOffset, EditorControl.LineHeight);
+                    }
+                    else
+                    {
+                        OwnerEditor.SymbolToolTip.SetContent(found, absolutePosition.X, 10 + (location.Value.Line + 1) * EditorControl.LineHeight - EditorControl.VerticalOffset, EditorControl.LineHeight);
+                    }
                 }
             }
         }
@@ -522,7 +525,7 @@ namespace CSharpEditor
                         }
                     }
 
-                    double availableBottom = EditorControl.Parent.Bounds.Height - yTop - 10;
+                    double availableBottom = ((Avalonia.Controls.Control)EditorControl.Parent).Bounds.Height - yTop - 10;
                     double availableTop = yBottom - 10;
 
                     double requestedHeight = Math.Min(9, completion.ItemsList.Count) * 20 + 33;

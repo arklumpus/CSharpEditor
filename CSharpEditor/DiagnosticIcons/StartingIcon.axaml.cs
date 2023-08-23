@@ -4,7 +4,7 @@ using Avalonia.Markup.Xaml;
 
 namespace CSharpEditor.DiagnosticIcons
 {
-    internal class StartingIcon : UserControl
+    internal partial class StartingIcon : UserControl
     {
         public StartingIcon()
         {

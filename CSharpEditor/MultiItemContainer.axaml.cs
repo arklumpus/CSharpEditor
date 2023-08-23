@@ -28,7 +28,7 @@ using System.Collections.Generic;
 
 namespace CSharpEditor
 {
-    internal class MultiItemContainer : UserControl
+    internal partial class MultiItemContainer : UserControl
     {
         public MultiItemContainer()
         {

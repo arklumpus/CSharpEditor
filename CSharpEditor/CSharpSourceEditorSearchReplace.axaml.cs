@@ -23,7 +23,7 @@ using Avalonia.Markup.Xaml;
 
 namespace CSharpEditor
 {
-    internal class CSharpSourceEditorSearchReplace : UserControl
+    internal partial class CSharpSourceEditorSearchReplace : UserControl
     {
         public static readonly DirectProperty<CSharpSourceEditorSearchReplace, bool> HasFocusProperty =
         AvaloniaProperty.RegisterDirect<CSharpSourceEditorSearchReplace, bool>(nameof(HasFocus), o => o.HasFocus);
@@ -34,10 +34,6 @@ namespace CSharpEditor
             get { return _hasFocus; }
             private set { SetAndRaise(HasFocusProperty, ref _hasFocus, value); }
         }
-
-        public TextBox SearchBox { get => this.FindControl<TextBox>("SearchBox"); }
-        public TextBox ReplaceBox { get => this.FindControl<TextBox>("ReplaceBox"); }
-        public ToggleButton ReplaceToggle { get => this.FindControl<ToggleButton>("ReplaceToggle"); }
 
         private CSharpSourceEditor Editor { get; }
 
@@ -131,6 +127,9 @@ namespace CSharpEditor
         public CSharpSourceEditorSearchReplace()
         {
             this.InitializeComponent();
+
+            this.SearchBox = this.FindControl<TextBox>("SearchBox");
+            this.ReplaceBox = this.FindControl<TextBox>("ReplaceBox");
 
             this.FindControl<TextBox>("SearchBox").GotFocus += (s, e) =>
             {

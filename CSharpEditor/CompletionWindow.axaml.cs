@@ -36,7 +36,7 @@ using System.Threading.Tasks;
 
 namespace CSharpEditor
 {
-    internal class CompletionWindow : UserControl
+    internal partial class CompletionWindow : UserControl
     {
         public Document Document { get; set; }
         public CompletionService CompletionService { get; set; }
@@ -88,7 +88,7 @@ namespace CSharpEditor
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
                     this.FindControl<ScrollViewer>("ItemsScrollViewer").Offset = newOffset;
-                }, DispatcherPriority.Layout);
+                }, DispatcherPriority.Render);
             }
         }
 
@@ -163,9 +163,9 @@ namespace CSharpEditor
                     thisX = ((TranslateTransform)this.RenderTransform).X;
                 }
 
-                double maxHeight = this.Parent.Bounds.Height - thisY - offset - 10 - 20;
+                double maxHeight = ((Control)this.Parent).Bounds.Height - thisY - offset - 10 - 20;
 
-                double maxWidthRight = this.Parent.Bounds.Width - thisX - this.Width - 12;
+                double maxWidthRight = ((Control)this.Parent).Bounds.Width - thisX - this.Width - 12;
                 double maxWidthLeft = thisX - 12;
 
                 Control unlimitedContent = FormattedText.FormatDescription(description.TaggedParts, documentationXml, labelFont, codeFont).Render(double.PositiveInfinity, false);
@@ -518,7 +518,7 @@ namespace CSharpEditor
                 double currX = ((TranslateTransform)this.RenderTransform).X;
                 double currY = ((TranslateTransform)this.RenderTransform).Y;
 
-                this.RenderTransform = new TranslateTransform(Math.Min(this.Parent.Bounds.Width - this.Width, currX), currY);
+                this.RenderTransform = new TranslateTransform(Math.Min(((Control)this.Parent).Bounds.Width - this.Width, currX), currY);
             }
 
             UpdatingItems = false;

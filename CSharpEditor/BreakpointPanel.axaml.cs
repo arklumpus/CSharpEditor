@@ -26,7 +26,7 @@ using System.Linq;
 
 namespace CSharpEditor
 {
-    internal class BreakpointPanel : UserControl
+    internal partial class BreakpointPanel : UserControl
     {
         public BreakpointPanel()
         {
@@ -42,7 +42,7 @@ namespace CSharpEditor
             };
         }
 
-        public bool IgnoreFurtherOccurrences => this.FindControl<ToggleButton>("IgnoreFurtherOccurrences").IsChecked == true;
+        public bool ShouldIgnoreFurtherOccurrences => this.FindControl<ToggleButton>("IgnoreFurtherOccurrences").IsChecked == true;
 
         public event EventHandler<EventArgs> ResumeClicked;
 

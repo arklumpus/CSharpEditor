@@ -74,12 +74,12 @@ namespace CSharpEditor
             }
         }
 
-        public bool BringIntoView(IControl target, Rect targetRect)
+        public bool BringIntoView(Control target, Rect targetRect)
         {
             return false;
         }
 
-        public IControl GetControlInDirection(NavigationDirection direction, IControl from)
+        public Control GetControlInDirection(NavigationDirection direction, Control from)
         {
             return null;
         }

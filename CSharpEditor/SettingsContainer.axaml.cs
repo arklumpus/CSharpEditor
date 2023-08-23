@@ -29,7 +29,7 @@ using System.Reflection;
 
 namespace CSharpEditor
 {
-    internal class SettingsContainer : UserControl
+    internal partial class SettingsContainer : UserControl
     {
         private Editor Editor;
 
@@ -59,12 +59,12 @@ namespace CSharpEditor
 
             this.FindControl<Button>("CopySaveDirectoryButton").Click += async (s, e) =>
             {
-                await Application.Current.Clipboard.SetTextAsync(this.FindControl<TextBox>("SaveDirectoryBox").Text);
+                await TopLevel.GetTopLevel(this).Clipboard.SetTextAsync(this.FindControl<TextBox>("SaveDirectoryBox").Text);
             };
 
             this.FindControl<NumericUpDown>("AutosaveIntervalBox").ValueChanged += (s, e) =>
             {
-                int newInterval = (int)Math.Round(this.FindControl<NumericUpDown>("AutosaveIntervalBox").Value) * 1000;
+                int newInterval = (int)Math.Round(this.FindControl<NumericUpDown>("AutosaveIntervalBox").Value.Value) * 1000;
 
                 if (newInterval > 0 && Editor.AutoSaver.IsRunning)
                 {
@@ -142,7 +142,7 @@ namespace CSharpEditor
 
             this.FindControl<NumericUpDown>("CompilationTimeoutBox").ValueChanged += (s, e) =>
             {
-                int newInterval = (int)Math.Round(this.FindControl<NumericUpDown>("CompilationTimeoutBox").Value);
+                int newInterval = (int)Math.Round(this.FindControl<NumericUpDown>("CompilationTimeoutBox").Value.Value);
 
                 if (newInterval > 0 && Editor.CompilationErrorChecker.IsRunning)
                 {

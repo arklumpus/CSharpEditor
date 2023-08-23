@@ -4,7 +4,7 @@ using CSharpEditor;
 
 namespace CSharpEditorIPCDemoClient
 {
-    public class MainWindow : Window
+    public partial class MainWindow : Window
     {
         // Do not run this program directly. Let it be started by the CSharpEditorIPCDemoServer.
 

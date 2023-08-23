@@ -4,7 +4,7 @@ using Avalonia.Markup.Xaml;
 
 namespace CSharpEditor.TypeIcons
 {
-    internal class CharIcon : UserControl
+    internal partial class CharIcon : UserControl
     {
         public CharIcon()
         {

@@ -4,6 +4,7 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL_v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Version](https://img.shields.io/nuget/v/CSharpEditor)](https://nuget.org/packages/CSharpEditor)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8387453.svg)](https://doi.org/10.5281/zenodo.8387453)
 
 ## Introduction
 

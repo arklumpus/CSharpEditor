@@ -547,133 +547,153 @@ namespace CSharpEditor
                 this.Content = Editor;
             }
 
-            while (!ParentProcess.HasExited)
+            System.Threading.Thread thr = new System.Threading.Thread(async () =>
             {
-                string message = await PipeClientInReader.ReadLineAsync();
-
-                if (message == "Abort")
+                while (!ParentProcess.HasExited)
                 {
-                    if (!ParentProcessExitedRaised)
-                    {
-                        ParentProcessExitedRaised = true;
-                        ParentProcessExited?.Invoke(this, new EventArgs());
-                    }
-                    break;
-                }
-
-                if (!ParentProcess.HasExited && message == "Init")
-                {
-                    message = await PipeClientInReader.ReadLineAsync();
+                    string message = await PipeClientInReader.ReadLineAsync();
 
                     if (message == "Abort")
                     {
                         if (!ParentProcessExitedRaised)
                         {
-                            ParentProcessExitedRaised = true;
-                            ParentProcessExited?.Invoke(this, new EventArgs());
+                            await Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(() =>
+                            {
+                                ParentProcessExitedRaised = true;
+                                ParentProcessExited?.Invoke(this, new EventArgs());
+                            });
                         }
                         break;
                     }
 
-                    if (!ParentProcess.HasExited && !string.IsNullOrEmpty(message))
+                    if (!ParentProcess.HasExited && message == "Init")
                     {
-                        string[] messageParts = JsonSerializer.Deserialize<string[]>(message);
+                        message = await PipeClientInReader.ReadLineAsync();
 
-                        string[][] localVariablesDisplayPartsJson = JsonSerializer.Deserialize<string[][]>(messageParts[0]);
-                        string[][] localVariablesJson = JsonSerializer.Deserialize<string[][]>(messageParts[1]);
-                        string sourceCode = messageParts[2];
-                        int breakpointStart = int.Parse(messageParts[3]);
-                        string preSource = messageParts[4];
-                        string postSource = messageParts[5];
-
-                        IEnumerable<CachedMetadataReference> references = from el in JsonSerializer.Deserialize<string[]>(messageParts[6]) select CachedMetadataReference.CreateFromFile(el);
-
-                        Dictionary<string, TaggedText[]> localVariablesDisplayParts = new Dictionary<string, TaggedText[]>();
-
-                        foreach (string[] item in localVariablesDisplayPartsJson)
+                        if (message == "Abort")
                         {
-                            localVariablesDisplayParts.Add(item[0], (from el in JsonSerializer.Deserialize<ReadWriteTaggedText[]>(item[1]) select (TaggedText)el).ToArray());
-                        }
-
-                        Dictionary<string, (string, VariableTypes, object)> localVariables = new Dictionary<string, (string, VariableTypes, object)>();
-
-                        foreach (string[] item in localVariablesJson)
-                        {
-                            VariableTypes variableType = JsonSerializer.Deserialize<VariableTypes>(item[2]);
-
-                            object variableValue = ParseVariableValue(variableType, item[3]);
-
-                            localVariables.Add(item[0], (item[1], variableType, variableValue));
-                        }
-
-                        (string propertyId, VariableTypes propertyType, object propertyValue) propertyOrFieldGetter(string variableId, string propertyName, bool isProperty)
-                        {
-                            PipeClientOutWriter.WriteLine(JsonSerializer.Serialize(new string[] { "GetProperty", variableId, propertyName, isProperty.ToString() }));
-                            PipeClientOutWriter.Flush();
-
-                            string message2 = PipeClientInReader.ReadLine();
-
-                            if (message2 == "Abort")
+                            if (!ParentProcessExitedRaised)
                             {
-                                if (!ParentProcessExitedRaised)
+                                await Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(() =>
                                 {
                                     ParentProcessExitedRaised = true;
                                     ParentProcessExited?.Invoke(this, new EventArgs());
-                                }
-                                return ("", VariableTypes.Null, "");
+                                });
                             }
-
-                            string[] output = JsonSerializer.Deserialize<string[]>(message2);
-
-                            VariableTypes variableType = JsonSerializer.Deserialize<VariableTypes>(output[1]);
-
-                            return (output[0], variableType, ParseVariableValue(variableType, output[2]));
+                            break;
                         }
 
-                        (string itemId, VariableTypes itemType, object itemValue)[] itemsGetter(string variableId)
+                        if (!ParentProcess.HasExited && !string.IsNullOrEmpty(message))
                         {
-                            PipeClientOutWriter.WriteLine(JsonSerializer.Serialize(new string[] { "GetItems", variableId }));
-                            PipeClientOutWriter.Flush();
+                            string[] messageParts = JsonSerializer.Deserialize<string[]>(message);
 
-                            string message2 = PipeClientInReader.ReadLine();
+                            string[][] localVariablesDisplayPartsJson = JsonSerializer.Deserialize<string[][]>(messageParts[0]);
+                            string[][] localVariablesJson = JsonSerializer.Deserialize<string[][]>(messageParts[1]);
+                            string sourceCode = messageParts[2];
+                            int breakpointStart = int.Parse(messageParts[3]);
+                            string preSource = messageParts[4];
+                            string postSource = messageParts[5];
 
-                            if (message2 == "Abort")
+                            IEnumerable<CachedMetadataReference> references = from el in JsonSerializer.Deserialize<string[]>(messageParts[6]) select CachedMetadataReference.CreateFromFile(el);
+
+                            Dictionary<string, TaggedText[]> localVariablesDisplayParts = new Dictionary<string, TaggedText[]>();
+
+                            foreach (string[] item in localVariablesDisplayPartsJson)
                             {
-                                if (!ParentProcessExitedRaised)
-                                {
-                                    ParentProcessExitedRaised = true;
-                                    ParentProcessExited?.Invoke(this, new EventArgs());
-                                }
-                                return new (string, VariableTypes, object)[] { ("", VariableTypes.Null, "") };
+                                localVariablesDisplayParts.Add(item[0], (from el in JsonSerializer.Deserialize<ReadWriteTaggedText[]>(item[1]) select (TaggedText)el).ToArray());
                             }
 
-                            string[][] output = JsonSerializer.Deserialize<string[][]>(message2);
+                            Dictionary<string, (string, VariableTypes, object)> localVariables = new Dictionary<string, (string, VariableTypes, object)>();
 
-                            return (from el in output let variableType = JsonSerializer.Deserialize<VariableTypes>(el[1]) select (el[0], variableType, ParseVariableValue(variableType, el[2]))).ToArray();
+                            foreach (string[] item in localVariablesJson)
+                            {
+                                VariableTypes variableType = JsonSerializer.Deserialize<VariableTypes>(item[2]);
+
+                                object variableValue = ParseVariableValue(variableType, item[3]);
+
+                                localVariables.Add(item[0], (item[1], variableType, variableValue));
+                            }
+
+                            (string propertyId, VariableTypes propertyType, object propertyValue) propertyOrFieldGetter(string variableId, string propertyName, bool isProperty)
+                            {
+                                PipeClientOutWriter.WriteLine(JsonSerializer.Serialize(new string[] { "GetProperty", variableId, propertyName, isProperty.ToString() }));
+                                PipeClientOutWriter.Flush();
+
+                                string message2 = PipeClientInReader.ReadLine();
+
+                                if (message2 == "Abort")
+                                {
+                                    if (!ParentProcessExitedRaised)
+                                    {
+                                        ParentProcessExitedRaised = true;
+                                        ParentProcessExited?.Invoke(this, new EventArgs());
+                                    }
+                                    return ("", VariableTypes.Null, "");
+                                }
+
+                                string[] output = JsonSerializer.Deserialize<string[]>(message2);
+
+                                VariableTypes variableType = JsonSerializer.Deserialize<VariableTypes>(output[1]);
+
+                                return (output[0], variableType, ParseVariableValue(variableType, output[2]));
+                            }
+
+                            (string itemId, VariableTypes itemType, object itemValue)[] itemsGetter(string variableId)
+                            {
+                                PipeClientOutWriter.WriteLine(JsonSerializer.Serialize(new string[] { "GetItems", variableId }));
+                                PipeClientOutWriter.Flush();
+
+                                string message2 = PipeClientInReader.ReadLine();
+
+                                if (message2 == "Abort")
+                                {
+                                    if (!ParentProcessExitedRaised)
+                                    {
+                                        ParentProcessExitedRaised = true;
+                                        ParentProcessExited?.Invoke(this, new EventArgs());
+                                    }
+                                    return new (string, VariableTypes, object)[] { ("", VariableTypes.Null, "") };
+                                }
+
+                                string[][] output = JsonSerializer.Deserialize<string[][]>(message2);
+
+                                return (from el in output let variableType = JsonSerializer.Deserialize<VariableTypes>(el[1]) select (el[0], variableType, ParseVariableValue(variableType, el[2]))).ToArray();
+                            }
+
+                            RemoteBreakpointInfo info = new RemoteBreakpointInfo(breakpointStart, localVariables, localVariablesDisplayParts, propertyOrFieldGetter, itemsGetter);
+
+                            await Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(async () =>
+                            {
+                                if (Editor == null || Editor.PreSource != preSource || Editor.PostSource != postSource)
+                                {
+                                    Editor = await Editor.Create(sourceCode, preSource, postSource, references);
+                                    Editor.AccessType = Editor.AccessTypes.ReadOnly;
+                                    this.Content = Editor;
+                                }
+                                else
+                                {
+                                    await Editor.SetText(sourceCode);
+                                    await Editor.SetReferences(ImmutableList.Create((from el in references select (MetadataReference)el).ToArray()));
+                                }
+
+                                BreakpointHit?.Invoke(this, new EventArgs());
+                            });
+                            
+                            bool shouldSuppress = await Editor.AsynchronousBreak(info);
+
+                            await Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(() =>
+                            {
+                                PipeClientOutWriter.WriteLine(JsonSerializer.Serialize(new string[] { "Resume", shouldSuppress.ToString() }));
+                                PipeClientOutWriter.Flush();
+
+                                BreakpointResumed?.Invoke(this, new EventArgs());
+                            });
                         }
-
-                        RemoteBreakpointInfo info = new RemoteBreakpointInfo(breakpointStart, localVariables, localVariablesDisplayParts, propertyOrFieldGetter, itemsGetter);
-
-                        if (Editor == null || Editor.PreSource != preSource || Editor.PostSource != postSource)
-                        {
-                            Editor = await Editor.Create(sourceCode, preSource, postSource, references);
-                            Editor.AccessType = Editor.AccessTypes.ReadOnly;
-                            this.Content = Editor;
-                        }
-                        else
-                        {
-                            await Editor.SetText(sourceCode);
-                            await Editor.SetReferences(ImmutableList.Create((from el in references select (MetadataReference)el).ToArray()));
-                        }
-
-                        BreakpointHit?.Invoke(this, new EventArgs());
-                        bool shouldSuppress = await Editor.AsynchronousBreak(info);
-                        PipeClientOutWriter.WriteLine(JsonSerializer.Serialize(new string[] { "Resume", shouldSuppress.ToString() }));
-                        PipeClientOutWriter.Flush();
-                        BreakpointResumed?.Invoke(this, new EventArgs());
                     }
                 }
-            }
+            });
+
+            thr.Start();
         }
 
         private object ParseVariableValue(VariableTypes variableType, string item)

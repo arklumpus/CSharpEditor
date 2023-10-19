@@ -18,6 +18,7 @@
 
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
+using Avalonia.LogicalTree;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using Microsoft.CodeAnalysis;
@@ -422,7 +423,7 @@ namespace CSharpEditor
                     EditorControl.SetSelection(info.BreakpointSpan.End - PreSource.Length - 1, 0);
                     BreakpointPanel.SetContent(info);
                     BreakpointPanel.ResumeClicked += resumeHandler;
-                    this.FindAncestorOfType<Window>().Closing += resumeHandler;
+                    (this.FindAncestorOfType<Window>() ?? this.FindLogicalAncestorOfType<Window>()).Closing += resumeHandler;
                     OpenSidePanel();
                 });
 
@@ -432,7 +433,7 @@ namespace CSharpEditor
                 {
                     CloseSidePanel();
                     BreakpointPanel.ResumeClicked -= resumeHandler;
-                    this.FindAncestorOfType<Window>().Closing -= resumeHandler;
+                    (this.FindAncestorOfType<Window>() ?? this.FindLogicalAncestorOfType<Window>()).Closing -= resumeHandler;
                     EditorControl.ActiveBreakpoint = -1;
                 });
 
@@ -464,7 +465,7 @@ namespace CSharpEditor
                     EditorControl.SetSelection(info.BreakpointSpan.End - PreSource.Length - 1, 0);
                     BreakpointPanel.SetContent(info);
                     BreakpointPanel.ResumeClicked += resumeHandler;
-                    this.FindAncestorOfType<Window>().Closing += resumeHandler;
+                    (this.FindAncestorOfType<Window>() ?? this.FindLogicalAncestorOfType<Window>()).Closing += resumeHandler;
                     OpenSidePanel();
                 });
 
@@ -477,7 +478,7 @@ namespace CSharpEditor
                     tbr = BreakpointPanel.IgnoreFurtherOccurrences;
                     CloseSidePanel();
                     BreakpointPanel.ResumeClicked -= resumeHandler;
-                    this.FindAncestorOfType<Window>().Closing -= resumeHandler;
+                    (this.FindAncestorOfType<Window>() ?? this.FindLogicalAncestorOfType<Window>()).Closing -= resumeHandler;
                     EditorControl.ActiveBreakpoint = -1;
                 });
 
@@ -502,7 +503,7 @@ namespace CSharpEditor
                     EditorControl.SetSelection(info.BreakpointSpan.End - PreSource.Length - 1, 0);
                     BreakpointPanel.SetContent(info);
                     BreakpointPanel.ResumeClicked += resumeHandler;
-                    this.FindAncestorOfType<Window>().Closing += resumeHandler;
+                    (this.FindAncestorOfType<Window>() ?? this.FindLogicalAncestorOfType<Window>()).Closing += resumeHandler;
                     OpenSidePanel();
                 });
 
@@ -515,7 +516,7 @@ namespace CSharpEditor
                     tbr = BreakpointPanel.IgnoreFurtherOccurrences;
                     CloseSidePanel();
                     BreakpointPanel.ResumeClicked -= resumeHandler;
-                    this.FindAncestorOfType<Window>().Closing -= resumeHandler;
+                    (this.FindAncestorOfType<Window>() ?? this.FindLogicalAncestorOfType<Window>()).Closing -= resumeHandler;
                     EditorControl.ActiveBreakpoint = -1;
                 });
 
